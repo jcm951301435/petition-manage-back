@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssy.petition.dao.SysRoleMapper">
+  <resultMap id="BaseResultMap" type="com.ssy.petition.entity.SysRole">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn" />
+    <result column="insert_by" jdbcType="BIGINT" property="insertBy" />
+    <result column="update_on" jdbcType="TIMESTAMP" property="updateOn" />
+    <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn" />
+    <result column="delete_by" jdbcType="BIGINT" property="deleteBy" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, description, sort, insert_on, insert_by, update_on, update_by, delete_flag, 
+    delete_on, delete_by, remarks
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ssy.petition.entity.SysRole">
+    insert into sys_role (id, name, description, 
+      sort, insert_on, insert_by, 
+      update_on, update_by, delete_flag, 
+      delete_on, delete_by, remarks
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{insertOn,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=BIGINT}, 
+      #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT}, 
+      #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssy.petition.entity.SysRole">
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="insertOn != null">
+        insert_on,
+      </if>
+      <if test="insertBy != null">
+        insert_by,
+      </if>
+      <if test="updateOn != null">
+        update_on,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="deleteOn != null">
+        delete_on,
+      </if>
+      <if test="deleteBy != null">
+        delete_by,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="insertOn != null">
+        #{insertOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertBy != null">
+        #{insertBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateOn != null">
+        #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteOn != null">
+        #{deleteOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteBy != null">
+        #{deleteBy,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.SysRole">
+    update sys_role
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="insertOn != null">
+        insert_on = #{insertOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertBy != null">
+        insert_by = #{insertBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateOn != null">
+        update_on = #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteOn != null">
+        delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteBy != null">
+        delete_by = #{deleteBy,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.SysRole">
+    update sys_role
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      insert_on = #{insertOn,jdbcType=TIMESTAMP},
+      insert_by = #{insertBy,jdbcType=BIGINT},
+      update_on = #{updateOn,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+      delete_by = #{deleteBy,jdbcType=BIGINT},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ssy.petition.entity.SysRole">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn" />
+    <result column="insert_by" jdbcType="BIGINT" property="insertBy" />
+    <result column="update_on" jdbcType="TIMESTAMP" property="updateOn" />
+    <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn" />
+    <result column="delete_by" jdbcType="BIGINT" property="deleteBy" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, description, sort, insert_on, insert_by, update_on, update_by, delete_flag, 
+    delete_on, delete_by, remarks
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ssy.petition.entity.SysRole">
+    insert into sys_role (id, name, description, 
+      sort, insert_on, insert_by, 
+      update_on, update_by, delete_flag, 
+      delete_on, delete_by, remarks
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{insertOn,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=BIGINT}, 
+      #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT}, 
+      #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssy.petition.entity.SysRole">
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="insertOn != null">
+        insert_on,
+      </if>
+      <if test="insertBy != null">
+        insert_by,
+      </if>
+      <if test="updateOn != null">
+        update_on,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="deleteOn != null">
+        delete_on,
+      </if>
+      <if test="deleteBy != null">
+        delete_by,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="insertOn != null">
+        #{insertOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertBy != null">
+        #{insertBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateOn != null">
+        #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteOn != null">
+        #{deleteOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteBy != null">
+        #{deleteBy,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.SysRole">
+    update sys_role
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="insertOn != null">
+        insert_on = #{insertOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertBy != null">
+        insert_by = #{insertBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateOn != null">
+        update_on = #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteOn != null">
+        delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteBy != null">
+        delete_by = #{deleteBy,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.SysRole">
+    update sys_role
+    set name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      insert_on = #{insertOn,jdbcType=TIMESTAMP},
+      insert_by = #{insertBy,jdbcType=BIGINT},
+      update_on = #{updateOn,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+      delete_by = #{deleteBy,jdbcType=BIGINT},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
