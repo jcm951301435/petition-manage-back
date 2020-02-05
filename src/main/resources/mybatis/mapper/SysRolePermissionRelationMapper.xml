@@ -161,4 +161,164 @@
       remarks = #{remarks,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <resultMap id="BaseResultMap" type="com.ssy.petition.entity.SysRolePermissionRelation">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn" />
+    <result column="insert_by" jdbcType="BIGINT" property="insertBy" />
+    <result column="update_on" jdbcType="TIMESTAMP" property="updateOn" />
+    <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn" />
+    <result column="delete_by" jdbcType="BIGINT" property="deleteBy" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, role_id, permission_id, insert_on, insert_by, update_on, update_by, delete_flag, 
+    delete_on, delete_by, remarks
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role_permission_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_role_permission_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ssy.petition.entity.SysRolePermissionRelation">
+    insert into sys_role_permission_relation (id, role_id, permission_id, 
+      insert_on, insert_by, update_on, 
+      update_by, delete_flag, delete_on, 
+      delete_by, remarks)
+    values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}, 
+      #{insertOn,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP}, 
+      #{deleteBy,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssy.petition.entity.SysRolePermissionRelation">
+    insert into sys_role_permission_relation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+      <if test="insertOn != null">
+        insert_on,
+      </if>
+      <if test="insertBy != null">
+        insert_by,
+      </if>
+      <if test="updateOn != null">
+        update_on,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="deleteOn != null">
+        delete_on,
+      </if>
+      <if test="deleteBy != null">
+        delete_by,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="permissionId != null">
+        #{permissionId,jdbcType=BIGINT},
+      </if>
+      <if test="insertOn != null">
+        #{insertOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertBy != null">
+        #{insertBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateOn != null">
+        #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteOn != null">
+        #{deleteOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteBy != null">
+        #{deleteBy,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.SysRolePermissionRelation">
+    update sys_role_permission_relation
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="permissionId != null">
+        permission_id = #{permissionId,jdbcType=BIGINT},
+      </if>
+      <if test="insertOn != null">
+        insert_on = #{insertOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertBy != null">
+        insert_by = #{insertBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateOn != null">
+        update_on = #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteOn != null">
+        delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteBy != null">
+        delete_by = #{deleteBy,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.SysRolePermissionRelation">
+    update sys_role_permission_relation
+    set role_id = #{roleId,jdbcType=BIGINT},
+      permission_id = #{permissionId,jdbcType=BIGINT},
+      insert_on = #{insertOn,jdbcType=TIMESTAMP},
+      insert_by = #{insertBy,jdbcType=BIGINT},
+      update_on = #{updateOn,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+      delete_by = #{deleteBy,jdbcType=BIGINT},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>
