@@ -4,6 +4,12 @@ import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
+/**
+ * 分页类
+ *
+ * @param <T> 通用实体
+ * @author jcm
+ */
 public class CommonPage<T> {
     private Integer pageNum;
     private Integer pageSize;

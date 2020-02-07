@@ -1,5 +1,7 @@
 package com.ssy.petition.util;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 /**
  * Twitter_Snowflake<br>
  * SnowFlake的结构如下(每部分用-分开):<br>
@@ -11,6 +13,7 @@ package com.ssy.petition.util;
  * 12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间截)产生4096个ID序号<br>
  * 加起来刚好64位，为一个Long型。<br>
  * SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高，经测试，SnowFlake每秒能够产生26万ID左右。
+ *
  * @author jcm
  */
 public class SnowFlakeUtils {
@@ -18,7 +21,7 @@ public class SnowFlakeUtils {
     /**
      * 起始的时间戳
      */
-    private final static long START_STMP = 1480166465631L;
+    private final static long START_STAMP = 1480166465631L;
 
     /**
      * 序列号占用的位数
@@ -33,12 +36,12 @@ public class SnowFlakeUtils {
     /**
      * 数据中心占用的位数
      */
-    private final static long DATACENTER_BIT = 5;
+    private final static long DATA_CENTER_BIT = 5;
 
     /**
      * 每一部分的最大值
      */
-    private final static long MAX_DATACENTER_NUM = -1L ^ (-1L << DATACENTER_BIT);
+    private final static long MAX_DATA_CENTER_NUM = -1L ^ (-1L << DATA_CENTER_BIT);
     private final static long MAX_MACHINE_NUM = -1L ^ (-1L << MACHINE_BIT);
     private final static long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
 
@@ -46,8 +49,8 @@ public class SnowFlakeUtils {
      * 每一部分向左的位移
      */
     private final static long MACHINE_LEFT = SEQUENCE_BIT;
-    private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
-    private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
+    private final static long DATA_CENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
+    private final static long TIMESTAMP_LEFT = DATA_CENTER_LEFT + MAX_DATA_CENTER_NUM;
 
     /**
      * 数据中心
@@ -70,7 +73,7 @@ public class SnowFlakeUtils {
     private long lastStmp = -1L;
 
     public SnowFlakeUtils(long datacenterId, long machineId) {
-        if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
+        if (datacenterId > MAX_DATA_CENTER_NUM || datacenterId < 0) {
             throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");
         }
         if (machineId > MAX_MACHINE_NUM || machineId < 0) {
@@ -86,7 +89,7 @@ public class SnowFlakeUtils {
      * @return
      */
     public synchronized long nextId() {
-        long currStmp = getNewstmp();
+        long currStmp = getNewStamp();
         if (currStmp < lastStmp) {
             throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
         }
@@ -105,28 +108,30 @@ public class SnowFlakeUtils {
 
         lastStmp = currStmp;
 
-        return (currStmp - START_STMP) << TIMESTMP_LEFT
-                | datacenterId << DATACENTER_LEFT
+        return (currStmp - START_STAMP) << TIMESTAMP_LEFT
+                | datacenterId << DATA_CENTER_LEFT
                 | machineId << MACHINE_LEFT
                 | sequence;
     }
 
     private long getNextMill() {
-        long mill = getNewstmp();
+        long mill = getNewStamp();
         while (mill <= lastStmp) {
-            mill = getNewstmp();
+            mill = getNewStamp();
         }
         return mill;
     }
 
-    private long getNewstmp() {
+    private long getNewStamp() {
         return System.currentTimeMillis();
     }
 
     public static void main(String[] args) {
-        SnowFlakeUtils snowFlake = new SnowFlakeUtils(0, 0);
-        for (int i = 0; i < (1 << 12); i++) {
-            System.out.println(snowFlake.nextId());
-        }
-    }
+        //SnowFlakeUtils snowFlake = new SnowFlakeUtils(0, 0);
+        //int count = 12;
+        //for (int i = 0; i < (1 << count); i++) {
+        //    System.out.println(snowFlake.nextId());
+        //}
+        System.out.println(new BCryptPasswordEncoder().encode("123456"));
+}
 }

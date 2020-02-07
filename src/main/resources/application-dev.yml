@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8080
 
 spring:
   datasource:
@@ -25,6 +25,9 @@ logging:
     path: /var/logs #配置日志生成路径
   level:
     com:
-      java:
-        petitionmanage:
+      ssy:
+        petition:
           dao: debug
+    org:
+      springframework:
+        security: debug

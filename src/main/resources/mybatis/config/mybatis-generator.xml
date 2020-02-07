@@ -30,7 +30,7 @@
         <javaModelGenerator targetPackage="com.ssy.petition.entity" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
-            <property name="rootClass" value="com.ssy.petition.entity.BaseEntity"/>
+            <property name="rootClass" value="com.ssy.petition.entity.base.BaseEntity"/>
         </javaModelGenerator>
 
         <!--生成映射文件存放位置-->
@@ -41,36 +41,37 @@
         <!-- 生成DAO的包名和位置-->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.ssy.petition.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
+            <property name="rootInterface" value="com.ssy.petition.dao.base.BaseMapper"/>
         </javaClientGenerator>
 
         <!-- 需要生成的实体类对应的表名，多个实体类复制多份该配置即可 -->
-        <table tableName="sys_role" domainObjectName="SysRole"
+        <table tableName="sys_role" domainObjectName="sys.SysRole"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false"
                selectByExampleQueryId="false">
         </table>
 
-        <table tableName="sys_permission" domainObjectName="SysPermission"
+        <table tableName="sys_permission" domainObjectName="sys.SysPermission"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false"
                selectByExampleQueryId="false">
         </table>
 
-        <table tableName="sys_role_permission_relation" domainObjectName="SysRolePermissionRelation"
+        <table tableName="sys_role_permission_relation" domainObjectName="sys.SysRolePermissionRelation"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false"
                selectByExampleQueryId="false">
         </table>
 
-        <table tableName="sys_user" domainObjectName="SysUser"
+        <table tableName="sys_user" domainObjectName="sys.SysUser"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false"
                selectByExampleQueryId="false">
         </table>
 
-        <table tableName="sys_user_role_relation" domainObjectName="SysUserRoleRelation"
+        <table tableName="sys_user_role_relation" domainObjectName="sys.SysUserRoleRelation"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false"
                selectByExampleQueryId="false">
         </table>
 

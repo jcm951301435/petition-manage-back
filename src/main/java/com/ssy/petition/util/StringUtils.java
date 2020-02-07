@@ -5,4 +5,8 @@ package com.ssy.petition.util;
  */
 public class StringUtils extends org.springframework.util.StringUtils {
 
+    public static boolean isNotEmpty(Object str) {
+        return !isEmpty(str);
+    }
+
 }

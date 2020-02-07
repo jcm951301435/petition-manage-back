@@ -1,6 +1,8 @@
 package com.ssy.petition.config;
 
+import com.ssy.petition.config.filter.LoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
@@ -14,7 +16,7 @@ import javax.annotation.PostConstruct;
 @Configuration
 public class WebConfig {
 
-    private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
+    private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
     @Autowired
     public WebConfig(RequestMappingHandlerAdapter requestMappingHandlerAdapter) {
@@ -29,6 +31,11 @@ public class WebConfig {
             GenericConversionService genericConversionService = (GenericConversionService) initializer.getConversionService();
             genericConversionService.addConverter(new StringToDateConverter());
         }
+    }
+
+    @Bean
+    public LoginFilter loginFilter() {
+        return new LoginFilter();
     }
 
 }

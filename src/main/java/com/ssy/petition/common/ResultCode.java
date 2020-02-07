@@ -3,7 +3,7 @@ package com.ssy.petition.common;
 /**
  * @author jcm
  */
-public enum ResultCode implements IErrorCode{
+public enum ResultCode implements IErrorCode {
 
     /* 操作成功 */
     SUCCESS(200, "操作成功"),

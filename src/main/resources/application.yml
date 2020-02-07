@@ -6,5 +6,11 @@ spring:
     time-zone: GMT+8
 
 mybatis:
-  mapper-locations: classpath:/mybatis/mapper/*.xml
+  mapper-locations: classpath:/mybatis/mapper/**/*.xml
   type-aliases-package: com.java.store.entity
+
+jwt:
+  tokenHeader: Authorization
+  secret: shishanyuan2020
+  expiration: 3600
+
