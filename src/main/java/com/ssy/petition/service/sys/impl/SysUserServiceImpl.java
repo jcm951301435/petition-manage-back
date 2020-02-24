@@ -45,6 +45,12 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    public SysUser getUserByUserId(Long userId) {
+        SysUser user = userMapper.selectByPrimaryKey(userId);
+        return user;
+    }
+
+    @Override
     public List<SysPermission> getPermissionListByUserId(Long userId) {
         return userMapper.getPermissionListById(userId);
     }
@@ -59,6 +65,15 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public int create(SysUser sysUser) {
-        return userMapper.insert(sysUser);
+        SysUser userFind = getUserByUserName(sysUser.getUsername());
+        if (userFind == null) {
+            return userMapper.insert(sysUser);
+        }
+        return -2;
+    }
+
+    @Override
+    public int update(SysUser sysUser) {
+        return userMapper.updateByPrimaryKeySelective(sysUser);
     }
 }

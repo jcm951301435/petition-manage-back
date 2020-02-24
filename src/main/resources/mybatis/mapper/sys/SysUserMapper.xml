@@ -94,12 +94,12 @@
     </delete>
     <insert id="insert" parameterType="com.ssy.petition.entity.sys.SysUser">
         insert into sys_user (id, username, password,
-                              status, insert_on,
+                              status, real_name, insert_on,
                               insert_by, update_on, update_by,
                               delete_flag, delete_on, delete_by,
                               remarks)
         values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-                #{status,jdbcType=VARCHAR}, #{insertOn,jdbcType=TIMESTAMP},
+                #{status,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},  #{insertOn,jdbcType=TIMESTAMP},
                 #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT},
                 #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT},
                 #{remarks,jdbcType=VARCHAR})
@@ -118,6 +118,9 @@
             </if>
             <if test="status != null">
                 status,
+            </if>
+            <if test="realName != null">
+                real_name,
             </if>
             <if test="insertOn != null">
                 insert_on,
@@ -157,6 +160,9 @@
             <if test="status != null">
                 #{status,jdbcType=VARCHAR},
             </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
             <if test="insertOn != null">
                 #{insertOn,jdbcType=TIMESTAMP},
             </if>
@@ -195,6 +201,9 @@
             <if test="status != null">
                 status = #{status,jdbcType=VARCHAR},
             </if>
+            <if test="realName != null">
+                real_name = #{realName,jdbcType=VARCHAR},
+            </if>
             <if test="insertOn != null">
                 insert_on = #{insertOn,jdbcType=TIMESTAMP},
             </if>
@@ -227,6 +236,7 @@
         set username    = #{username,jdbcType=VARCHAR},
             password    = #{password,jdbcType=VARCHAR},
             status      = #{status,jdbcType=VARCHAR},
+            real_name      = #{realName,jdbcType=VARCHAR},
             insert_on   = #{insertOn,jdbcType=TIMESTAMP},
             insert_by   = #{insertBy,jdbcType=BIGINT},
             update_on   = #{updateOn,jdbcType=TIMESTAMP},
@@ -264,10 +274,10 @@
             AND real_name LIKE concat("%", #{queryParam.realName}, "%")
         </if>
         <if test="queryParam.insertOnFrom!=null">
-            AND insert_on &gt;= #{queryParam.insertOnFrom}
+            AND u.insert_on &gt;= #{queryParam.insertOnFrom}
         </if>
         <if test="queryParam.insertOnTo!=null">
-            AND insert_on &lt; #{queryParam.insertOnTo}
+            AND u.insert_on &lt; #{queryParam.insertOnTo}
         </if>
         ORDER BY username
     </select>

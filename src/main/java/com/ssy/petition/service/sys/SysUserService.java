@@ -23,6 +23,14 @@ public interface SysUserService {
     SysUser getUserByUserName(String username);
 
     /**
+     * 根据用户id获取用户信息
+     *
+     * @param userId 用户id
+     * @return 用户
+     */
+    SysUser getUserByUserId(Long userId);
+
+    /**
      * 根据用户 id 获取对应权限列表
      *
      * @param userId 用户 id
@@ -32,8 +40,9 @@ public interface SysUserService {
 
     /**
      * 根据查询条件获取用户列表
-     * @param params 查询条件
-     * @param pageNum 页码
+     *
+     * @param params   查询条件
+     * @param pageNum  页码
      * @param pageSize 每页条目
      * @return 用户列表
      */
@@ -41,9 +50,18 @@ public interface SysUserService {
 
     /**
      * 新增用户
+     *
      * @param sysUser 参数
      * @return 新增结果
      */
     int create(SysUser sysUser);
+
+    /**
+     * 修改用户
+     *
+     * @param sysUser 参数
+     * @return 修改结果
+     */
+    int update(SysUser sysUser);
 
 }

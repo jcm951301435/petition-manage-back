@@ -2,8 +2,6 @@ package com.ssy.petition.entity.base;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.ssy.petition.util.DateUtils;
-import com.ssy.petition.util.SnowFlakeUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -105,14 +103,6 @@ public class BaseEntity implements Serializable {
     }
 
     public BaseEntity() {
-    }
-
-    public void init() {
-        Date now = DateUtils.now();
-        this.id = new SnowFlakeUtils(0, 0).nextId();
-        this.insertOn = now;
-        this.updateOn = now;
-        this.deleteFlag = false;
     }
 
     public static void main(String[] args) {

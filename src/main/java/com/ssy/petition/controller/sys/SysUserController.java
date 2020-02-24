@@ -70,12 +70,32 @@ public class SysUserController {
     @ApiOperation("创建用户")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public CommonResult create(@RequestBody SysUserListResult params) {
+        int existCode = -2;
         SysUser sysUser = securityUserService.getCreateUser(params);
         int result = userService.create(sysUser);
         if (result == 1) {
             return CommonResult.success("添加成功");
+        } else if (result == existCode) {
+            return CommonResult.failed("该用户名已存在");
         }
         return CommonResult.failed("添加失败，请联系管理员");
+    }
+
+    @ApiOperation("修改用户")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public CommonResult update(@RequestBody SysUserListResult params) {
+        if (params.isEditPassword()) {
+            boolean checkPasswordResult = securityUserService.checkPassword(params.getId(), params.getOldPassword());
+            if (!checkPasswordResult) {
+                return CommonResult.failed("原密码错误，请录入正确密码");
+            }
+        }
+        SysUser sysUser = securityUserService.getUpdateUser(params);
+        int result = userService.update(sysUser);
+        if (result == 1) {
+            return CommonResult.success("修改成功");
+        }
+        return CommonResult.failed("修改失败，请联系管理员");
     }
 
 }

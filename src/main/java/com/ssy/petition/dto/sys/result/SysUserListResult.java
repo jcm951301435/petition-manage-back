@@ -5,7 +5,7 @@ import com.ssy.petition.entity.base.BaseEntity;
 import java.io.Serializable;
 
 /**
- * 用户列表映射结果
+ * 用户列表映射结果，用户操作参数
  *
  * @author jcm
  */
@@ -22,6 +22,10 @@ public class SysUserListResult extends BaseEntity implements Serializable {
     private Long roleId;
 
     private String roleName;
+
+    private boolean editPassword;
+
+    private String oldPassword;
 
     public String getUsername() {
         return username;
@@ -63,4 +67,19 @@ public class SysUserListResult extends BaseEntity implements Serializable {
         this.roleName = roleName;
     }
 
+    public boolean isEditPassword() {
+        return editPassword;
+    }
+
+    public void setEditPassword(boolean editPassword) {
+        this.editPassword = editPassword;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
 }

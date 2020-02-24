@@ -2,7 +2,7 @@
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-
+<!-- 不好用，弃用 2020-02-24 -->
 <generatorConfiguration>
     <!--数据库驱动-->
     <classPathEntry location="E:\maven-repository\mysql\mysql-connector-java\8.0.17\mysql-connector-java-8.0.17.jar"/>
