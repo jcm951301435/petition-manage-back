@@ -64,4 +64,20 @@ public interface SysUserService {
      */
     int update(SysUser sysUser);
 
+    /**
+     * 删除用户
+     *
+     * @param id 参数
+     * @return 删除结果
+     */
+    int delete(Long id);
+
+    /**
+     * 禁用用户
+     *
+     * @param id 参数
+     * @return 禁用结果
+     */
+    int disable(Long id);
+
 }

@@ -24,6 +24,7 @@
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
         <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
+        <result column="insert_by_name" jdbcType="VARCHAR" property="insertByName"/>
         <result column="update_on" jdbcType="TIMESTAMP" property="updateOn"/>
         <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
         <result column="delete_flag" jdbcType="BIT" property="deleteFlag"/>
@@ -260,13 +261,14 @@
     <select id="getUserList" resultMap="SysUserListResultMap">
         SELECT
                u.id,u.username,u.real_name,u.status,u.insert_on,u.insert_by,
+               FT_getUsernameById(u.insert_by) as insert_by_name,
                u.update_on,u.update_by,u.delete_flag,u.delete_on,u.delete_by,u.remarks,
                r.id as role_id,r.name as role_name
         FROM sys_user u
                  LEFT JOIN sys_user_role_relation ur ON u.id=ur.user_id
                  LEFT JOIN sys_role r ON ur.role_id=r.id
         WHERE
-              1=1
+              u.delete_flag=0
         <if test="queryParam.username!=null">
             AND username LIKE concat("%", #{queryParam.username}, "%")
         </if>

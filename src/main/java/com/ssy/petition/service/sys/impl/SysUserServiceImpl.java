@@ -9,6 +9,7 @@ import com.ssy.petition.entity.sys.SysPermission;
 import com.ssy.petition.entity.sys.SysUser;
 import com.ssy.petition.service.sys.SysUserService;
 import com.ssy.petition.util.CollectionUtils;
+import com.ssy.petition.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public SysUser getUserByUserId(Long userId) {
-        SysUser user = userMapper.selectByPrimaryKey(userId);
-        return user;
+        return userMapper.selectByPrimaryKey(userId);
     }
 
     @Override
@@ -74,6 +74,19 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public int update(SysUser sysUser) {
+        return userMapper.updateByPrimaryKeySelective(sysUser);
+    }
+
+    @Override
+    public int delete(Long id) {
+        return userMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int disable(Long id) {
+        SysUser sysUser = new SysUser();
+        sysUser.setId(id);
+        EntityUtils.initDeleteEntity(sysUser);
         return userMapper.updateByPrimaryKeySelective(sysUser);
     }
 }

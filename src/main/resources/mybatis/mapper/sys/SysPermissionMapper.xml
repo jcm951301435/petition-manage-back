@@ -19,6 +19,26 @@
     <result column="delete_by" jdbcType="BIGINT" property="deleteBy" />
     <result column="remarks" jdbcType="VARCHAR" property="remarks" />
   </resultMap>
+
+  <resultMap id="SysPermissionResultMap" type="com.ssy.petition.dto.sys.result.SysPermissionResult">
+    <result column="pid" jdbcType="BIGINT" property="pid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="uri" jdbcType="VARCHAR" property="uri" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+    <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn" />
+    <result column="insert_by" jdbcType="BIGINT" property="insertBy" />
+    <result column="insert_by_name" jdbcType="VARCHAR" property="insertByName"/>
+    <result column="update_on" jdbcType="TIMESTAMP" property="updateOn" />
+    <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn" />
+    <result column="delete_by" jdbcType="BIGINT" property="deleteBy" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="orCriteria" item="criteria" separator="or">
@@ -263,4 +283,20 @@
       remarks = #{remarks,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="getPermissionList" resultMap="SysPermissionResultMap">
+    SELECT
+          id, pid, name, value,
+          icon, type, uri, sort,
+          insert_on, insert_by,
+          FT_getUsernameById(insert_by) as insert_by_name,
+          update_on, update_by,
+          delete_flag, delete_on, delete_by, remarks
+    FROM sys_permission
+    WHERE
+    1=1
+    <if test="queryParam.name!=null">
+      AND username LIKE concat("%", #{queryParam.name}, "%")
+    </if>
+  </select>
+
 </mapper>

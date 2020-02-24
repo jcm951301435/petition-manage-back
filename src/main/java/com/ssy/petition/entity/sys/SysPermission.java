@@ -1,6 +1,6 @@
 package com.ssy.petition.entity.sys;
 
-import com.ssy.petition.entity.base.BaseEntity;
+import com.ssy.petition.entity.base.BaseTreeNode;
 
 import java.io.Serializable;
 
@@ -9,8 +9,7 @@ import java.io.Serializable;
  *
  * @author jcm
  */
-public class SysPermission extends BaseEntity implements Serializable {
-    private Long pid;
+public class SysPermission extends BaseTreeNode implements Serializable {
 
     private String name;
 
@@ -25,14 +24,6 @@ public class SysPermission extends BaseEntity implements Serializable {
     private String sort;
 
     private static final long serialVersionUID = 1L;
-
-    public Long getPid() {
-        return pid;
-    }
-
-    public void setPid(Long pid) {
-        this.pid = pid;
-    }
 
     public String getName() {
         return name;

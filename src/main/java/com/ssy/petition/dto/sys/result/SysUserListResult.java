@@ -1,23 +1,15 @@
 package com.ssy.petition.dto.sys.result;
 
-import com.ssy.petition.entity.base.BaseEntity;
-
-import java.io.Serializable;
+import com.ssy.petition.entity.sys.SysUser;
 
 /**
  * 用户列表映射结果，用户操作参数
  *
  * @author jcm
  */
-public class SysUserListResult extends BaseEntity implements Serializable {
+public class SysUserListResult extends SysUser {
 
     private static final long serialVersionUID = 1L;
-
-    private String username;
-
-    private String realName;
-
-    private String password;
 
     private Long roleId;
 
@@ -27,29 +19,7 @@ public class SysUserListResult extends BaseEntity implements Serializable {
 
     private String oldPassword;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private String insertByName;
 
     public Long getRoleId() {
         return roleId;
@@ -82,4 +52,13 @@ public class SysUserListResult extends BaseEntity implements Serializable {
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
     }
+
+    public String getInsertByName() {
+        return insertByName;
+    }
+
+    public void setInsertByName(String insertByName) {
+        this.insertByName = insertByName;
+    }
+
 }

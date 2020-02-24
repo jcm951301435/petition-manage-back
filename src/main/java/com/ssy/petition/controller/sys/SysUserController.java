@@ -67,7 +67,7 @@ public class SysUserController {
         return CommonResult.success(page);
     }
 
-    @ApiOperation("创建用户")
+    @ApiOperation("新增用户")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public CommonResult create(@RequestBody SysUserListResult params) {
         int existCode = -2;
@@ -96,6 +96,16 @@ public class SysUserController {
             return CommonResult.success("修改成功");
         }
         return CommonResult.failed("修改失败，请联系管理员");
+    }
+
+    @ApiOperation("删除用户")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public CommonResult delete(@PathVariable Long id) {
+        int result = userService.disable(id);
+        if (result == 1) {
+            return CommonResult.success("删除成功");
+        }
+        return CommonResult.failed("删除失败，请联系管理员");
     }
 
 }
