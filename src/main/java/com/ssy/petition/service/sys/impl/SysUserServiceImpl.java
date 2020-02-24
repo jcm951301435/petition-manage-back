@@ -1,6 +1,9 @@
 package com.ssy.petition.service.sys.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.ssy.petition.dao.sys.SysUserMapper;
+import com.ssy.petition.dto.sys.params.SysUserListParams;
+import com.ssy.petition.dto.sys.result.SysUserListResult;
 import com.ssy.petition.entity.base.example.BaseExample;
 import com.ssy.petition.entity.sys.SysPermission;
 import com.ssy.petition.entity.sys.SysUser;
@@ -46,4 +49,16 @@ public class SysUserServiceImpl implements SysUserService {
         return userMapper.getPermissionListById(userId);
     }
 
+    @Override
+    public List<SysUserListResult> getUserList(SysUserListParams params, Integer pageNum, Integer pageSize) {
+        if (pageNum != null && pageSize != null) {
+            PageHelper.startPage(pageNum, pageSize);
+        }
+        return userMapper.getUserList(params);
+    }
+
+    @Override
+    public int create(SysUser sysUser) {
+        return userMapper.insert(sysUser);
+    }
 }

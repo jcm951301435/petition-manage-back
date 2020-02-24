@@ -16,6 +16,8 @@ public class SysUser extends BaseEntity implements Serializable {
 
     private String status;
 
+    private String realName;
+
     private static final long serialVersionUID = 1L;
 
     public String getUsername() {
@@ -42,4 +44,11 @@ public class SysUser extends BaseEntity implements Serializable {
         this.status = status == null ? null : status.trim();
     }
 
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 }

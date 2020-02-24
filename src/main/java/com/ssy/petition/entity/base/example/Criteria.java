@@ -110,4 +110,14 @@ public class Criteria {
         return this;
     }
 
+    public Criteria andFieldLike(String fieldName, String value) {
+        addCriterion(fieldName +" like", value, fieldName);
+        return (Criteria) this;
+    }
+
+    public Criteria andFieldNotLike(String fieldName, String value) {
+        addCriterion(fieldName + " not like", value, fieldName);
+        return (Criteria) this;
+    }
+
 }

@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.ssy.petition.entity.sys.SysUser">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
@@ -15,6 +16,24 @@
         <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
     </resultMap>
+
+    <resultMap id="SysUserListResultMap" type="com.ssy.petition.dto.sys.result.SysUserListResult">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
+        <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
+        <result column="update_on" jdbcType="TIMESTAMP" property="updateOn"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="delete_flag" jdbcType="BIT" property="deleteFlag"/>
+        <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn"/>
+        <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+    </resultMap>
+
     <sql id="Example_Where_Clause">
         <where>
             <foreach collection="orCriteria" item="criteria" separator="or">
@@ -228,5 +247,29 @@
         WHERE ur.user_id = #{userId}
     </select>
 
+    <select id="getUserList" resultMap="SysUserListResultMap">
+        SELECT
+               u.id,u.username,u.real_name,u.status,u.insert_on,u.insert_by,
+               u.update_on,u.update_by,u.delete_flag,u.delete_on,u.delete_by,u.remarks,
+               r.id as role_id,r.name as role_name
+        FROM sys_user u
+                 LEFT JOIN sys_user_role_relation ur ON u.id=ur.user_id
+                 LEFT JOIN sys_role r ON ur.role_id=r.id
+        WHERE
+              1=1
+        <if test="queryParam.username!=null">
+            AND username LIKE concat("%", #{queryParam.username}, "%")
+        </if>
+        <if test="queryParam.realName!=null">
+            AND real_name LIKE concat("%", #{queryParam.realName}, "%")
+        </if>
+        <if test="queryParam.insertOnFrom!=null">
+            AND insert_on &gt;= #{queryParam.insertOnFrom}
+        </if>
+        <if test="queryParam.insertOnTo!=null">
+            AND insert_on &lt; #{queryParam.insertOnTo}
+        </if>
+        ORDER BY username
+    </select>
 
 </mapper>

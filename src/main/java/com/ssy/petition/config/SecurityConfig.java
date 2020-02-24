@@ -59,7 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/*.html", "/favicon.ico", "/v2/api-docs/**", "/**/*.css", "/**/*.js", "/swagger-resources/**").permitAll()
                 .antMatchers("/druid/**").permitAll()
                 .antMatchers("/sysUser/login").permitAll()
-                .antMatchers("/sysUser/test").hasRole("admin")
                 .anyRequest().authenticated();
         http.httpBasic().disable();
         http.formLogin().disable();

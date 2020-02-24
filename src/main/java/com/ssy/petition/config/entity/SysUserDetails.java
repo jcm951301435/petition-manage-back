@@ -68,4 +68,12 @@ public class SysUserDetails implements UserDetails {
     public boolean isEnabled() {
         return !user.getDeleteFlag();
     }
+
+    public SysUser getUser() {
+        return user;
+    }
+
+    public List<SysPermission> getPermissionList() {
+        return permissionList;
+    }
 }

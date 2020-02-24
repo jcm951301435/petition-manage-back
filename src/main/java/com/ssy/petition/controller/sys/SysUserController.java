@@ -1,51 +1,51 @@
 package com.ssy.petition.controller.sys;
 
+import com.ssy.petition.common.CommonPage;
 import com.ssy.petition.common.CommonResult;
+import com.ssy.petition.dto.sys.params.SysUserListParams;
 import com.ssy.petition.dto.sys.params.SysUserLoginParams;
+import com.ssy.petition.dto.sys.result.SysUserListResult;
+import com.ssy.petition.entity.sys.SysUser;
+import com.ssy.petition.service.sys.SecurityUserService;
 import com.ssy.petition.service.sys.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 用户控制层
  *
  * @author jcm
  */
-@Api(tags = "SysUserController", description = "用户")
+@Api(tags = "SysUserController", description = "用户管理")
 @RestController
 @RequestMapping("/sysUser")
 public class SysUserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SysUserController.class);
 
-    private final SysUserService service;
+    private final SysUserService userService;
 
-    private final AuthenticationManager authenticationManager;
+    private final SecurityUserService securityUserService;
 
     @Autowired
-    public SysUserController(SysUserService service, AuthenticationManager authenticationManager) {
-        this.service = service;
-        this.authenticationManager = authenticationManager;
+    public SysUserController(SysUserService userService, SecurityUserService securityUserService) {
+        this.userService = userService;
+        this.securityUserService = securityUserService;
     }
 
     @ApiOperation("登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public CommonResult login(@RequestBody SysUserLoginParams loginParams) {
-        boolean loginResult = login(loginParams.getUsername(), loginParams.getPassword());
-        if (loginResult) {
-            return CommonResult.success("登录成功");
+        SysUser sysUser = securityUserService.login(loginParams.getUsername(), loginParams.getPassword());
+        if (sysUser != null) {
+            return CommonResult.success(sysUser.getUsername());
         }
         return CommonResult.validateFailed("用户名或密码错误");
     }
@@ -57,34 +57,25 @@ public class SysUserController {
         return CommonResult.success("登出成功");
     }
 
-    @ApiOperation("测试")
-    @RequestMapping(value = "/test")
-    public CommonResult test() {
-        return CommonResult.success("");
+    @ApiOperation("用户列表")
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public CommonResult list(SysUserListParams params,
+                             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        List<SysUserListResult> userList  = userService.getUserList(params, pageNum, pageSize);
+        CommonPage page = CommonPage.restPage(userList);
+        return CommonResult.success(page);
     }
 
-    /**
-     * 登录
-     * 此方法若在 service 层中 会导致 Authentication 依赖死循环
-     *
-     * @param username 用户名
-     * @param password 密码
-     * @return 登录结果
-     */
-    private Boolean login(String username, String password) {
-        boolean loginResult = false;
-        try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                    username, password);
-            Authentication authentication = authenticationManager.authenticate(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            loginResult = true;
-        } catch (AuthenticationException e) {
-            LOGGER.warn("登录失败 {} {}", username, e.getMessage());
+    @ApiOperation("创建用户")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public CommonResult create(@RequestBody SysUserListResult params) {
+        SysUser sysUser = securityUserService.getCreateUser(params);
+        int result = userService.create(sysUser);
+        if (result == 1) {
+            return CommonResult.success("添加成功");
         }
-        return loginResult;
+        return CommonResult.failed("添加失败，请联系管理员");
     }
-
-
 
 }
