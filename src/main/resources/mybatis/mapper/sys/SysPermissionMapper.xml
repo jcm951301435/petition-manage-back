@@ -294,6 +294,9 @@
     FROM sys_permission
     WHERE
     delete_flag=0
+    <if test="queryParam.roleId!=null">
+      AND EXISTS(SELECT 1 FROM sys_role_permission_relation rp WHERE sys_permission.id=rp.permission_id and rp.role_id=#{queryParam.roleId})
+    </if>
     <if test="queryParam.name!=null">
       AND name LIKE concat("%", #{queryParam.name}, "%")
     </if>

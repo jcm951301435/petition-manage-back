@@ -204,4 +204,42 @@
       remarks = #{remarks,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <delete id="deleteRolePermissionRelationNotIn" >
+    delete from sys_role_permission_relation
+    where role_id = #{roleId}
+    <if test="list!=null and list.size > 0">
+      AND permission_id NOT IN
+      <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </delete>
+
+  <insert id="insertListSelective">
+    insert into sys_role_permission_relation (id, role_id, permission_id,
+    insert_on, insert_by, update_on,
+    update_by, delete_flag, delete_on,
+    delete_by, remarks)
+    values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT},
+    #{insertOn,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP},
+    #{updateBy,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP},
+    #{deleteBy,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertList">
+    INSERT INTO sys_role_permission_relation (
+    id, role_id, permission_id,
+    insert_on, insert_by, update_on,
+    update_by, delete_flag, delete_on,
+    delete_by, remarks
+    ) VALUES
+    <foreach collection="list" separator="," item="item" index="index">
+      (#{item.id,jdbcType=BIGINT}, #{item.roleId,jdbcType=BIGINT}, #{item.permissionId,jdbcType=BIGINT},
+      #{item.insertOn,jdbcType=TIMESTAMP}, #{item.insertBy,jdbcType=BIGINT}, #{item.updateOn,jdbcType=TIMESTAMP},
+      #{item.updateBy,jdbcType=BIGINT}, #{item.deleteFlag,jdbcType=BIT}, #{item.deleteOn,jdbcType=TIMESTAMP},
+      #{item.deleteBy,jdbcType=BIGINT}, #{item.remarks,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
 </mapper>

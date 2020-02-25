@@ -7,6 +7,7 @@ import com.ssy.petition.dto.sys.params.SysUserLoginParams;
 import com.ssy.petition.dto.sys.result.SysUserListResult;
 import com.ssy.petition.entity.sys.SysUser;
 import com.ssy.petition.service.sys.SecurityUserService;
+import com.ssy.petition.service.sys.SysUserRoleRelationService;
 import com.ssy.petition.service.sys.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,12 +33,15 @@ public class SysUserController {
 
     private final SysUserService userService;
 
+    private final SysUserRoleRelationService userRoleRelationService;
+
     private final SecurityUserService securityUserService;
 
     @Autowired
-    public SysUserController(SysUserService userService, SecurityUserService securityUserService) {
+    public SysUserController(SysUserService userService, SecurityUserService securityUserService, SysUserRoleRelationService userRoleRelationService) {
         this.userService = userService;
         this.securityUserService = securityUserService;
+        this.userRoleRelationService = userRoleRelationService;
     }
 
     @ApiOperation("登录")
@@ -60,8 +64,8 @@ public class SysUserController {
     @ApiOperation("用户列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public CommonResult list(SysUserListParams params,
-                             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-                             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+                             @RequestParam(value = "pageNum") Integer pageNum,
+                             @RequestParam(value = "pageSize") Integer pageSize) {
         List<SysUserListResult> userList  = userService.getUserList(params, pageNum, pageSize);
         CommonPage page = CommonPage.restPage(userList);
         return CommonResult.success(page);
@@ -71,8 +75,14 @@ public class SysUserController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public CommonResult create(@RequestBody SysUserListResult params) {
         int existCode = -2;
+        Long roleId = params.getRoleId();
         SysUser sysUser = securityUserService.getCreateUser(params);
         int result = userService.create(sysUser);
+        if (result == 1) {
+            if (roleId != null) {
+                result = userRoleRelationService.insertOrUpdate(sysUser.getId(), roleId);
+            }
+        }
         if (result == 1) {
             return CommonResult.success("添加成功");
         } else if (result == existCode) {
@@ -90,8 +100,14 @@ public class SysUserController {
                 return CommonResult.failed("原密码错误，请录入正确密码");
             }
         }
+        Long roleId = params.getRoleId();
         SysUser sysUser = securityUserService.getUpdateUser(params);
         int result = userService.update(sysUser);
+        if (result == 1) {
+            if (roleId != null) {
+                result = userRoleRelationService.insertOrUpdate(sysUser.getId(), roleId);
+            }
+        }
         if (result == 1) {
             return CommonResult.success("修改成功");
         }

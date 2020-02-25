@@ -2,7 +2,9 @@ package com.ssy.petition.service.sys;
 
 
 import com.ssy.petition.dto.sys.params.SysPermissionParams;
+import com.ssy.petition.dto.sys.params.SysRolePermissionAddParams;
 import com.ssy.petition.dto.sys.result.SysPermissionResult;
+import com.ssy.petition.dto.sys.result.SysRolePermissionResult;
 import com.ssy.petition.entity.sys.SysPermission;
 
 import java.util.List;
@@ -25,5 +27,9 @@ public interface SysPermissionService {
     int delete(Long id);
 
     int disable(Long id);
+
+    SysRolePermissionResult getPermissionByRole(Long roleId);
+
+    int roleAddPermissions(SysRolePermissionAddParams params);
 
 }

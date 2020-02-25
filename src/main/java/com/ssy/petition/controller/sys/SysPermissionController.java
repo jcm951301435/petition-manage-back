@@ -2,7 +2,9 @@ package com.ssy.petition.controller.sys;
 
 import com.ssy.petition.common.CommonResult;
 import com.ssy.petition.dto.sys.params.SysPermissionParams;
+import com.ssy.petition.dto.sys.params.SysRolePermissionAddParams;
 import com.ssy.petition.dto.sys.result.SysPermissionResult;
+import com.ssy.petition.dto.sys.result.SysRolePermissionResult;
 import com.ssy.petition.entity.sys.SysPermission;
 import com.ssy.petition.service.sys.SysPermissionService;
 import io.swagger.annotations.Api;
@@ -68,6 +70,23 @@ public class SysPermissionController {
             return CommonResult.success("删除成功");
         }
         return CommonResult.failed("删除失败，请联系管理员");
+    }
+
+    @ApiOperation("角色对应菜单列表")
+    @RequestMapping(value = "/rolePermissionList/{id}", method = RequestMethod.POST)
+    public CommonResult rolePermissionList(@PathVariable Long id) {
+        SysRolePermissionResult result = permissionService.getPermissionByRole(id);
+        return CommonResult.success(result);
+    }
+
+    @ApiOperation("角色修改菜单列表")
+    @RequestMapping(value = "/roleAddPermissions", method = RequestMethod.POST)
+    public CommonResult roleAddPermissions(@RequestBody SysRolePermissionAddParams params) {
+        int result = permissionService.roleAddPermissions(params);
+        if (result >= 0) {
+            return CommonResult.success("修改成功");
+        }
+        return CommonResult.failed("修改失败，请联系管理员");
     }
 
 }

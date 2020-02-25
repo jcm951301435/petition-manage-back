@@ -1,10 +1,8 @@
 package com.ssy.petition.dto.sys.params;
 
-public class SysPermissionParams {
+public class SysRoleListParams {
 
     private String name;
-
-    private Long roleId;
 
     public String getName() {
         return name;
@@ -12,13 +10,5 @@ public class SysPermissionParams {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
     }
 }
