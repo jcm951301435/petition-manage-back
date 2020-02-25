@@ -23,6 +23,9 @@ public class WebConfig {
         this.requestMappingHandlerAdapter = requestMappingHandlerAdapter;
     }
 
+    /**
+     * 日期格式化
+     */
     @PostConstruct
     public void addConversionConfig() {
         ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) requestMappingHandlerAdapter
@@ -32,6 +35,8 @@ public class WebConfig {
             genericConversionService.addConverter(new StringToDateConverter());
         }
     }
+
+
 
     @Bean
     public LoginFilter loginFilter() {

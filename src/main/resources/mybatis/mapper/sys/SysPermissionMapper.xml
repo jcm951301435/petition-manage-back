@@ -293,9 +293,9 @@
           delete_flag, delete_on, delete_by, remarks
     FROM sys_permission
     WHERE
-    1=1
+    delete_flag=0
     <if test="queryParam.name!=null">
-      AND username LIKE concat("%", #{queryParam.name}, "%")
+      AND name LIKE concat("%", #{queryParam.name}, "%")
     </if>
   </select>
 

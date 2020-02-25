@@ -16,17 +16,17 @@ public enum ResultCode implements IErrorCode {
     /* 没有相关权限 */
     FORBIDDEN(403, "没有相关权限");
 
-    private long code;
+    private int code;
 
     private String message;
 
-    ResultCode(long code, String message) {
+    ResultCode(int code, String message) {
         this.code = code;
         this.message = message;
     }
 
     @Override
-    public long getCode() {
+    public int getCode() {
         return code;
     }
 
