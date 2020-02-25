@@ -14,7 +14,7 @@ public class CommonPage<T> {
     private Integer pageNum;
     private Integer pageSize;
     private Integer totalPage;
-    private Long total;
+    private Integer total;
     private List<T> list;
 
     /**
@@ -26,7 +26,8 @@ public class CommonPage<T> {
         result.setTotalPage(pageInfo.getPages());
         result.setPageNum(pageInfo.getPageNum());
         result.setPageSize(pageInfo.getPageSize());
-        result.setTotal(pageInfo.getTotal());
+        Long total = pageInfo.getTotal();
+        result.setTotal(total.intValue());
         result.setList(pageInfo.getList());
         return result;
     }
@@ -63,11 +64,11 @@ public class CommonPage<T> {
         this.list = list;
     }
 
-    public Long getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(Long total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 }
