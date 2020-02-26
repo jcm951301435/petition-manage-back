@@ -1,7 +1,11 @@
 package com.ssy.petition.service.sys;
 
+import com.ssy.petition.config.entity.SysUserDetails;
 import com.ssy.petition.dto.sys.result.SysUserListResult;
+import com.ssy.petition.entity.sys.SysPermission;
 import com.ssy.petition.entity.sys.SysUser;
+
+import java.util.List;
 
 /**
  * 处理 Security 用户业务
@@ -18,7 +22,7 @@ public interface SecurityUserService {
      * @param password 密码
      * @return 登录结果
      */
-    SysUser login(String username, String password);
+    SysUserDetails login(String username, String password);
 
     /**
      * 根据 SysUserListResult 生成待添加用户
@@ -43,5 +47,7 @@ public interface SecurityUserService {
      * @return 检测结果
      */
     boolean checkPassword(Long userId, String password);
+
+    List<SysPermission> getUserPermissions();
 
 }
