@@ -84,7 +84,8 @@ public class SysPermissionServiceImpl implements SysPermissionService {
     public int roleAddPermissions(SysRolePermissionAddParams params) {
         Long roleId = params.getRoleId();
         List<Long> checkId = params.getCheckId();
-        int result = relationMapper.deleteRolePermissionRelationNotIn(roleId, checkId);
+        /* 先全部删除，后添加，此处逻辑应可以优化，暂如下处理 */
+        int result = relationMapper.deleteRolePermissionRelationNotIn(roleId, new ArrayList<>());
         if (checkId.size() > 0) {
             List<SysRolePermissionRelation> relationList = new ArrayList<>();
             for (Long permissionId : checkId) {
