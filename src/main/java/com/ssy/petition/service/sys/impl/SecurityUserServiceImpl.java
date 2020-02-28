@@ -3,6 +3,7 @@ package com.ssy.petition.service.sys.impl;
 import com.ssy.petition.common.MapperOperateType;
 import com.ssy.petition.config.entity.SysUserDetails;
 import com.ssy.petition.dto.sys.result.SysUserListResult;
+import com.ssy.petition.entity.sys.SysPermission;
 import com.ssy.petition.entity.sys.SysUser;
 import com.ssy.petition.service.sys.SecurityUserService;
 import com.ssy.petition.service.sys.SysUserService;
@@ -17,6 +18,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 处理 Security 用户业务
@@ -43,19 +46,18 @@ public class SecurityUserServiceImpl implements SecurityUserService {
     }
 
     @Override
-    public SysUser login(String username, String password) {
-        SysUser sysUser = null;
+    public SysUserDetails login(String username, String password) {
+        SysUserDetails sysUserDetails = null;
         try {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                     username, password);
             Authentication authentication = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            SysUserDetails sysUserDetails = (SysUserDetails) authentication.getPrincipal();
-            sysUser = sysUserDetails.getUser();
+            sysUserDetails = (SysUserDetails) authentication.getPrincipal();
         } catch (AuthenticationException e) {
             LOGGER.warn("登录失败 {} {}", username, e.getMessage());
         }
-        return sysUser;
+        return sysUserDetails;
     }
 
     @Override
@@ -117,4 +119,10 @@ public class SecurityUserServiceImpl implements SecurityUserService {
         return passwordCheck.equals(password);
     }
 
+    @Override
+    public List<SysPermission> getUserPermissions() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SysUserDetails sysUserDetails = (SysUserDetails) authentication.getPrincipal();
+        return sysUserDetails.getPermissionList();
+    }
 }

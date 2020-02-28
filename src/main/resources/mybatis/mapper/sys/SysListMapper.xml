@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssy.petition.dao.sys.SysUserMapper">
-    <resultMap id="BaseResultMap" type="com.ssy.petition.entity.sys.SysUser">
+<mapper namespace="com.ssy.petition.dao.sys.SysListMapper">
+    <resultMap id="BaseResultMap" type="com.ssy.petition.entity.sys.SysList">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="username" jdbcType="VARCHAR" property="username"/>
-        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
-        <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="list_type" jdbcType="VARCHAR" property="listType"/>
+        <result column="list_name" jdbcType="VARCHAR" property="listName"/>
+        <result column="list_key" jdbcType="VARCHAR" property="listKey"/>
+        <result column="list_value" jdbcType="VARCHAR" property="listValue"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
         <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
         <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
         <result column="update_on" jdbcType="TIMESTAMP" property="updateOn"/>
@@ -17,11 +18,13 @@
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
     </resultMap>
 
-    <resultMap id="SysUserListResultMap" type="com.ssy.petition.dto.sys.result.SysUserListResult">
+    <resultMap id="SysListListResultMap" type="com.ssy.petition.dto.sys.result.SysListListResult">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="username" jdbcType="VARCHAR" property="username"/>
-        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
-        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="list_type" jdbcType="VARCHAR" property="listType"/>
+        <result column="list_name" jdbcType="VARCHAR" property="listName"/>
+        <result column="list_key" jdbcType="VARCHAR" property="listKey"/>
+        <result column="list_value" jdbcType="VARCHAR" property="listValue"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
         <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
         <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
         <result column="insert_by_name" jdbcType="VARCHAR" property="insertByName"/>
@@ -31,8 +34,6 @@
         <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn"/>
         <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
-        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
-        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
     </resultMap>
 
     <sql id="Example_Where_Clause">
@@ -65,8 +66,8 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        id, username, password, status, insert_on, insert_by, update_on, update_by,
-    delete_flag, delete_on, delete_by, remarks
+        id, type, list_name, list_key, list_value, sort, insert_on, insert_by, update_on, update_by, delete_flag,
+    delete_on, delete_by, remarks
     </sql>
     <select id="selectByExample" parameterType="com.ssy.petition.entity.base.example.BaseExample" resultMap="BaseResultMap">
         select
@@ -74,7 +75,7 @@
             distinct
         </if>
         <include refid="Base_Column_List"/>
-        from sys_user
+        from sys_list
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
@@ -85,43 +86,45 @@
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from sys_user
+        from sys_list
         where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
-        from sys_user
+        from sys_list
         where id = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" parameterType="com.ssy.petition.entity.sys.SysUser">
-        insert into sys_user (id, username, password,
-                              status, real_name, insert_on,
-                              insert_by, update_on, update_by,
-                              delete_flag, delete_on, delete_by,
-                              remarks)
-        values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-                #{status,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},  #{insertOn,jdbcType=TIMESTAMP},
-                #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT},
-                #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT},
-                #{remarks,jdbcType=VARCHAR})
+    <insert id="insert" parameterType="com.ssy.petition.entity.sys.SysList">
+        insert into sys_list (id, type, list_name, list_key, list_value,
+                              sort, insert_on, insert_by,
+                              update_on, update_by, delete_flag,
+                              delete_on, delete_by, remarks)
+        values (#{id,jdbcType=BIGINT}, #{listType,jdbcType=VARCHAR}, #{listName,jdbcType=VARCHAR}, #{listKey,jdbcType=VARCHAR},
+                #{listValue,jdbcType=VARCHAR},
+                #{sort,jdbcType=INTEGER}, #{insertOn,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=BIGINT},
+                #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT},
+                #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.ssy.petition.entity.sys.SysUser">
-        insert into sys_user
+    <insert id="insertSelective" parameterType="com.ssy.petition.entity.sys.SysList">
+        insert into sys_list
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
             </if>
-            <if test="username != null">
-                username,
+            <if test="listType != null">
+                list_type,
             </if>
-            <if test="password != null">
-                password,
+            <if test="listName != null">
+                list_name,
             </if>
-            <if test="status != null">
-                status,
+            <if test="listKey != null">
+                list_key,
             </if>
-            <if test="realName != null">
-                real_name,
+            <if test="listValue != null">
+                list_value,
+            </if>
+            <if test="sort != null">
+                sort,
             </if>
             <if test="insertOn != null">
                 insert_on,
@@ -152,17 +155,20 @@
             <if test="id != null">
                 #{id,jdbcType=BIGINT},
             </if>
-            <if test="username != null">
-                #{username,jdbcType=VARCHAR},
+            <if test="listType != null">
+                #{listType,jdbcType=VARCHAR},
             </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
+            <if test="listName != null">
+                #{listName,jdbcType=VARCHAR},
             </if>
-            <if test="status != null">
-                #{status,jdbcType=VARCHAR},
+            <if test="listKey != null">
+                #{listKey,jdbcType=VARCHAR},
             </if>
-            <if test="realName != null">
-                #{realName,jdbcType=VARCHAR},
+            <if test="listValue != null">
+                #{listValue,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
             </if>
             <if test="insertOn != null">
                 #{insertOn,jdbcType=TIMESTAMP},
@@ -190,20 +196,23 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.sys.SysUser">
-        update sys_user
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.sys.SysList">
+        update sys_list
         <set>
-            <if test="username != null">
-                username = #{username,jdbcType=VARCHAR},
+            <if test="listType != null">
+                list_type = #{listType,jdbcType=VARCHAR},
             </if>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
+            <if test="listName != null">
+                list_name = #{listName,jdbcType=VARCHAR},
             </if>
-            <if test="status != null">
-                status = #{status,jdbcType=VARCHAR},
+            <if test="listKey != null">
+                list_key = #{listKey,jdbcType=VARCHAR},
             </if>
-            <if test="realName != null">
-                real_name = #{realName,jdbcType=VARCHAR},
+            <if test="listValue != null">
+                list_value= #{listValue,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
             </if>
             <if test="insertOn != null">
                 insert_on = #{insertOn,jdbcType=TIMESTAMP},
@@ -232,12 +241,13 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.sys.SysUser">
-        update sys_user
-        set username    = #{username,jdbcType=VARCHAR},
-            password    = #{password,jdbcType=VARCHAR},
-            status      = #{status,jdbcType=VARCHAR},
-            real_name      = #{realName,jdbcType=VARCHAR},
+    <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.sys.SysList">
+        update sys_list
+        set list_type        = #{listType,jdbcType=VARCHAR},
+            list_name        = #{listName,jdbcType=VARCHAR},
+            list_key        = #{listKey,jdbcType=VARCHAR},
+            list_value = #{listValue,jdbcType=VARCHAR},
+            sort        = #{sort,jdbcType=INTEGER},
             insert_on   = #{insertOn,jdbcType=TIMESTAMP},
             insert_by   = #{insertBy,jdbcType=BIGINT},
             update_on   = #{updateOn,jdbcType=TIMESTAMP},
@@ -249,43 +259,23 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <select id="getPermissionListById" resultMap="com.ssy.petition.dao.sys.SysPermissionMapper.BaseResultMap">
-        SELECT DISTINCT p.id, p.pid, p.name, p.value,
-                        p.icon, p.type, p.uri, p.sort,
-                        p.insert_on, p.insert_by,
-                        p.update_on, p.update_by,
-                        p.delete_flag, p.delete_on, p.delete_by, p.remarks
-        FROM sys_user_role_relation ur
-                 LEFT JOIN sys_role r ON ur.role_id = r.id
-                 LEFT JOIN sys_role_permission_relation rp ON r.id = rp.role_id
-                 LEFT JOIN sys_permission p ON rp.permission_id = p.id
-        WHERE ur.user_id = #{userId}
-    </select>
-
-    <select id="getUserList" resultMap="SysUserListResultMap">
+    <select id="getList" resultMap="SysListListResultMap">
         SELECT
-               u.id,u.username,u.real_name,u.status,u.insert_on,u.insert_by,
-               FT_getUsernameById(u.insert_by) as insert_by_name,
-               u.update_on,u.update_by,u.delete_flag,u.delete_on,u.delete_by,u.remarks,
-               r.id as role_id,r.name as role_name
-        FROM sys_user u
-                 LEFT JOIN sys_user_role_relation ur ON u.id=ur.user_id
-                 LEFT JOIN sys_role r ON ur.role_id=r.id
+        id, list_type, list_name, list_key, list_value, sort, insert_on, insert_by,
+        FT_getUsernameById(insert_by) as insert_by_name,update_on, update_by, delete_flag,
+        delete_on, delete_by, remarks
+        FROM sys_list
         WHERE
-              u.delete_flag=0
-        <if test="queryParam.username!=null">
-            AND username LIKE concat("%", #{queryParam.username}, "%")
+        delete_flag=0
+        <if test="queryParam.listName!=null">
+            AND list_name LIKE concat("%", #{queryParam.listName}, "%")
         </if>
-        <if test="queryParam.realName!=null">
-            AND real_name LIKE concat("%", #{queryParam.realName}, "%")
+        <if test="queryParam.listKey!=null">
+            AND list_key LIKE concat("%", #{queryParam.listKey}, "%")
         </if>
-        <if test="queryParam.insertOnFrom!=null">
-            AND u.insert_on &gt;= #{queryParam.insertOnFrom}
+        <if test="queryParam.listValue!=null">
+            AND list_value LIKE concat("%", #{queryParam.listValue}, "%")
         </if>
-        <if test="queryParam.insertOnTo!=null">
-            AND u.insert_on &lt; #{queryParam.insertOnTo}
-        </if>
-        ORDER BY username
     </select>
 
 </mapper>

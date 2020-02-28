@@ -12,7 +12,7 @@ public enum ResultCode implements IErrorCode {
     /* 参数检验失败 */
     VALIDATE_FAILED(404, "参数检验失败"),
     /* 暂未登录或token已经过期 */
-    UNAUTHORIZED(401, "暂未登录或token已经过期"),
+    UNAUTHORIZED(401, "暂未登录或登录超时"),
     /* 没有相关权限 */
     FORBIDDEN(403, "没有相关权限");
 

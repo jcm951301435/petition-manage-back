@@ -2,9 +2,11 @@ package com.ssy.petition.controller.sys;
 
 import com.ssy.petition.common.CommonPage;
 import com.ssy.petition.common.CommonResult;
+import com.ssy.petition.config.entity.SysUserDetails;
 import com.ssy.petition.dto.sys.params.SysUserListParams;
 import com.ssy.petition.dto.sys.params.SysUserLoginParams;
 import com.ssy.petition.dto.sys.result.SysUserListResult;
+import com.ssy.petition.entity.sys.SysPermission;
 import com.ssy.petition.entity.sys.SysUser;
 import com.ssy.petition.service.sys.SecurityUserService;
 import com.ssy.petition.service.sys.SysUserRoleRelationService;
@@ -14,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,9 +50,9 @@ public class SysUserController {
     @ApiOperation("登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public CommonResult login(@RequestBody SysUserLoginParams loginParams) {
-        SysUser sysUser = securityUserService.login(loginParams.getUsername(), loginParams.getPassword());
-        if (sysUser != null) {
-            return CommonResult.success(sysUser.getUsername());
+        SysUserDetails sysUserDetails = securityUserService.login(loginParams.getUsername(), loginParams.getPassword());
+        if (sysUserDetails != null) {
+            return CommonResult.success(sysUserDetails.getUsername());
         }
         return CommonResult.validateFailed("用户名或密码错误");
     }
@@ -63,6 +66,7 @@ public class SysUserController {
 
     @ApiOperation("用户列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('user:list')")
     public CommonResult list(SysUserListParams params,
                              @RequestParam(value = "pageNum") Integer pageNum,
                              @RequestParam(value = "pageSize") Integer pageSize) {
@@ -73,6 +77,7 @@ public class SysUserController {
 
     @ApiOperation("新增用户")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('user:add')")
     public CommonResult create(@RequestBody SysUserListResult params) {
         int existCode = -2;
         Long roleId = params.getRoleId();
@@ -93,6 +98,7 @@ public class SysUserController {
 
     @ApiOperation("修改用户")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('user:update')")
     public CommonResult update(@RequestBody SysUserListResult params) {
         if (params.isEditPassword()) {
             boolean checkPasswordResult = securityUserService.checkPassword(params.getId(), params.getOldPassword());
@@ -116,12 +122,20 @@ public class SysUserController {
 
     @ApiOperation("删除用户")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('user:delete')")
     public CommonResult delete(@PathVariable Long id) {
         int result = userService.disable(id);
         if (result == 1) {
             return CommonResult.success("删除成功");
         }
         return CommonResult.failed("删除失败，请联系管理员");
+    }
+
+    @ApiOperation("获取用户权限")
+    @RequestMapping(value = "/permissionList", method = RequestMethod.POST)
+    public CommonResult getUserPermissions() {
+        List<SysPermission> permissionList = securityUserService.getUserPermissions();
+        return CommonResult.success(permissionList);
     }
 
 }

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssy.petition.dao.sys.SysUserMapper">
-    <resultMap id="BaseResultMap" type="com.ssy.petition.entity.sys.SysUser">
+<mapper namespace="com.ssy.petition.dao.petition.PetitionCompanyMapper">
+    <resultMap id="BaseResultMap" type="com.ssy.petition.entity.petition.PetitionCompany">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="username" jdbcType="VARCHAR" property="username"/>
-        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
-        <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="contact_name" jdbcType="VARCHAR" property="contactName"/>
+        <result column="contact_telephone" jdbcType="VARCHAR" property="contactTelephone"/>
         <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
         <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
         <result column="update_on" jdbcType="TIMESTAMP" property="updateOn"/>
@@ -17,11 +16,11 @@
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
     </resultMap>
 
-    <resultMap id="SysUserListResultMap" type="com.ssy.petition.dto.sys.result.SysUserListResult">
+    <resultMap id="PetitionCompanyResultMap" type="com.ssy.petition.dto.petition.result.PetitionCompanyResult">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="username" jdbcType="VARCHAR" property="username"/>
-        <result column="real_name" jdbcType="VARCHAR" property="realName"/>
-        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="contact_name" jdbcType="VARCHAR" property="contactName"/>
+        <result column="contact_telephone" jdbcType="VARCHAR" property="contactTelephone"/>
         <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
         <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
         <result column="insert_by_name" jdbcType="VARCHAR" property="insertByName"/>
@@ -65,7 +64,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        id, username, password, status, insert_on, insert_by, update_on, update_by,
+        id, name, contact_name, contact_telephone, insert_on, insert_by, update_on, update_by,
     delete_flag, delete_on, delete_by, remarks
     </sql>
     <select id="selectByExample" parameterType="com.ssy.petition.entity.base.example.BaseExample" resultMap="BaseResultMap">
@@ -74,7 +73,7 @@
             distinct
         </if>
         <include refid="Base_Column_List"/>
-        from sys_user
+        from petition_company
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
@@ -85,43 +84,39 @@
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from sys_user
+        from petition_company
         where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
-        from sys_user
+        from petition_company
         where id = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" parameterType="com.ssy.petition.entity.sys.SysUser">
-        insert into sys_user (id, username, password,
-                              status, real_name, insert_on,
-                              insert_by, update_on, update_by,
+    <insert id="insert" parameterType="com.ssy.petition.entity.petition.PetitionCompany">
+        insert into petition_company (id, name, contact_name,contact_telephone,
+                              insert_on,insert_by, update_on, update_by,
                               delete_flag, delete_on, delete_by,
                               remarks)
-        values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-                #{status,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},  #{insertOn,jdbcType=TIMESTAMP},
+        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR},
+                #{contactTelephone,jdbcType=VARCHAR},#{insertOn,jdbcType=TIMESTAMP},
                 #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT},
                 #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT},
                 #{remarks,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.ssy.petition.entity.sys.SysUser">
-        insert into sys_user
+    <insert id="insertSelective" parameterType="com.ssy.petition.entity.petition.PetitionCompany">
+        insert into petition_company
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
             </if>
-            <if test="username != null">
-                username,
+            <if test="name != null">
+                name,
             </if>
-            <if test="password != null">
-                password,
+            <if test="contactName != null">
+                contact_name,
             </if>
-            <if test="status != null">
-                status,
-            </if>
-            <if test="realName != null">
-                real_name,
+            <if test="contactTelephone != null">
+                contact_telephone,
             </if>
             <if test="insertOn != null">
                 insert_on,
@@ -152,17 +147,14 @@
             <if test="id != null">
                 #{id,jdbcType=BIGINT},
             </if>
-            <if test="username != null">
-                #{username,jdbcType=VARCHAR},
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
             </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
+            <if test="contactName != null">
+                #{contactName,jdbcType=VARCHAR},
             </if>
-            <if test="status != null">
-                #{status,jdbcType=VARCHAR},
-            </if>
-            <if test="realName != null">
-                #{realName,jdbcType=VARCHAR},
+            <if test="contactTelephone != null">
+                #{contactTelephone,jdbcType=VARCHAR},
             </if>
             <if test="insertOn != null">
                 #{insertOn,jdbcType=TIMESTAMP},
@@ -190,20 +182,17 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.sys.SysUser">
-        update sys_user
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.petition.PetitionCompany">
+        update petition_company
         <set>
-            <if test="username != null">
-                username = #{username,jdbcType=VARCHAR},
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
             </if>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
+            <if test="contactName != null">
+                contact_name = #{contactName,jdbcType=VARCHAR},
             </if>
-            <if test="status != null">
-                status = #{status,jdbcType=VARCHAR},
-            </if>
-            <if test="realName != null">
-                real_name = #{realName,jdbcType=VARCHAR},
+            <if test="contactTelephone != null">
+                contact_telephone = #{contactTelephone,jdbcType=VARCHAR},
             </if>
             <if test="insertOn != null">
                 insert_on = #{insertOn,jdbcType=TIMESTAMP},
@@ -232,12 +221,11 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.sys.SysUser">
-        update sys_user
-        set username    = #{username,jdbcType=VARCHAR},
-            password    = #{password,jdbcType=VARCHAR},
-            status      = #{status,jdbcType=VARCHAR},
-            real_name      = #{realName,jdbcType=VARCHAR},
+    <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.petition.PetitionCompany">
+        update petition_company
+        set name    = #{name,jdbcType=VARCHAR},
+            contact_name    = #{contactName,jdbcType=VARCHAR},
+            contact_telephone      = #{contactTelephone,jdbcType=VARCHAR},
             insert_on   = #{insertOn,jdbcType=TIMESTAMP},
             insert_by   = #{insertBy,jdbcType=BIGINT},
             update_on   = #{updateOn,jdbcType=TIMESTAMP},
@@ -249,43 +237,21 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <select id="getPermissionListById" resultMap="com.ssy.petition.dao.sys.SysPermissionMapper.BaseResultMap">
-        SELECT DISTINCT p.id, p.pid, p.name, p.value,
-                        p.icon, p.type, p.uri, p.sort,
-                        p.insert_on, p.insert_by,
-                        p.update_on, p.update_by,
-                        p.delete_flag, p.delete_on, p.delete_by, p.remarks
-        FROM sys_user_role_relation ur
-                 LEFT JOIN sys_role r ON ur.role_id = r.id
-                 LEFT JOIN sys_role_permission_relation rp ON r.id = rp.role_id
-                 LEFT JOIN sys_permission p ON rp.permission_id = p.id
-        WHERE ur.user_id = #{userId}
-    </select>
-
-    <select id="getUserList" resultMap="SysUserListResultMap">
+    <select id="getList" resultMap="PetitionCompanyResultMap">
         SELECT
-               u.id,u.username,u.real_name,u.status,u.insert_on,u.insert_by,
-               FT_getUsernameById(u.insert_by) as insert_by_name,
-               u.update_on,u.update_by,u.delete_flag,u.delete_on,u.delete_by,u.remarks,
-               r.id as role_id,r.name as role_name
-        FROM sys_user u
-                 LEFT JOIN sys_user_role_relation ur ON u.id=ur.user_id
-                 LEFT JOIN sys_role r ON ur.role_id=r.id
+               c.id,c.name, c.contact_name, c.contact_telephone,c.insert_on,c.insert_by,
+               FT_getUsernameById(c.insert_by) as insert_by_name,
+               c.update_on,c.update_by,c.delete_flag,c.delete_on,c.delete_by,c.remarks
+        FROM petition_company c
         WHERE
-              u.delete_flag=0
-        <if test="queryParam.username!=null">
-            AND username LIKE concat("%", #{queryParam.username}, "%")
+              c.delete_flag=0
+        <if test="queryParam.name!=null">
+            AND name LIKE concat("%", #{queryParam.name}, "%")
         </if>
-        <if test="queryParam.realName!=null">
-            AND real_name LIKE concat("%", #{queryParam.realName}, "%")
+        <if test="queryParam.contactName!=null">
+            AND contact_name LIKE concat("%", #{queryParam.contactName}, "%")
         </if>
-        <if test="queryParam.insertOnFrom!=null">
-            AND u.insert_on &gt;= #{queryParam.insertOnFrom}
-        </if>
-        <if test="queryParam.insertOnTo!=null">
-            AND u.insert_on &lt; #{queryParam.insertOnTo}
-        </if>
-        ORDER BY username
+        ORDER BY c.name
     </select>
 
 </mapper>
