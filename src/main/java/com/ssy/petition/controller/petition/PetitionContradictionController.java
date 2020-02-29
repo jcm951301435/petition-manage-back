@@ -2,10 +2,10 @@ package com.ssy.petition.controller.petition;
 
 import com.ssy.petition.common.CommonPage;
 import com.ssy.petition.common.CommonResult;
-import com.ssy.petition.dto.petition.params.PetitionCompanyParams;
-import com.ssy.petition.dto.petition.result.PetitionCompanyResult;
-import com.ssy.petition.entity.petition.PetitionCompany;
-import com.ssy.petition.service.petition.PetitionCompanyService;
+import com.ssy.petition.dto.petition.params.PetitionContradictionEditParams;
+import com.ssy.petition.dto.petition.params.PetitionContradictionParams;
+import com.ssy.petition.dto.petition.result.PetitionContradictionResult;
+import com.ssy.petition.service.petition.PetitionContradictionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -15,57 +15,57 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "PetitionCompanyController", description = "公司管理")
+@Api(tags = "PetitionContradictionController", description = "信访管理")
 @RestController
-@RequestMapping("/petitionCompany")
-public class PetitionCompanyController {
+@RequestMapping("/petitionContradiction")
+public class PetitionContradictionController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PetitionCompanyController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PetitionContradictionController.class);
 
-    private final PetitionCompanyService companyService;
+    private final PetitionContradictionService service;
 
-    public PetitionCompanyController(PetitionCompanyService companyService) {
-        this.companyService = companyService;
+    public PetitionContradictionController(PetitionContradictionService service) {
+        this.service = service;
     }
 
-    @ApiOperation("公司列表")
+    @ApiOperation("信访列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('company:list')")
-    public CommonResult list(PetitionCompanyParams params,
+    @PreAuthorize("hasAuthority('contradiction:list')")
+    public CommonResult list(PetitionContradictionParams params,
                              @RequestParam(value = "pageNum", required = false) Integer pageNum,
                              @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        List<PetitionCompanyResult> list = companyService.list(params, pageNum, pageSize);
+        List<PetitionContradictionResult> list = service.list(params, pageNum, pageSize);
         CommonPage page = CommonPage.restPage(list);
         return CommonResult.success(page);
     }
 
-    @ApiOperation("新增公司")
+    @ApiOperation("新增信访")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('company:add')")
-    public CommonResult create(@RequestBody PetitionCompany company) {
-        int result = companyService.create(company);
+    @PreAuthorize("hasAuthority('contradiction:add')")
+    public CommonResult create(@RequestBody PetitionContradictionEditParams params) {
+        int result = service.create(params);
         if (result == 1) {
             return CommonResult.success("添加成功");
         }
         return CommonResult.failed("添加失败，请联系管理员");
     }
 
-    @ApiOperation("修改公司")
+    @ApiOperation("修改信访")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('company:update')")
-    public CommonResult update(@RequestBody PetitionCompany company) {
-        int result = companyService.update(company);
+    @PreAuthorize("hasAuthority('contradiction:update')")
+    public CommonResult update(@RequestBody PetitionContradictionEditParams params) {
+        int result = service.update(params);
         if (result == 1) {
             return CommonResult.success("修改成功");
         }
         return CommonResult.failed("修改失败，请联系管理员");
     }
 
-    @ApiOperation("删除公司")
+    @ApiOperation("删除信访")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('company:delete')")
+    @PreAuthorize("hasAuthority('contradiction:delete')")
     public CommonResult delete(@PathVariable Long id) {
-        int result = companyService.delete(id);
+        int result = service.delete(id);
         if (result == 1) {
             return CommonResult.success("删除成功");
         }

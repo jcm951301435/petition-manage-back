@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssy.petition.dao.petition.PetitionContradictionMapper">
+    <resultMap id="BaseResultMap" type="com.ssy.petition.entity.petition.PetitionContradiction">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="contradiction_type" jdbcType="VARCHAR" property="contradictionType"/>
+        <result column="apply_name" jdbcType="VARCHAR" property="applyName"/>
+        <result column="apply_sex" jdbcType="VARCHAR" property="applySex"/>
+        <result column="apply_birth" jdbcType="VARCHAR" property="applyBirth"/>
+        <result column="apply_id_card" jdbcType="VARCHAR" property="applyIdCard"/>
+        <result column="apply_police_station" jdbcType="VARCHAR" property="applyPoliceStation"/>
+        <result column="apply_political_status" jdbcType="VARCHAR" property="applyPoliticalStatus"/>
+        <result column="petition_type" jdbcType="VARCHAR" property="petitionType"/>
+        <result column="purpose_type" jdbcType="VARCHAR" property="purposeType"/>
+        <result column="check_type" jdbcType="VARCHAR" property="checkType"/>
+        <result column="apply_address" jdbcType="VARCHAR" property="applyAddress"/>
+        <result column="apply_street" jdbcType="VARCHAR" property="applyStreet"/>
+        <result column="responsible_company" jdbcType="VARCHAR" property="responsibleCompany"/>
+        <result column="responsible_contact_name" jdbcType="VARCHAR" property="responsibleContactName"/>
+        <result column="responsible_contact_telephone" jdbcType="VARCHAR" property="responsibleContactTelephone"/>
+        <result column="enter_beijing_state" jdbcType="VARCHAR" property="enterBeijingState"/>
+        <result column="team_petition_state" jdbcType="VARCHAR" property="teamPetitionState"/>
+        <result column="team_petition_count" jdbcType="VARCHAR" property="teamPetitionCount"/>
+        <result column="first_petition_time" jdbcType="TIMESTAMP" property="firstPetitionTime"/>
+        <result column="last_petition_time" jdbcType="TIMESTAMP" property="lastPetitionTime"/>
+        <result column="resolve_level" jdbcType="VARCHAR" property="resolveLevel"/>
+        <result column="resolve_method_self" jdbcType="BIT" property="resolveMethodSelf"/>
+        <result column="resolve_method_self_name" jdbcType="VARCHAR" property="resolveMethodSelfName"/>
+        <result column="resolve_method_self_position" jdbcType="VARCHAR" property="resolveMethodSelfPosition"/>
+        <result column="resolve_method_third" jdbcType="BIT" property="resolveMethodThird"/>
+        <result column="resolve_method_third_company" jdbcType="VARCHAR" property="resolveMethodThirdCompany"/>
+        <result column="resolve_method_third_name" jdbcType="VARCHAR" property="resolveMethodThirdName"/>
+        <result column="resolve_method_state" jdbcType="BIT" property="resolveMethodState"/>
+        <result column="resolve_method_state_name" jdbcType="VARCHAR" property="resolveMethodStateName"/>
+        <result column="resolve_method_state_position" jdbcType="VARCHAR" property="resolveMethodStatePosition"/>
+        <result column="resolve_method_state_company" jdbcType="VARCHAR" property="resolveMethodStateCompany"/>
+        <result column="resolve_method_state_other" jdbcType="VARCHAR" property="resolveMethodStateOther"/>
+        <result column="resolve_method_city" jdbcType="BIT" property="resolveMethodCity"/>
+        <result column="resolve_method_city_leader" jdbcType="BIT" property="resolveMethodCityLeader"/>
+        <result column="resolve_method_city_leader_name" jdbcType="VARCHAR" property="resolveMethodCityLeaderName"/>
+        <result column="resolve_method_city_leader_position" jdbcType="VARCHAR" property="resolveMethodCityLeaderPosition"/>
+        <result column="resolve_method_city_meeting" jdbcType="BIT" property="resolveMethodCityMeeting"/>
+        <result column="resolve_method_city_meeting_content" jdbcType="VARCHAR" property="resolveMethodCityMeetingContent"/>
+        <result column="resolve_method_city_separate" jdbcType="BIT" property="resolveMethodCitySeparate"/>
+        <result column="resolve_method_city_separate_content" jdbcType="VARCHAR" property="resolveMethodCitySeparateContent"/>
+        <result column="resolve_method_city_other" jdbcType="BIT" property="resolveMethodCityOther"/>
+        <result column="resolve_method_city_other_content" jdbcType="VARCHAR" property="resolveMethodCityOtherContent"/>
+        <result column="resolve_form" jdbcType="VARCHAR" property="resolveForm"/>
+        <result column="resolve_form_other_content" jdbcType="VARCHAR" property="resolveFormOtherContent"/>
+        <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
+        <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
+        <result column="update_on" jdbcType="TIMESTAMP" property="updateOn"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="delete_flag" jdbcType="BIT" property="deleteFlag"/>
+        <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn"/>
+        <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+
+    <resultMap id="PetitionContradictionResultMap" type="com.ssy.petition.dto.petition.result.PetitionContradictionResult">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="contradiction_type" jdbcType="VARCHAR" property="contradictionType"/>
+        <result column="apply_name" jdbcType="VARCHAR" property="applyName"/>
+        <result column="apply_sex" jdbcType="VARCHAR" property="applySex"/>
+        <result column="apply_birth" jdbcType="VARCHAR" property="applyBirth"/>
+        <result column="apply_id_card" jdbcType="VARCHAR" property="applyIdCard"/>
+        <result column="apply_police_station" jdbcType="VARCHAR" property="applyPoliceStation"/>
+        <result column="apply_political_status" jdbcType="VARCHAR" property="applyPoliticalStatus"/>
+        <result column="petition_type" jdbcType="VARCHAR" property="petitionType"/>
+        <result column="purpose_type" jdbcType="VARCHAR" property="purposeType"/>
+        <result column="purpose_name" jdbcType="VARCHAR" property="purposeName"/>
+        <result column="check_type" jdbcType="VARCHAR" property="checkType"/>
+        <result column="apply_address" jdbcType="VARCHAR" property="applyAddress"/>
+        <result column="apply_street" jdbcType="VARCHAR" property="applyStreet"/>
+        <result column="responsible_company" jdbcType="VARCHAR" property="responsibleCompany"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="responsible_contact_name" jdbcType="VARCHAR" property="responsibleContactName"/>
+        <result column="responsible_contact_telephone" jdbcType="VARCHAR" property="responsibleContactTelephone"/>
+        <result column="enter_beijing_state" jdbcType="VARCHAR" property="enterBeijingState"/>
+        <result column="team_petition_state" jdbcType="VARCHAR" property="teamPetitionState"/>
+        <result column="team_petition_count" jdbcType="VARCHAR" property="teamPetitionCount"/>
+        <result column="first_petition_time" jdbcType="TIMESTAMP" property="firstPetitionTime"/>
+        <result column="last_petition_time" jdbcType="TIMESTAMP" property="lastPetitionTime"/>
+        <result column="resolve_level" jdbcType="VARCHAR" property="resolveLevel"/>
+        <result column="resolve_level_name" jdbcType="VARCHAR" property="resolveLevelName"/>
+        <result column="resolve_method_self" jdbcType="BIT" property="resolveMethodSelf"/>
+        <result column="resolve_method_self_name" jdbcType="VARCHAR" property="resolveMethodSelfName"/>
+        <result column="resolve_method_self_position" jdbcType="VARCHAR" property="resolveMethodSelfPosition"/>
+        <result column="resolve_method_third" jdbcType="BIT" property="resolveMethodThird"/>
+        <result column="resolve_method_third_company" jdbcType="VARCHAR" property="resolveMethodThirdCompany"/>
+        <result column="resolve_method_third_name" jdbcType="VARCHAR" property="resolveMethodThirdName"/>
+        <result column="resolve_method_state" jdbcType="BIT" property="resolveMethodState"/>
+        <result column="resolve_method_state_name" jdbcType="VARCHAR" property="resolveMethodStateName"/>
+        <result column="resolve_method_state_position" jdbcType="VARCHAR" property="resolveMethodStatePosition"/>
+        <result column="resolve_method_state_company" jdbcType="VARCHAR" property="resolveMethodStateCompany"/>
+        <result column="resolve_method_state_other" jdbcType="VARCHAR" property="resolveMethodStateOther"/>
+        <result column="resolve_method_city" jdbcType="BIT" property="resolveMethodCity"/>
+        <result column="resolve_method_city_leader" jdbcType="BIT" property="resolveMethodCityLeader"/>
+        <result column="resolve_method_city_leader_name" jdbcType="VARCHAR" property="resolveMethodCityLeaderName"/>
+        <result column="resolve_method_city_leader_position" jdbcType="VARCHAR" property="resolveMethodCityLeaderPosition"/>
+        <result column="resolve_method_city_meeting" jdbcType="BIT" property="resolveMethodCityMeeting"/>
+        <result column="resolve_method_city_meeting_content" jdbcType="VARCHAR" property="resolveMethodCityMeetingContent"/>
+        <result column="resolve_method_city_separate" jdbcType="BIT" property="resolveMethodCitySeparate"/>
+        <result column="resolve_method_city_separate_content" jdbcType="VARCHAR" property="resolveMethodCitySeparateContent"/>
+        <result column="resolve_method_city_other" jdbcType="BIT" property="resolveMethodCityOther"/>
+        <result column="resolve_method_city_other_content" jdbcType="VARCHAR" property="resolveMethodCityOtherContent"/>
+        <result column="resolve_form" jdbcType="VARCHAR" property="resolveForm"/>
+        <result column="resolve_form_other_content" jdbcType="VARCHAR" property="resolveFormOtherContent"/>
+        <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
+        <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
+        <result column="update_on" jdbcType="TIMESTAMP" property="updateOn"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="delete_flag" jdbcType="BIT" property="deleteFlag"/>
+        <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn"/>
+        <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, contradiction_type, apply_name, apply_sex, apply_birth, apply_id_card, apply_police_station,
+    apply_political_status, petition_type, purpose_type, check_type, apply_address, apply_street, 
+    responsible_company, responsible_contact_name, responsible_contact_telephone, enter_beijing_state, 
+    team_petition_state, team_petition_count, first_petition_time, last_petition_time, 
+    resolve_level, resolve_method_self, resolve_method_self_name, resolve_method_self_position, 
+    resolve_method_third, resolve_method_third_company, resolve_method_third_name, resolve_method_state, 
+    resolve_method_state_name, resolve_method_state_position, resolve_method_state_company, 
+    resolve_method_state_other, resolve_method_city, resolve_method_city_leader, resolve_method_city_leader_name, 
+    resolve_method_city_leader_position, resolve_method_city_meeting, resolve_method_city_meeting_content, 
+    resolve_method_city_separate, resolve_method_city_separate_content, resolve_method_city_other, 
+    resolve_method_city_other_content, resolve_form, resolve_form_other_content,
+insert_on, insert_by, update_on, update_by,
+    delete_flag, delete_on, delete_by, remarks
+    </sql>
+
+    <sql id="Result_Column_List">
+        id, contradiction_type, apply_name, apply_sex, apply_birth, apply_id_card, apply_police_station,
+    apply_political_status, petition_type, purpose_type, check_type, apply_address, apply_street,
+    responsible_company, responsible_contact_name, responsible_contact_telephone, enter_beijing_state,
+    team_petition_state, team_petition_count, first_petition_time, last_petition_time,
+    resolve_level, resolve_method_self, resolve_method_self_name, resolve_method_self_position,
+    resolve_method_third, resolve_method_third_company, resolve_method_third_name, resolve_method_state,
+    resolve_method_state_name, resolve_method_state_position, resolve_method_state_company,
+    resolve_method_state_other, resolve_method_city, resolve_method_city_leader, resolve_method_city_leader_name,
+    resolve_method_city_leader_position, resolve_method_city_meeting, resolve_method_city_meeting_content,
+    resolve_method_city_separate, resolve_method_city_separate_content, resolve_method_city_other,
+    resolve_method_city_other_content, resolve_form, resolve_form_other_content,
+FT_getUsernameById(insert_by) as insert_by_name,
+FT_getCompanynameById(responsible_company) as company_name,
+FT_getListValueByKey('purposeType', purpose_type) as purpose_name,
+FT_getListValueByKey('resolveLevel', resolve_level) as resolve_level_name,
+insert_on, insert_by, update_on, update_by,
+    delete_flag, delete_on, delete_by, remarks
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from petition_contradiction
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from petition_contradiction
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.ssy.petition.entity.petition.PetitionContradiction">
+        insert into petition_contradiction (id, contradiction_type, apply_name,
+                                            apply_sex, apply_birth, apply_id_card,
+                                            apply_police_station, apply_political_status,
+                                            petition_type, purpose_type, check_type,
+                                            apply_address, apply_street, responsible_company,
+                                            responsible_contact_name, responsible_contact_telephone,
+                                            enter_beijing_state, team_petition_state, team_petition_count,
+                                            first_petition_time, last_petition_time,
+                                            resolve_level, resolve_method_self, resolve_method_self_name,
+                                            resolve_method_self_position, resolve_method_third,
+                                            resolve_method_third_company, resolve_method_third_name,
+                                            resolve_method_state, resolve_method_state_name,
+                                            resolve_method_state_position, resolve_method_state_company,
+                                            resolve_method_state_other, resolve_method_city,
+                                            resolve_method_city_leader, resolve_method_city_leader_name,
+                                            resolve_method_city_leader_position, resolve_method_city_meeting,
+                                            resolve_method_city_meeting_content, resolve_method_city_separate,
+                                            resolve_method_city_separate_content, resolve_method_city_other,
+                                            resolve_method_city_other_content, resolve_form,
+                                            resolve_form_other_content,
+                                            insert_on, insert_by, update_on, update_by,
+                                            delete_flag, delete_on, delete_by, remarks)
+        values (#{id,jdbcType=BIGINT}, #{contradictionType,jdbcType=VARCHAR}, #{applyName,jdbcType=VARCHAR},
+                #{applySex,jdbcType=VARCHAR}, #{applyBirth,jdbcType=VARCHAR}, #{applyIdCard,jdbcType=VARCHAR},
+                #{applyPoliceStation,jdbcType=VARCHAR}, #{applyPoliticalStatus,jdbcType=VARCHAR},
+                #{petitionType,jdbcType=VARCHAR}, #{purposeType,jdbcType=VARCHAR}, #{checkType,jdbcType=VARCHAR},
+                #{applyAddress,jdbcType=VARCHAR}, #{applyStreet,jdbcType=VARCHAR}, #{responsibleCompany,jdbcType=VARCHAR},
+                #{responsibleContactName,jdbcType=VARCHAR}, #{responsibleContactTelephone,jdbcType=VARCHAR},
+                #{enterBeijingState,jdbcType=VARCHAR}, #{teamPetitionState,jdbcType=VARCHAR}, #{teamPetitionCount,jdbcType=VARCHAR},
+                #{firstPetitionTime,jdbcType=TIMESTAMP}, #{lastPetitionTime,jdbcType=TIMESTAMP},
+                #{resolveLevel,jdbcType=VARCHAR}, #{resolveMethodSelf,jdbcType=BIT}, #{resolveMethodSelfName,jdbcType=VARCHAR},
+                #{resolveMethodSelfPosition,jdbcType=VARCHAR}, #{resolveMethodThird,jdbcType=BIT},
+                #{resolveMethodThirdCompany,jdbcType=VARCHAR}, #{resolveMethodThirdName,jdbcType=VARCHAR},
+                #{resolveMethodState,jdbcType=BIT}, #{resolveMethodStateName,jdbcType=VARCHAR},
+                #{resolveMethodStatePosition,jdbcType=VARCHAR}, #{resolveMethodStateCompany,jdbcType=VARCHAR},
+                #{resolveMethodStateOther,jdbcType=VARCHAR}, #{resolveMethodCity,jdbcType=BIT},
+                #{resolveMethodCityLeader,jdbcType=BIT}, #{resolveMethodCityLeaderName,jdbcType=VARCHAR},
+                #{resolveMethodCityLeaderPosition,jdbcType=VARCHAR}, #{resolveMethodCityMeeting,jdbcType=BIT},
+                #{resolveMethodCityMeetingContent,jdbcType=VARCHAR}, #{resolveMethodCitySeparate,jdbcType=BIT},
+                #{resolveMethodCitySeparateContent,jdbcType=VARCHAR}, #{resolveMethodCityOther,jdbcType=BIT},
+                #{resolveMethodCityOtherContent,jdbcType=VARCHAR}, #{resolveForm,jdbcType=VARCHAR},
+                #{resolveFormOtherContent,jdbcType=VARCHAR},
+                #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT},
+                #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT},
+                #{remarks,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.ssy.petition.entity.petition.PetitionContradiction">
+        insert into petition_contradiction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="contradictionType != null">
+                contradiction_type,
+            </if>
+            <if test="applyName != null">
+                apply_name,
+            </if>
+            <if test="applySex != null">
+                apply_sex,
+            </if>
+            <if test="applyBirth != null">
+                apply_birth,
+            </if>
+            <if test="applyIdCard != null">
+                apply_id_card,
+            </if>
+            <if test="applyPoliceStation != null">
+                apply_police_station,
+            </if>
+            <if test="applyPoliticalStatus != null">
+                apply_political_status,
+            </if>
+            <if test="petitionType != null">
+                petition_type,
+            </if>
+            <if test="purposeType != null">
+                purpose_type,
+            </if>
+            <if test="checkType != null">
+                check_type,
+            </if>
+            <if test="applyAddress != null">
+                apply_address,
+            </if>
+            <if test="applyStreet != null">
+                apply_street,
+            </if>
+            <if test="responsibleCompany != null">
+                responsible_company,
+            </if>
+            <if test="responsibleContactName != null">
+                responsible_contact_name,
+            </if>
+            <if test="responsibleContactTelephone != null">
+                responsible_contact_telephone,
+            </if>
+            <if test="enterBeijingState != null">
+                enter_beijing_state,
+            </if>
+            <if test="teamPetitionState != null">
+                team_petition_state,
+            </if>
+            <if test="teamPetitionCount != null">
+                team_petition_count,
+            </if>
+            <if test="firstPetitionTime != null">
+                first_petition_time,
+            </if>
+            <if test="lastPetitionTime != null">
+                last_petition_time,
+            </if>
+            <if test="resolveLevel != null">
+                resolve_level,
+            </if>
+            <if test="resolveMethodSelf != null">
+                resolve_method_self,
+            </if>
+            <if test="resolveMethodSelfName != null">
+                resolve_method_self_name,
+            </if>
+            <if test="resolveMethodSelfPosition != null">
+                resolve_method_self_position,
+            </if>
+            <if test="resolveMethodThird != null">
+                resolve_method_third,
+            </if>
+            <if test="resolveMethodThirdCompany != null">
+                resolve_method_third_company,
+            </if>
+            <if test="resolveMethodThirdName != null">
+                resolve_method_third_name,
+            </if>
+            <if test="resolveMethodState != null">
+                resolve_method_state,
+            </if>
+            <if test="resolveMethodStateName != null">
+                resolve_method_state_name,
+            </if>
+            <if test="resolveMethodStatePosition != null">
+                resolve_method_state_position,
+            </if>
+            <if test="resolveMethodStateCompany != null">
+                resolve_method_state_company,
+            </if>
+            <if test="resolveMethodStateOther != null">
+                resolve_method_state_other,
+            </if>
+            <if test="resolveMethodCity != null">
+                resolve_method_city,
+            </if>
+            <if test="resolveMethodCityLeader != null">
+                resolve_method_city_leader,
+            </if>
+            <if test="resolveMethodCityLeaderName != null">
+                resolve_method_city_leader_name,
+            </if>
+            <if test="resolveMethodCityLeaderPosition != null">
+                resolve_method_city_leader_position,
+            </if>
+            <if test="resolveMethodCityMeeting != null">
+                resolve_method_city_meeting,
+            </if>
+            <if test="resolveMethodCityMeetingContent != null">
+                resolve_method_city_meeting_content,
+            </if>
+            <if test="resolveMethodCitySeparate != null">
+                resolve_method_city_separate,
+            </if>
+            <if test="resolveMethodCitySeparateContent != null">
+                resolve_method_city_separate_content,
+            </if>
+            <if test="resolveMethodCityOther != null">
+                resolve_method_city_other,
+            </if>
+            <if test="resolveMethodCityOtherContent != null">
+                resolve_method_city_other_content,
+            </if>
+            <if test="resolveForm != null">
+                resolve_form,
+            </if>
+            <if test="resolveFormOtherContent != null">
+                resolve_form_other_content,
+            </if>
+            <if test="insertOn != null">
+                insert_on,
+            </if>
+            <if test="insertBy != null">
+                insert_by,
+            </if>
+            <if test="updateOn != null">
+                update_on,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="deleteOn != null">
+                delete_on,
+            </if>
+            <if test="deleteBy != null">
+                delete_by,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="contradictionType != null">
+                #{contradictionType,jdbcType=VARCHAR},
+            </if>
+            <if test="applyName != null">
+                #{applyName,jdbcType=VARCHAR},
+            </if>
+            <if test="applySex != null">
+                #{applySex,jdbcType=VARCHAR},
+            </if>
+            <if test="applyBirth != null">
+                #{applyBirth,jdbcType=VARCHAR},
+            </if>
+            <if test="applyIdCard != null">
+                #{applyIdCard,jdbcType=VARCHAR},
+            </if>
+            <if test="applyPoliceStation != null">
+                #{applyPoliceStation,jdbcType=VARCHAR},
+            </if>
+            <if test="applyPoliticalStatus != null">
+                #{applyPoliticalStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="petitionType != null">
+                #{petitionType,jdbcType=VARCHAR},
+            </if>
+            <if test="purposeType != null">
+                #{purposeType,jdbcType=VARCHAR},
+            </if>
+            <if test="checkType != null">
+                #{checkType,jdbcType=VARCHAR},
+            </if>
+            <if test="applyAddress != null">
+                #{applyAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="applyStreet != null">
+                #{applyStreet,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleCompany != null">
+                #{responsibleCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleContactName != null">
+                #{responsibleContactName,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleContactTelephone != null">
+                #{responsibleContactTelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="enterBeijingState != null">
+                #{enterBeijingState,jdbcType=VARCHAR},
+            </if>
+            <if test="teamPetitionState != null">
+                #{teamPetitionState,jdbcType=VARCHAR},
+            </if>
+            <if test="teamPetitionCount != null">
+                #{teamPetitionCount,jdbcType=VARCHAR},
+            </if>
+            <if test="firstPetitionTime != null">
+                #{firstPetitionTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastPetitionTime != null">
+                #{lastPetitionTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="resolveLevel != null">
+                #{resolveLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodSelf != null">
+                #{resolveMethodSelf,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodSelfName != null">
+                #{resolveMethodSelfName,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodSelfPosition != null">
+                #{resolveMethodSelfPosition,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodThird != null">
+                #{resolveMethodThird,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodThirdCompany != null">
+                #{resolveMethodThirdCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodThirdName != null">
+                #{resolveMethodThirdName,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodState != null">
+                #{resolveMethodState,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodStateName != null">
+                #{resolveMethodStateName,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodStatePosition != null">
+                #{resolveMethodStatePosition,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodStateCompany != null">
+                #{resolveMethodStateCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodStateOther != null">
+                #{resolveMethodStateOther,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodCity != null">
+                #{resolveMethodCity,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodCityLeader != null">
+                #{resolveMethodCityLeader,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodCityLeaderName != null">
+                #{resolveMethodCityLeaderName,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodCityLeaderPosition != null">
+                #{resolveMethodCityLeaderPosition,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodCityMeeting != null">
+                #{resolveMethodCityMeeting,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodCityMeetingContent != null">
+                #{resolveMethodCityMeetingContent,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodCitySeparate != null">
+                #{resolveMethodCitySeparate,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodCitySeparateContent != null">
+                #{resolveMethodCitySeparateContent,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodCityOther != null">
+                #{resolveMethodCityOther,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodCityOtherContent != null">
+                #{resolveMethodCityOtherContent,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveForm != null">
+                #{resolveForm,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveFormOtherContent != null">
+                #{resolveFormOtherContent,jdbcType=VARCHAR},
+            </if>
+            <if test="insertOn != null">
+                #{insertOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="insertBy != null">
+                #{insertBy,jdbcType=BIGINT},
+            </if>
+            <if test="updateOn != null">
+                #{updateOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=BIGINT},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=BIT},
+            </if>
+            <if test="deleteOn != null">
+                #{deleteOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteBy != null">
+                #{deleteBy,jdbcType=BIGINT},
+            </if>
+            <if test="remarks != null">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.petition.PetitionContradiction">
+        update petition_contradiction
+        <set>
+            <if test="contradictionType != null">
+                contradiction_type = #{contradictionType,jdbcType=VARCHAR},
+            </if>
+            <if test="applyName != null">
+                apply_name = #{applyName,jdbcType=VARCHAR},
+            </if>
+            <if test="applySex != null">
+                apply_sex = #{applySex,jdbcType=VARCHAR},
+            </if>
+            <if test="applyBirth != null">
+                apply_birth = #{applyBirth,jdbcType=VARCHAR},
+            </if>
+            <if test="applyIdCard != null">
+                apply_id_card = #{applyIdCard,jdbcType=VARCHAR},
+            </if>
+            <if test="applyPoliceStation != null">
+                apply_police_station = #{applyPoliceStation,jdbcType=VARCHAR},
+            </if>
+            <if test="applyPoliticalStatus != null">
+                apply_political_status = #{applyPoliticalStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="petitionType != null">
+                petition_type = #{petitionType,jdbcType=VARCHAR},
+            </if>
+            <if test="purposeType != null">
+                purpose_type = #{purposeType,jdbcType=VARCHAR},
+            </if>
+            <if test="checkType != null">
+                check_type = #{checkType,jdbcType=VARCHAR},
+            </if>
+            <if test="applyAddress != null">
+                apply_address = #{applyAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="applyStreet != null">
+                apply_street = #{applyStreet,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleCompany != null">
+                responsible_company = #{responsibleCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleContactName != null">
+                responsible_contact_name = #{responsibleContactName,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleContactTelephone != null">
+                responsible_contact_telephone = #{responsibleContactTelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="enterBeijingState != null">
+                enter_beijing_state = #{enterBeijingState,jdbcType=VARCHAR},
+            </if>
+            <if test="teamPetitionState != null">
+                team_petition_state = #{teamPetitionState,jdbcType=VARCHAR},
+            </if>
+            <if test="teamPetitionCount != null">
+                team_petition_count = #{teamPetitionCount,jdbcType=VARCHAR},
+            </if>
+            <if test="firstPetitionTime != null">
+                first_petition_time = #{firstPetitionTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastPetitionTime != null">
+                last_petition_time = #{lastPetitionTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="resolveLevel != null">
+                resolve_level = #{resolveLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodSelf != null">
+                resolve_method_self = #{resolveMethodSelf,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodSelfName != null">
+                resolve_method_self_name = #{resolveMethodSelfName,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodSelfPosition != null">
+                resolve_method_self_position = #{resolveMethodSelfPosition,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodThird != null">
+                resolve_method_third = #{resolveMethodThird,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodThirdCompany != null">
+                resolve_method_third_company = #{resolveMethodThirdCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodThirdName != null">
+                resolve_method_third_name = #{resolveMethodThirdName,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodState != null">
+                resolve_method_state = #{resolveMethodState,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodStateName != null">
+                resolve_method_state_name = #{resolveMethodStateName,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodStatePosition != null">
+                resolve_method_state_position = #{resolveMethodStatePosition,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodStateCompany != null">
+                resolve_method_state_company = #{resolveMethodStateCompany,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodStateOther != null">
+                resolve_method_state_other = #{resolveMethodStateOther,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodCity != null">
+                resolve_method_city = #{resolveMethodCity,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodCityLeader != null">
+                resolve_method_city_leader = #{resolveMethodCityLeader,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodCityLeaderName != null">
+                resolve_method_city_leader_name = #{resolveMethodCityLeaderName,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodCityLeaderPosition != null">
+                resolve_method_city_leader_position = #{resolveMethodCityLeaderPosition,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodCityMeeting != null">
+                resolve_method_city_meeting = #{resolveMethodCityMeeting,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodCityMeetingContent != null">
+                resolve_method_city_meeting_content = #{resolveMethodCityMeetingContent,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodCitySeparate != null">
+                resolve_method_city_separate = #{resolveMethodCitySeparate,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodCitySeparateContent != null">
+                resolve_method_city_separate_content = #{resolveMethodCitySeparateContent,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveMethodCityOther != null">
+                resolve_method_city_other = #{resolveMethodCityOther,jdbcType=BIT},
+            </if>
+            <if test="resolveMethodCityOtherContent != null">
+                resolve_method_city_other_content = #{resolveMethodCityOtherContent,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveForm != null">
+                resolve_form = #{resolveForm,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveFormOtherContent != null">
+                resolve_form_other_content = #{resolveFormOtherContent,jdbcType=VARCHAR},
+            </if>
+            <if test="insertOn != null">
+                insert_on = #{insertOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="insertBy != null">
+                insert_by = #{insertBy,jdbcType=BIGINT},
+            </if>
+            <if test="updateOn != null">
+                update_on = #{updateOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=BIT},
+            </if>
+            <if test="deleteOn != null">
+                delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteBy != null">
+                delete_by = #{deleteBy,jdbcType=BIGINT},
+            </if>
+            <if test="remarks != null">
+                remarks = #{remarks,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.petition.PetitionContradiction">
+        update petition_contradiction
+        set contradiction_type                   = #{contradictionType,jdbcType=VARCHAR},
+            apply_name                           = #{applyName,jdbcType=VARCHAR},
+            apply_sex                            = #{applySex,jdbcType=VARCHAR},
+            apply_birth                          = #{applyBirth,jdbcType=VARCHAR},
+            apply_id_card                        = #{applyIdCard,jdbcType=VARCHAR},
+            apply_police_station                 = #{applyPoliceStation,jdbcType=VARCHAR},
+            apply_political_status               = #{applyPoliticalStatus,jdbcType=VARCHAR},
+            petition_type                        = #{petitionType,jdbcType=VARCHAR},
+            purpose_type                         = #{purposeType,jdbcType=VARCHAR},
+            check_type                           = #{checkType,jdbcType=VARCHAR},
+            apply_address                        = #{applyAddress,jdbcType=VARCHAR},
+            apply_street                         = #{applyStreet,jdbcType=VARCHAR},
+            responsible_company                  = #{responsibleCompany,jdbcType=VARCHAR},
+            responsible_contact_name             = #{responsibleContactName,jdbcType=VARCHAR},
+            responsible_contact_telephone        = #{responsibleContactTelephone,jdbcType=VARCHAR},
+            enter_beijing_state                  = #{enterBeijingState,jdbcType=VARCHAR},
+            team_petition_state                  = #{teamPetitionState,jdbcType=VARCHAR},
+            team_petition_count                  = #{teamPetitionCount,jdbcType=VARCHAR},
+            first_petition_time                  = #{firstPetitionTime,jdbcType=TIMESTAMP},
+            last_petition_time                   = #{lastPetitionTime,jdbcType=TIMESTAMP},
+            resolve_level                        = #{resolveLevel,jdbcType=VARCHAR},
+            resolve_method_self                  = #{resolveMethodSelf,jdbcType=BIT},
+            resolve_method_self_name             = #{resolveMethodSelfName,jdbcType=VARCHAR},
+            resolve_method_self_position         = #{resolveMethodSelfPosition,jdbcType=VARCHAR},
+            resolve_method_third                 = #{resolveMethodThird,jdbcType=BIT},
+            resolve_method_third_company         = #{resolveMethodThirdCompany,jdbcType=VARCHAR},
+            resolve_method_third_name            = #{resolveMethodThirdName,jdbcType=VARCHAR},
+            resolve_method_state                 = #{resolveMethodState,jdbcType=BIT},
+            resolve_method_state_name            = #{resolveMethodStateName,jdbcType=VARCHAR},
+            resolve_method_state_position        = #{resolveMethodStatePosition,jdbcType=VARCHAR},
+            resolve_method_state_company         = #{resolveMethodStateCompany,jdbcType=VARCHAR},
+            resolve_method_state_other           = #{resolveMethodStateOther,jdbcType=VARCHAR},
+            resolve_method_city                  = #{resolveMethodCity,jdbcType=BIT},
+            resolve_method_city_leader           = #{resolveMethodCityLeader,jdbcType=BIT},
+            resolve_method_city_leader_name      = #{resolveMethodCityLeaderName,jdbcType=VARCHAR},
+            resolve_method_city_leader_position  = #{resolveMethodCityLeaderPosition,jdbcType=VARCHAR},
+            resolve_method_city_meeting          = #{resolveMethodCityMeeting,jdbcType=BIT},
+            resolve_method_city_meeting_content  = #{resolveMethodCityMeetingContent,jdbcType=VARCHAR},
+            resolve_method_city_separate         = #{resolveMethodCitySeparate,jdbcType=BIT},
+            resolve_method_city_separate_content = #{resolveMethodCitySeparateContent,jdbcType=VARCHAR},
+            resolve_method_city_other            = #{resolveMethodCityOther,jdbcType=BIT},
+            resolve_method_city_other_content    = #{resolveMethodCityOtherContent,jdbcType=VARCHAR},
+            resolve_form                         = #{resolveForm,jdbcType=VARCHAR},
+            resolve_form_other_content           = #{resolveFormOtherContent,jdbcType=VARCHAR},
+            insert_on                            = #{insertOn,jdbcType=TIMESTAMP},
+            insert_by                            = #{insertBy,jdbcType=BIGINT},
+            update_on                            = #{updateOn,jdbcType=TIMESTAMP},
+            update_by                            = #{updateBy,jdbcType=BIGINT},
+            delete_flag                          = #{deleteFlag,jdbcType=BIT},
+            delete_on                            = #{deleteOn,jdbcType=TIMESTAMP},
+            delete_by                            = #{deleteBy,jdbcType=BIGINT},
+            remarks                              = #{remarks,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="getList" resultMap="PetitionContradictionResultMap">
+        SELECT
+        <include refid="Result_Column_List"/>
+        FROM petition_contradiction
+        WHERE
+        delete_flag=0
+        <if test="queryParam.id!=null">
+            AND id = #{queryParam.id,jdbcType=BIGINT}
+        </if>
+        <if test="queryParam.contradictionType!=null">
+            AND contradiction_type = #{queryParam.contradictionType,jdbcType=VARCHAR}
+        </if>
+        <if test="queryParam.applyName!=null">
+            AND apply_name LIKE concat("%", #{queryParam.applyName}, "%")
+        </if>
+        <if test="queryParam.checkType!=null">
+            AND check_type = #{queryParam.checkType,jdbcType=VARCHAR}
+        </if>
+        <if test="queryParam.responsibleCompany!=null">
+            AND responsible_company = #{queryParam.responsibleCompany,jdbcType=VARCHAR}
+        </if>
+        ORDER BY insert_on
+    </select>
+
+</mapper>

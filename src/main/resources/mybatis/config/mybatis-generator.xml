@@ -45,35 +45,59 @@
         </javaClientGenerator>
 
         <!-- 需要生成的实体类对应的表名，多个实体类复制多份该配置即可 -->
-        <table tableName="sys_role" domainObjectName="sys.SysRole"
+        <table tableName="petition_troubleshoot" domainObjectName="petition.PetitionTroubleshoot"
+            enableCountByExample="false" enableUpdateByExample="false"
+            enableDeleteByExample="false"
+            selectByExampleQueryId="false"
+            enableSelectByExample="false">
+        </table>
+        <table tableName="petition_contradiction_resolve_process" domainObjectName="petition.PetitionContradictionResolveProcess"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="false"
+               enableSelectByExample="false">
         </table>
+        <table tableName="petition_contradiction_content" domainObjectName="petition.PetitionContradictionContent"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               selectByExampleQueryId="false"
+               enableSelectByExample="false">
+        </table>
+        <!--<table tableName="petition_contradiction" domainObjectName="petition.PetitionContradiction"-->
+        <!--enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--enableDeleteByExample="false"-->
+        <!--selectByExampleQueryId="false"-->
+        <!--enableSelectByExample="false">-->
+        <!--</table>-->
+        <!--<table tableName="sys_role" domainObjectName="sys.SysRole"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
-        <table tableName="sys_permission" domainObjectName="sys.SysPermission"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="sys_permission" domainObjectName="sys.SysPermission"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
-        <table tableName="sys_role_permission_relation" domainObjectName="sys.SysRolePermissionRelation"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="sys_role_permission_relation" domainObjectName="sys.SysRolePermissionRelation"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
-        <table tableName="sys_user" domainObjectName="sys.SysUser"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="sys_user" domainObjectName="sys.SysUser"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
-        <table tableName="sys_user_role_relation" domainObjectName="sys.SysUserRoleRelation"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="sys_user_role_relation" domainObjectName="sys.SysUserRoleRelation"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
     </context>
 </generatorConfiguration>

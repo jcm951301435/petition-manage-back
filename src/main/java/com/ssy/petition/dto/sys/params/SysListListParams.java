@@ -2,11 +2,21 @@ package com.ssy.petition.dto.sys.params;
 
 public class SysListListParams {
 
+    private String listType;
+
     private String listName;
 
     private String listKey;
 
     private String listValue;
+
+    public String getListType() {
+        return listType;
+    }
+
+    public void setListType(String listType) {
+        this.listType = listType;
+    }
 
     public String getListName() {
         return listName;

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssy.petition.dao.petition.PetitionTroubleshootMapper">
+  <resultMap id="BaseResultMap" type="com.ssy.petition.entity.petition.PetitionTroubleshoot">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="company_id" jdbcType="BIGINT" property="companyId" />
+    <result column="team_petition_state" jdbcType="VARCHAR" property="teamPetitionState" />
+    <result column="contradiction_level" jdbcType="VARCHAR" property="contradictionLevel" />
+    <result column="team_petition_count" jdbcType="INTEGER" property="teamPetitionCount" />
+    <result column="responsible_company" jdbcType="VARCHAR" property="responsibleCompany" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="contradiction_type" jdbcType="VARCHAR" property="contradictionType" />
+    <result column="resolve_process" jdbcType="VARCHAR" property="resolveProcess" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn" />
+    <result column="insert_by" jdbcType="BIGINT" property="insertBy" />
+    <result column="update_on" jdbcType="TIMESTAMP" property="updateOn" />
+    <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn" />
+    <result column="delete_by" jdbcType="BIGINT" property="deleteBy" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+
+  <resultMap id="PetitionTroubleshootResultMap" type="com.ssy.petition.dto.petition.result.PetitionTroubleshootResult">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="company_id" jdbcType="BIGINT" property="companyId" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="team_petition_state" jdbcType="VARCHAR" property="teamPetitionState" />
+    <result column="contradiction_level" jdbcType="VARCHAR" property="contradictionLevel" />
+    <result column="team_petition_count" jdbcType="INTEGER" property="teamPetitionCount" />
+    <result column="responsible_company" jdbcType="VARCHAR" property="responsibleCompany" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="contradiction_type" jdbcType="VARCHAR" property="contradictionType" />
+    <result column="resolve_process" jdbcType="VARCHAR" property="resolveProcess" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn" />
+    <result column="insert_by" jdbcType="BIGINT" property="insertBy" />
+    <result column="insert_by_name" jdbcType="VARCHAR" property="insertByName"/>
+    <result column="update_on" jdbcType="TIMESTAMP" property="updateOn" />
+    <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn" />
+    <result column="delete_by" jdbcType="BIGINT" property="deleteBy" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, company_id, team_petition_state, contradiction_level, team_petition_count, responsible_company, 
+    content, contradiction_type, resolve_process, status, insert_on, insert_by, update_on, 
+    update_by, delete_flag, delete_on, delete_by, remarks
+  </sql>
+
+  <sql id="Result_Column_List">
+    id, company_id, team_petition_state, contradiction_level, team_petition_count, responsible_company,
+    FT_getUsernameById(insert_by) as insert_by_name,
+    FT_getCompanynameById(company_id) as company_name,
+    content, contradiction_type, resolve_process, status, insert_on, insert_by, update_on,
+    update_by, delete_flag, delete_on, delete_by, remarks
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from petition_troubleshoot
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from petition_troubleshoot
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ssy.petition.entity.petition.PetitionTroubleshoot">
+    insert into petition_troubleshoot (id, company_id, team_petition_state, 
+      contradiction_level, team_petition_count, 
+      responsible_company, content, contradiction_type, 
+      resolve_process, status, insert_on, 
+      insert_by, update_on, update_by, 
+      delete_flag, delete_on, delete_by, 
+      remarks)
+    values (#{id,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{teamPetitionState,jdbcType=VARCHAR}, 
+      #{contradictionLevel,jdbcType=VARCHAR}, #{teamPetitionCount,jdbcType=INTEGER}, 
+      #{responsibleCompany,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{contradictionType,jdbcType=VARCHAR}, 
+      #{resolveProcess,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{insertOn,jdbcType=TIMESTAMP}, 
+      #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, 
+      #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssy.petition.entity.petition.PetitionTroubleshoot">
+    insert into petition_troubleshoot
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="teamPetitionState != null">
+        team_petition_state,
+      </if>
+      <if test="contradictionLevel != null">
+        contradiction_level,
+      </if>
+      <if test="teamPetitionCount != null">
+        team_petition_count,
+      </if>
+      <if test="responsibleCompany != null">
+        responsible_company,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="contradictionType != null">
+        contradiction_type,
+      </if>
+      <if test="resolveProcess != null">
+        resolve_process,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="insertOn != null">
+        insert_on,
+      </if>
+      <if test="insertBy != null">
+        insert_by,
+      </if>
+      <if test="updateOn != null">
+        update_on,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="deleteOn != null">
+        delete_on,
+      </if>
+      <if test="deleteBy != null">
+        delete_by,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="teamPetitionState != null">
+        #{teamPetitionState,jdbcType=VARCHAR},
+      </if>
+      <if test="contradictionLevel != null">
+        #{contradictionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="teamPetitionCount != null">
+        #{teamPetitionCount,jdbcType=INTEGER},
+      </if>
+      <if test="responsibleCompany != null">
+        #{responsibleCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="contradictionType != null">
+        #{contradictionType,jdbcType=VARCHAR},
+      </if>
+      <if test="resolveProcess != null">
+        #{resolveProcess,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="insertOn != null">
+        #{insertOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertBy != null">
+        #{insertBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateOn != null">
+        #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteOn != null">
+        #{deleteOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteBy != null">
+        #{deleteBy,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.petition.PetitionTroubleshoot">
+    update petition_troubleshoot
+    <set>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="teamPetitionState != null">
+        team_petition_state = #{teamPetitionState,jdbcType=VARCHAR},
+      </if>
+      <if test="contradictionLevel != null">
+        contradiction_level = #{contradictionLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="teamPetitionCount != null">
+        team_petition_count = #{teamPetitionCount,jdbcType=INTEGER},
+      </if>
+      <if test="responsibleCompany != null">
+        responsible_company = #{responsibleCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="contradictionType != null">
+        contradiction_type = #{contradictionType,jdbcType=VARCHAR},
+      </if>
+      <if test="resolveProcess != null">
+        resolve_process = #{resolveProcess,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="insertOn != null">
+        insert_on = #{insertOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertBy != null">
+        insert_by = #{insertBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateOn != null">
+        update_on = #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteOn != null">
+        delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteBy != null">
+        delete_by = #{deleteBy,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.petition.PetitionTroubleshoot">
+    update petition_troubleshoot
+    set company_id = #{companyId,jdbcType=BIGINT},
+      team_petition_state = #{teamPetitionState,jdbcType=VARCHAR},
+      contradiction_level = #{contradictionLevel,jdbcType=VARCHAR},
+      team_petition_count = #{teamPetitionCount,jdbcType=INTEGER},
+      responsible_company = #{responsibleCompany,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      contradiction_type = #{contradictionType,jdbcType=VARCHAR},
+      resolve_process = #{resolveProcess,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      insert_on = #{insertOn,jdbcType=TIMESTAMP},
+      insert_by = #{insertBy,jdbcType=BIGINT},
+      update_on = #{updateOn,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+      delete_by = #{deleteBy,jdbcType=BIGINT},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getList" resultMap="PetitionTroubleshootResultMap">
+    SELECT
+    <include refid="Result_Column_List"/>
+    FROM petition_troubleshoot
+    WHERE
+    delete_flag=0
+    <if test="queryParam.companyName!=null">
+      AND FT_getCompanynameById(company_id) LIKE concat("%", #{queryParam.companyName}, "%")
+    </if>
+    <if test="queryParam.status!=null">
+      AND status LIKE concat("%", #{queryParam.status}, "%")
+    </if>
+    <if test="queryParam.contradictionLevel!=null">
+      AND contradiction_level LIKE concat("%", #{queryParam.contradictionLevel}, "%")
+    </if>
+    ORDER BY insert_on
+  </select>
+
+</mapper>

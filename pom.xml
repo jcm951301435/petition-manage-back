@@ -110,40 +110,40 @@
                     <executable>true</executable>
                 </configuration>
             </plugin>
-            <!--<plugin>
-                <groupId>org.mybatis.generator</groupId>-->
-                <!--<artifactId>mybatis-generator-maven-plugin</artifactId>-->
-                <!--<version>1.4.0</version>-->
-                <!--<configuration>-->
-                    <!--&lt;!&ndash;配置文件的位置&ndash;&gt;-->
-                    <!--<configurationFile>src/main/resources/mybatis/config/mybatis-generator.xml</configurationFile>-->
-                    <!--<verbose>true</verbose>-->
-                    <!--<overwrite>true</overwrite>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>Generate MyBatis Artifacts</id>-->
-                        <!--<goals>-->
-                            <!--<goal>generate</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<dependencies>-->
-                    <!--<dependency>-->
-                        <!--<groupId>org.mybatis.generator</groupId>-->
-                        <!--<artifactId>mybatis-generator-core</artifactId>-->
-                        <!--<version>1.4.0</version>-->
-                    <!--</dependency>-->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <!--配置文件的位置-->
+                    <configurationFile>src/main/resources/mybatis/config/mybatis-generator.xml</configurationFile>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>Generate MyBatis Artifacts</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>1.4.0</version>
+                    </dependency>
 
-                    <!--<dependency>-->
-                        <!--<groupId>com.ssy.petition.entity.BaseEntity</groupId>-->
-                        <!--<artifactId>petition-manage</artifactId>-->
-                        <!--<version>0.0.1-SNAPSHOT</version>-->
-                        <!--<scope>system</scope>-->
-                        <!--<systemPath>${project.basedir}/src/main/resources/lib/base-entity.jar</systemPath>-->
-                    <!--</dependency>-->
-                <!--</dependencies>-->
-            <!--</plugin>-->
+                    <dependency>
+                        <groupId>com.ssy.petition.entity.BaseEntity</groupId>
+                        <artifactId>petition-manage</artifactId>
+                        <version>0.0.1-SNAPSHOT</version>
+                        <scope>system</scope>
+                        <systemPath>${project.basedir}/src/main/resources/lib/base-entity.jar</systemPath>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 
