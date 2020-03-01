@@ -16,7 +16,7 @@ public interface PetitionContradictionService {
 
     List<PetitionContradictionResult> list(PetitionContradictionParams params, Integer pageNum, Integer pageSize);
 
-    int create(PetitionContradictionEditParams params);
+    Long create(PetitionContradictionEditParams params);
 
     int update(PetitionContradictionEditParams params);
 

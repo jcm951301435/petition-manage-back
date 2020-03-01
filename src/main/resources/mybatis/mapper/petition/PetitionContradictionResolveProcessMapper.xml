@@ -174,4 +174,11 @@
       remarks = #{remarks,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="getListByContradictionId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM petition_contradiction_resolve_process
+    WHERE
+    contradiction_id = #{id,jdbcType=BIGINT}
+  </select>
 </mapper>

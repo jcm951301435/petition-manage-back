@@ -45,24 +45,24 @@
         </javaClientGenerator>
 
         <!-- 需要生成的实体类对应的表名，多个实体类复制多份该配置即可 -->
-        <table tableName="petition_troubleshoot" domainObjectName="petition.PetitionTroubleshoot"
-            enableCountByExample="false" enableUpdateByExample="false"
-            enableDeleteByExample="false"
-            selectByExampleQueryId="false"
-            enableSelectByExample="false">
-        </table>
-        <table tableName="petition_contradiction_resolve_process" domainObjectName="petition.PetitionContradictionResolveProcess"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               selectByExampleQueryId="false"
-               enableSelectByExample="false">
-        </table>
-        <table tableName="petition_contradiction_content" domainObjectName="petition.PetitionContradictionContent"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               selectByExampleQueryId="false"
-               enableSelectByExample="false">
-        </table>
+        <!--<table tableName="sys_file" domainObjectName="sys.SysFile"-->
+            <!--enableCountByExample="false" enableUpdateByExample="false"-->
+            <!--enableDeleteByExample="false"-->
+            <!--selectByExampleQueryId="false"-->
+            <!--enableSelectByExample="false">-->
+        <!--</table>-->
+        <!--<table tableName="petition_contradiction_resolve_process" domainObjectName="petition.PetitionContradictionResolveProcess"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--selectByExampleQueryId="false"-->
+               <!--enableSelectByExample="false">-->
+        <!--</table>-->
+        <!--<table tableName="petition_contradiction_content" domainObjectName="petition.PetitionContradictionContent"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--selectByExampleQueryId="false"-->
+               <!--enableSelectByExample="false">-->
+        <!--</table>-->
         <!--<table tableName="petition_contradiction" domainObjectName="petition.PetitionContradiction"-->
         <!--enableCountByExample="false" enableUpdateByExample="false"-->
         <!--enableDeleteByExample="false"-->

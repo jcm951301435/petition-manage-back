@@ -1,6 +1,9 @@
 package com.ssy.petition.dto.petition.params;
 
 import com.ssy.petition.entity.petition.PetitionContradiction;
+import com.ssy.petition.entity.petition.PetitionContradictionContent;
+import com.ssy.petition.entity.petition.PetitionContradictionResolveProcess;
+import com.ssy.petition.entity.sys.SysFile;
 import com.ssy.petition.util.CollectionUtils;
 
 import java.util.List;
@@ -14,6 +17,12 @@ public class PetitionContradictionEditParams extends PetitionContradiction {
     private List<String> resolveForms;
 
     private Long companyId;
+
+    private List<PetitionContradictionContent> contradictionContent;
+
+    private List<PetitionContradictionResolveProcess> contradictionResolveProcess;
+
+    private List<SysFile> fileList;
 
     private static final long serialVersionUID = 1L;
 
@@ -47,6 +56,30 @@ public class PetitionContradictionEditParams extends PetitionContradiction {
 
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
+    }
+
+    public List<PetitionContradictionContent> getContradictionContent() {
+        return contradictionContent;
+    }
+
+    public void setContradictionContent(List<PetitionContradictionContent> contradictionContent) {
+        this.contradictionContent = contradictionContent;
+    }
+
+    public List<PetitionContradictionResolveProcess> getContradictionResolveProcess() {
+        return contradictionResolveProcess;
+    }
+
+    public void setContradictionResolveProcess(List<PetitionContradictionResolveProcess> contradictionResolveProcess) {
+        this.contradictionResolveProcess = contradictionResolveProcess;
+    }
+
+    public List<SysFile> getFileList() {
+        return fileList;
+    }
+
+    public void setFileList(List<SysFile> fileList) {
+        this.fileList = fileList;
     }
 
     public PetitionContradiction toParams() {

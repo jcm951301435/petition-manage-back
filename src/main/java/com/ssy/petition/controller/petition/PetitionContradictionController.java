@@ -43,11 +43,11 @@ public class PetitionContradictionController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('contradiction:add')")
     public CommonResult create(@RequestBody PetitionContradictionEditParams params) {
-        int result = service.create(params);
-        if (result == 1) {
-            return CommonResult.success("添加成功");
+        Long id = service.create(params);
+        if (id == null) {
+            return CommonResult.failed("添加失败，请联系管理员");
         }
-        return CommonResult.failed("添加失败，请联系管理员");
+        return CommonResult.success(id, "添加成功");
     }
 
     @ApiOperation("修改信访")

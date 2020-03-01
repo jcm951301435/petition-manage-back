@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssy.petition.dao.petition.PetitionContradictionContentMapper">
-  <resultMap id="BaseResultMap" type="com.ssy.petition.entity.petition.PetitionContradictionContent">
+<mapper namespace="com.ssy.petition.dao.sys.SysFileMapper">
+  <resultMap id="BaseResultMap" type="com.ssy.petition.entity.sys.SysFile">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="contradiction_id" jdbcType="BIGINT" property="contradictionId" />
-    <result column="contradiction_content" jdbcType="VARCHAR" property="contradictionContent" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_old_name" jdbcType="VARCHAR" property="fileOldName" />
     <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn" />
     <result column="insert_by" jdbcType="BIGINT" property="insertBy" />
     <result column="update_on" jdbcType="TIMESTAMP" property="updateOn" />
@@ -15,31 +17,34 @@
     <result column="remarks" jdbcType="VARCHAR" property="remarks" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, contradiction_id, contradiction_content, insert_on, insert_by, update_on, update_by, 
+    id, contradiction_id, file_old_name, file_path, file_name, insert_on, insert_by, update_on, update_by,
     delete_flag, delete_on, delete_by, remarks
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from petition_contradiction_content
+    from sys_file
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from petition_contradiction_content
+    delete from sys_file
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.ssy.petition.entity.petition.PetitionContradictionContent">
-    insert into petition_contradiction_content (id, contradiction_id, contradiction_content, 
-      insert_on, insert_by, update_on, 
-      update_by, delete_flag, delete_on, 
-      delete_by, remarks)
-    values (#{id,jdbcType=BIGINT}, #{contradictionId,jdbcType=BIGINT}, #{contradictionContent,jdbcType=VARCHAR}, 
-      #{insertOn,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP}, 
-      #{updateBy,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP}, 
-      #{deleteBy,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.ssy.petition.entity.sys.SysFile">
+    insert into sys_file (id, contradiction_id, file_path, file_old_name,
+      file_name, insert_on, insert_by, 
+      update_on, update_by, delete_flag, 
+      delete_on, delete_by, remarks
+      )
+    values (#{id,jdbcType=BIGINT}, #{contradictionId,jdbcType=BIGINT}, #{filePath,jdbcType=VARCHAR},
+            #{fileOldName,jdbcType=VARCHAR},
+      #{fileName,jdbcType=VARCHAR}, #{insertOn,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=BIGINT}, 
+      #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT}, 
+      #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.ssy.petition.entity.petition.PetitionContradictionContent">
-    insert into petition_contradiction_content
+  <insert id="insertSelective" parameterType="com.ssy.petition.entity.sys.SysFile">
+    insert into sys_file
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -47,8 +52,14 @@
       <if test="contradictionId != null">
         contradiction_id,
       </if>
-      <if test="contradictionContent != null">
-        contradiction_content,
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="fileOldName != null">
+        file_old_name,
+      </if>
+      <if test="fileName != null">
+        file_name,
       </if>
       <if test="insertOn != null">
         insert_on,
@@ -82,8 +93,14 @@
       <if test="contradictionId != null">
         #{contradictionId,jdbcType=BIGINT},
       </if>
-      <if test="contradictionContent != null">
-        #{contradictionContent,jdbcType=VARCHAR},
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileOldName != null">
+        #{fileOldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
       </if>
       <if test="insertOn != null">
         #{insertOn,jdbcType=TIMESTAMP},
@@ -111,14 +128,20 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.petition.PetitionContradictionContent">
-    update petition_contradiction_content
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.sys.SysFile">
+    update sys_file
     <set>
       <if test="contradictionId != null">
         contradiction_id = #{contradictionId,jdbcType=BIGINT},
       </if>
-      <if test="contradictionContent != null">
-        contradiction_content = #{contradictionContent,jdbcType=VARCHAR},
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileOldName != null">
+        file_old_name=#{fileOldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
       </if>
       <if test="insertOn != null">
         insert_on = #{insertOn,jdbcType=TIMESTAMP},
@@ -147,10 +170,12 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.petition.PetitionContradictionContent">
-    update petition_contradiction_content
+  <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.sys.SysFile">
+    update sys_file
     set contradiction_id = #{contradictionId,jdbcType=BIGINT},
-      contradiction_content = #{contradictionContent,jdbcType=VARCHAR},
+    file_path = #{filePath,jdbcType=VARCHAR},
+    file_old_name = #{fileOldName,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR},
       insert_on = #{insertOn,jdbcType=TIMESTAMP},
       insert_by = #{insertBy,jdbcType=BIGINT},
       update_on = #{updateOn,jdbcType=TIMESTAMP},
@@ -162,10 +187,9 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="getListByContradictionId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    SELECT
-    <include refid="Base_Column_List"/>
-    FROM petition_contradiction_content
-    WHERE
-    contradiction_id = #{id,jdbcType=BIGINT}
+    select
+    <include refid="Base_Column_List" />
+    from sys_file
+    where contradiction_id = #{id,jdbcType=BIGINT}
   </select>
 </mapper>

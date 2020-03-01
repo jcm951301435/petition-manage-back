@@ -36,7 +36,13 @@ public class WebConfig {
         }
     }
 
-
+    //@Bean
+    //public MultipartConfigElement multipartConfigElement() {
+    //    MultipartConfigFactory factory = new MultipartConfigFactory();
+    //    factory.setMaxFileSize(DataSize.ofGigabytes(1));
+    //    factory.setMaxRequestSize(DataSize.ofMegabytes(100));
+    //    return factory.createMultipartConfig();
+    //}
 
     @Bean
     public LoginFilter loginFilter() {

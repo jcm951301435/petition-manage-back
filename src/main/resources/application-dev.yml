@@ -19,6 +19,9 @@ spring:
         login-password: admin
         enabled: true
         url-pattern: /druid/*
+  servlet:
+    multipart:
+      max-file-size: 1024MB
 
 logging:
   file:
@@ -31,3 +34,7 @@ logging:
     org:
       springframework:
         security: debug
+
+file:
+  upload:
+    path: E:\tomcat\file\
