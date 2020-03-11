@@ -19,12 +19,22 @@ spring:
         login-password: admin
         enabled: true
         url-pattern: /druid/*
+  servlet:
+    multipart:
+      max-file-size: 1024MB
 
 logging:
   file:
     path: /var/logs #配置日志生成路径
   level:
     com:
-      java:
-        petitionmanage:
+      ssy:
+        petition:
           dao: debug
+    org:
+      springframework:
+        security: debug
+
+file:
+  upload:
+    path: C:\tomcat\file\

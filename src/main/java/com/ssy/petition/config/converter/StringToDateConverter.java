@@ -4,6 +4,7 @@ package com.ssy.petition.config.converter;
 import com.ssy.petition.util.StringUtils;
 import org.springframework.core.convert.converter.Converter;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import static com.ssy.petition.util.DateUtils.parseDateAuto;
@@ -19,7 +20,12 @@ public class StringToDateConverter implements Converter<String, Date> {
             return null;
         }
         source = source.trim();
-        return parseDateAuto(source);
+        try {
+            return parseDateAuto(source);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

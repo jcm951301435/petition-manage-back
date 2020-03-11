@@ -12,12 +12,16 @@ import com.ssy.petition.entity.petition.PetitionContradiction;
 import com.ssy.petition.entity.petition.PetitionContradictionContent;
 import com.ssy.petition.entity.petition.PetitionContradictionResolveProcess;
 import com.ssy.petition.entity.sys.SysFile;
+import com.ssy.petition.service.petition.PetitionCompanyService;
 import com.ssy.petition.service.petition.PetitionContradictionService;
+import com.ssy.petition.util.DateUtils;
 import com.ssy.petition.util.EntityUtils;
+import com.ssy.petition.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,15 +35,19 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
 
     private final SysFileMapper sysFileMapper;
 
+    private final PetitionCompanyService companyService;
+
     @Autowired
     public PetitionContradictionServiceImpl(PetitionContradictionMapper mapper,
                                             PetitionContradictionContentMapper contradictionContentMapper,
                                             PetitionContradictionResolveProcessMapper resolveProcessMapper,
-                                            SysFileMapper sysFileMapper) {
+                                            SysFileMapper sysFileMapper,
+                                            PetitionCompanyService companyService) {
         this.mapper = mapper;
         this.contradictionContentMapper = contradictionContentMapper;
         this.resolveProcessMapper = resolveProcessMapper;
         this.sysFileMapper = sysFileMapper;
+        this.companyService = companyService;
     }
 
     @Override
@@ -61,6 +69,11 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
             newResult.setFileList(sysFiles);
         }
         return resultList;
+    }
+
+    @Override
+    public List<String> applyNameList() {
+        return mapper.getApplyNameList();
     }
 
     @Override
@@ -133,6 +146,76 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
         contradiction.setId(id);
         EntityUtils.initDeleteEntity(contradiction);
         return mapper.updateByPrimaryKeySelective(contradiction);
+    }
+
+    @Override
+    public PetitionContradiction transFromPetitionContradictionResult(PetitionContradictionResult result) {
+        result.setApplySex(getSexValue(result.getApplySexStr()));
+        result.setApplyBirth(getDateValue(result.getApplyBirthStr(), "yyyy-MM"));
+        result.setPetitionType("[" + result.getPetitionTypeStr() + "]");
+        result.setCheckType(getBooleanValue(result.getCheckTypeStr()));
+        String companyName = result.getCompanyName();
+        result.setResponsibleCompany(companyService.getCompanyIdByName(companyName));
+        result.setTeamPetitionState(getBooleanValue(result.getTeamPetitionStateStr()));
+        result.setFirstPetitionTime(getDateValue(result.getFirstPetitionTimeStr(), "yyyy-MM-dd"));
+        result.setLastPetitionTime(getDateValue(result.getLastPetitionTimeStr(), "yyyy-MM-dd"));
+        return result;
+    }
+
+    @Override
+    public int insertResultList(List<PetitionContradictionResult> resultList) {
+        List<PetitionContradiction> list = new ArrayList<>();
+        for (PetitionContradictionResult result : resultList) {
+            PetitionContradiction contradiction = transFromPetitionContradictionResult(result);
+            list.add(contradiction);
+        }
+        return insertList(list);
+    }
+
+    @Override
+    public int insertList(List<PetitionContradiction> list) {
+        List<PetitionContradiction> initList = new ArrayList<>();
+        for (PetitionContradiction troubleshoot : list) {
+            EntityUtils.initInsertEntity(troubleshoot);
+            initList.add(troubleshoot);
+        }
+        return mapper.insertList(initList);
+    }
+
+    private String getSexValue (String str) {
+        if (StringUtils.isNotEmpty(str)) {
+            if (str.equals("男")) {
+                return "1";
+            }
+            if (str.equals("女")) {
+                return "0";
+            }
+            throw new RuntimeException("无法识别值：" + str + "，请输入 男/女");
+        }
+        return null;
+    }
+
+    private Date getDateValue (String dateStr, String format) {
+        Date result;
+        try {
+            result = DateUtils.parseDate(dateStr, format);
+        } catch (Exception e) {
+            throw new RuntimeException("日期格式错误，请输入如下格式：" + format);
+        }
+        return result;
+    }
+
+    private Boolean getBooleanValue (String bool) {
+        if (StringUtils.isEmpty(bool)) {
+            return null;
+        }
+        if (bool.equals("是")) {
+            return true;
+        }
+        if (bool.equals("否")) {
+            return false;
+        }
+        throw new RuntimeException("无法识别值：" + bool + "，请输入 是/否");
     }
 
 }

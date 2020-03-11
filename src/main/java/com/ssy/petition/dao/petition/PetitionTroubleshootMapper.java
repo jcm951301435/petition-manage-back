@@ -14,4 +14,6 @@ public interface PetitionTroubleshootMapper extends BaseMapper<PetitionTroublesh
 
     List<PetitionTroubleshootResult> getList(@Param("queryParam") PetitionTroubleshootParams params);
 
+    int insertList(@Param("list")List<PetitionTroubleshoot> list);
+
 }

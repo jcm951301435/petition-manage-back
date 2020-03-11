@@ -25,6 +25,7 @@ public class WebConfig {
 
     /**
      * 日期格式化
+     * spring boot 默认配置只控制 body/post 方式序列化(jackson) 若使用url传参,此处需做如下配置,转换 string=>date 类型
      */
     @PostConstruct
     public void addConversionConfig() {

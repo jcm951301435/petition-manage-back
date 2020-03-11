@@ -1,6 +1,8 @@
 package com.ssy.petition.entity.petition;
 
+import com.ssy.petition.annotation.ExcelColumn;
 import com.ssy.petition.entity.base.BaseEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,44 +10,56 @@ public class PetitionContradiction extends BaseEntity implements Serializable {
 
     private String contradictionType;
 
+    @ExcelColumn(text = "姓名", colWidth = 12 * 256, sort=1)
     private String applyName;
 
     private String applySex;
 
-    private String applyBirth;
+    private Date applyBirth;
 
+    @ExcelColumn(text = "身份证号", colWidth = 12 * 256, sort=7)
     private String applyIdCard;
 
+    @ExcelColumn(text = "所属派出所", colWidth = 12 * 256, sort=10)
     private String applyPoliceStation;
 
+    @ExcelColumn(text = "政治面貌", colWidth = 12 * 256, sort=5)
     private String applyPoliticalStatus;
 
     private String petitionType;
 
+    @ExcelColumn(text = "目的分类", colWidth = 12 * 256, sort=6)
     private String purposeType;
 
     private Boolean checkType;
 
+    @ExcelColumn(text = "常住地址", colWidth = 12 * 256, sort=8)
     private String applyAddress;
 
+    @ExcelColumn(text = "所属街道", colWidth = 12 * 256, sort=11)
     private String applyStreet;
 
     private Long responsibleCompany;
 
+    @ExcelColumn(text = "单位负责人", colWidth = 12 * 256, sort=13)
     private String responsibleContactName;
 
+    @ExcelColumn(text = "负责人手机号", colWidth = 12 * 256, sort=14)
     private String responsibleContactTelephone;
 
+    @ExcelColumn(text = "近年进京情况", colWidth = 12 * 256, sort=15)
     private String enterBeijingState;
 
     private Boolean teamPetitionState;
 
+    @ExcelColumn(text = "集访人数", colWidth = 12 * 256, sort=17)
     private String teamPetitionCount;
 
     private Date firstPetitionTime;
 
     private Date lastPetitionTime;
 
+    @ExcelColumn(text = "易化解程度", colWidth = 12 * 256, sort=20)
     private String resolveLevel;
 
     private Boolean resolveMethodSelf;
@@ -120,12 +134,12 @@ public class PetitionContradiction extends BaseEntity implements Serializable {
         this.applySex = applySex == null ? null : applySex.trim();
     }
 
-    public String getApplyBirth() {
+    public Date getApplyBirth() {
         return applyBirth;
     }
 
-    public void setApplyBirth(String applyBirth) {
-        this.applyBirth = applyBirth == null ? null : applyBirth.trim();
+    public void setApplyBirth(Date applyBirth) {
+        this.applyBirth = applyBirth;
     }
 
     public String getApplyIdCard() {

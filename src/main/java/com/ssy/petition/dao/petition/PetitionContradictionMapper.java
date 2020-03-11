@@ -14,4 +14,8 @@ public interface PetitionContradictionMapper extends BaseMapper<PetitionContradi
 
     List<PetitionContradictionResult> getList(@Param("queryParam") PetitionContradictionParams params);
 
+    List<String> getApplyNameList();
+
+    int insertList(@Param("list")List<PetitionContradiction> list);
+
 }

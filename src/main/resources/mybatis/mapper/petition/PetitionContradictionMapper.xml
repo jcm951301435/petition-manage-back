@@ -6,7 +6,7 @@
         <result column="contradiction_type" jdbcType="VARCHAR" property="contradictionType"/>
         <result column="apply_name" jdbcType="VARCHAR" property="applyName"/>
         <result column="apply_sex" jdbcType="VARCHAR" property="applySex"/>
-        <result column="apply_birth" jdbcType="VARCHAR" property="applyBirth"/>
+        <result column="apply_birth" jdbcType="TIMESTAMP" property="applyBirth"/>
         <result column="apply_id_card" jdbcType="VARCHAR" property="applyIdCard"/>
         <result column="apply_police_station" jdbcType="VARCHAR" property="applyPoliceStation"/>
         <result column="apply_political_status" jdbcType="VARCHAR" property="applyPoliticalStatus"/>
@@ -62,7 +62,7 @@
         <result column="contradiction_type" jdbcType="VARCHAR" property="contradictionType"/>
         <result column="apply_name" jdbcType="VARCHAR" property="applyName"/>
         <result column="apply_sex" jdbcType="VARCHAR" property="applySex"/>
-        <result column="apply_birth" jdbcType="VARCHAR" property="applyBirth"/>
+        <result column="apply_birth" jdbcType="TIMESTAMP" property="applyBirth"/>
         <result column="apply_id_card" jdbcType="VARCHAR" property="applyIdCard"/>
         <result column="apply_police_station" jdbcType="VARCHAR" property="applyPoliceStation"/>
         <result column="apply_political_status" jdbcType="VARCHAR" property="applyPoliticalStatus"/>
@@ -114,6 +114,10 @@
         <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn"/>
         <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+
+    <resultMap id="ApplyNameMap" type="java.lang.String">
+        <result column="apply_name" jdbcType="VARCHAR" property="applyName"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -205,7 +209,7 @@ insert_on, insert_by, update_on, update_by,
                 #{resolveMethodCityMeetingContent,jdbcType=VARCHAR}, #{resolveMethodCitySeparate,jdbcType=BIT},
                 #{resolveMethodCitySeparateContent,jdbcType=VARCHAR}, #{resolveMethodCityOther,jdbcType=BIT},
                 #{resolveMethodCityOtherContent,jdbcType=VARCHAR}, #{resolveForm,jdbcType=VARCHAR},
-                #{resolveFormOtherContent,jdbcType=VARCHAR},
+                #{resolveFormOtherContent,jdbcType=VARCHAR}, #{insertOn,jdbcType=TIMESTAMP},
                 #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT},
                 #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT},
                 #{remarks,jdbcType=VARCHAR})
@@ -548,7 +552,7 @@ insert_on, insert_by, update_on, update_by,
                 apply_sex = #{applySex,jdbcType=VARCHAR},
             </if>
             <if test="applyBirth != null">
-                apply_birth = #{applyBirth,jdbcType=VARCHAR},
+                apply_birth = #{applyBirth,jdbcType=TIMESTAMP},
             </if>
             <if test="applyIdCard != null">
                 apply_id_card = #{applyIdCard,jdbcType=VARCHAR},
@@ -702,7 +706,7 @@ insert_on, insert_by, update_on, update_by,
         set contradiction_type                   = #{contradictionType,jdbcType=VARCHAR},
             apply_name                           = #{applyName,jdbcType=VARCHAR},
             apply_sex                            = #{applySex,jdbcType=VARCHAR},
-            apply_birth                          = #{applyBirth,jdbcType=VARCHAR},
+            apply_birth                          = #{applyBirth,jdbcType=TIMESTAMP},
             apply_id_card                        = #{applyIdCard,jdbcType=VARCHAR},
             apply_police_station                 = #{applyPoliceStation,jdbcType=VARCHAR},
             apply_political_status               = #{applyPoliticalStatus,jdbcType=VARCHAR},
@@ -777,5 +781,63 @@ insert_on, insert_by, update_on, update_by,
         </if>
         ORDER BY insert_on
     </select>
+
+    <select id="getApplyNameList" resultMap="ApplyNameMap">
+        SELECT DISTINCT apply_name
+        FROM petition_contradiction
+        WHERE
+        ORDER BY apply_name
+    </select>
+
+    <insert id="insertList">
+        insert into petition_contradiction (
+        id, contradiction_type, apply_name,
+        apply_sex, apply_birth, apply_id_card,
+        apply_police_station, apply_political_status,
+        petition_type, purpose_type, check_type,
+        apply_address, apply_street, responsible_company,
+        responsible_contact_name, responsible_contact_telephone,
+        enter_beijing_state, team_petition_state, team_petition_count,
+        first_petition_time, last_petition_time,
+        resolve_level, resolve_method_self, resolve_method_self_name,
+        resolve_method_self_position, resolve_method_third,
+        resolve_method_third_company, resolve_method_third_name,
+        resolve_method_state, resolve_method_state_name,
+        resolve_method_state_position, resolve_method_state_company,
+        resolve_method_state_other, resolve_method_city,
+        resolve_method_city_leader, resolve_method_city_leader_name,
+        resolve_method_city_leader_position, resolve_method_city_meeting,
+        resolve_method_city_meeting_content, resolve_method_city_separate,
+        resolve_method_city_separate_content, resolve_method_city_other,
+        resolve_method_city_other_content, resolve_form,
+        resolve_form_other_content,
+        insert_on, insert_by, update_on, update_by,
+        delete_flag, delete_on, delete_by, remarks)values
+        <foreach collection="list" separator="," item="item" index="index">
+            (#{item.id,jdbcType=BIGINT}, #{item.contradictionType,jdbcType=VARCHAR}, #{item.applyName,jdbcType=VARCHAR},
+            #{item.applySex,jdbcType=VARCHAR}, #{item.applyBirth,jdbcType=VARCHAR}, #{item.applyIdCard,jdbcType=VARCHAR},
+            #{item.applyPoliceStation,jdbcType=VARCHAR}, #{item.applyPoliticalStatus,jdbcType=VARCHAR},
+            #{item.petitionType,jdbcType=VARCHAR}, #{item.purposeType,jdbcType=VARCHAR}, #{item.checkType,jdbcType=VARCHAR},
+            #{item.applyAddress,jdbcType=VARCHAR}, #{item.applyStreet,jdbcType=VARCHAR}, #{item.responsibleCompany,jdbcType=VARCHAR},
+            #{item.responsibleContactName,jdbcType=VARCHAR}, #{item.responsibleContactTelephone,jdbcType=VARCHAR},
+            #{item.enterBeijingState,jdbcType=VARCHAR}, #{item.teamPetitionState,jdbcType=VARCHAR}, #{item.teamPetitionCount,jdbcType=VARCHAR},
+            #{item.firstPetitionTime,jdbcType=TIMESTAMP}, #{item.lastPetitionTime,jdbcType=TIMESTAMP},
+            #{item.resolveLevel,jdbcType=VARCHAR}, #{item.resolveMethodSelf,jdbcType=BIT}, #{item.resolveMethodSelfName,jdbcType=VARCHAR},
+            #{item.resolveMethodSelfPosition,jdbcType=VARCHAR}, #{item.resolveMethodThird,jdbcType=BIT},
+            #{item.resolveMethodThirdCompany,jdbcType=VARCHAR}, #{item.resolveMethodThirdName,jdbcType=VARCHAR},
+            #{item.resolveMethodState,jdbcType=BIT}, #{item.resolveMethodStateName,jdbcType=VARCHAR},
+            #{item.resolveMethodStatePosition,jdbcType=VARCHAR}, #{item.resolveMethodStateCompany,jdbcType=VARCHAR},
+            #{item.resolveMethodStateOther,jdbcType=VARCHAR}, #{item.resolveMethodCity,jdbcType=BIT},
+            #{item.resolveMethodCityLeader,jdbcType=BIT}, #{item.resolveMethodCityLeaderName,jdbcType=VARCHAR},
+            #{item.resolveMethodCityLeaderPosition,jdbcType=VARCHAR}, #{item.resolveMethodCityMeeting,jdbcType=BIT},
+            #{item.resolveMethodCityMeetingContent,jdbcType=VARCHAR}, #{item.resolveMethodCitySeparate,jdbcType=BIT},
+            #{item.resolveMethodCitySeparateContent,jdbcType=VARCHAR}, #{item.resolveMethodCityOther,jdbcType=BIT},
+            #{item.resolveMethodCityOtherContent,jdbcType=VARCHAR}, #{item.resolveForm,jdbcType=VARCHAR},
+            #{item.resolveFormOtherContent,jdbcType=VARCHAR}, #{item.insertOn,jdbcType=TIMESTAMP},
+            #{item.insertBy,jdbcType=BIGINT}, #{item.updateOn,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=BIGINT},
+            #{item.deleteFlag,jdbcType=BIT}, #{item.deleteOn,jdbcType=TIMESTAMP}, #{item.deleteBy,jdbcType=BIGINT},
+            #{item.remarks,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
 
 </mapper>

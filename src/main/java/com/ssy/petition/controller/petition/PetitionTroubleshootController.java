@@ -6,13 +6,16 @@ import com.ssy.petition.dto.petition.params.PetitionTroubleshootParams;
 import com.ssy.petition.dto.petition.result.PetitionTroubleshootResult;
 import com.ssy.petition.entity.petition.PetitionTroubleshoot;
 import com.ssy.petition.service.petition.PetitionTroubleshootService;
+import com.ssy.petition.util.ExcelUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Api(tags = "PetitionTroubleshootController", description = "信访管理")
@@ -70,6 +73,34 @@ public class PetitionTroubleshootController {
             return CommonResult.success("删除成功");
         }
         return CommonResult.failed("删除失败，请联系管理员");
+    }
+
+    @RequestMapping(value = "/export", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('troubleshoot:export')")
+    public CommonResult export(@RequestBody PetitionTroubleshootParams params, HttpServletResponse response) {
+        List<PetitionTroubleshootResult> list = service.list(params, null, null);
+        ExcelUtils.downLoad(list, PetitionTroubleshootResult.class, response);
+        return null;
+    }
+
+    @RequestMapping(value = "/import", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('troubleshoot:import')")
+    public CommonResult importExcel(@RequestParam("file") MultipartFile file) {
+        List<PetitionTroubleshootResult> list;
+        try {
+            list = ExcelUtils.generateListFromFile(file, PetitionTroubleshootResult.class);
+            if (list == null) {
+                return CommonResult.failed("导入失败，请对比模板文件与上传文件");
+            }
+            int result = service.insertResultList(list);
+            if (result > 0) {
+                return CommonResult.success("导入成功");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CommonResult.failed("导入失败，原因：" + e.getMessage());
+        }
+        return CommonResult.failed("导入失败，请联系管理员");
     }
 
 }

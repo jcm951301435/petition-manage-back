@@ -18,4 +18,8 @@ public interface PetitionCompanyService {
 
     int disable(Long id);
 
+    List<PetitionCompany> listByName(String companyName);
+
+    Long getCompanyIdByName(String companyName);
+
 }

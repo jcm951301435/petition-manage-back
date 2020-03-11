@@ -24,4 +24,9 @@ public interface PetitionTroubleshootService {
 
     int disable(Long id);
 
+    int insertResultList(List<PetitionTroubleshootResult> resultList);
+
+    int insertList(List<PetitionTroubleshoot> list);
+
+    PetitionTroubleshoot transFromPetitionTroubleshootResult(PetitionTroubleshootResult result);
 }

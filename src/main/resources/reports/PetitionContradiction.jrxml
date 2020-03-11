@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PetitionContradiction" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="83605bd0-8381-4202-ac93-3a9414f28a7f">
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="fontStyleSun" isDefault="true" hTextAlign="Center" vTextAlign="Middle" pattern="" isBlankWhenNull="true" fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="Identity-H" isPdfEmbedded="true">
+		<box>
+			<topPen lineWidth="1.0"/>
+			<leftPen lineWidth="1.0"/>
+			<bottomPen lineWidth="1.0"/>
+			<rightPen lineWidth="1.0"/>
+		</box>
+	</style>
+	<parameter name="imageUrl" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="contradictionType" class="java.lang.String"/>
+	<field name="applyName" class="java.lang.String"/>
+	<field name="applySex" class="java.lang.String"/>
+	<field name="applyBirth" class="java.util.Date"/>
+	<field name="applyIdCard" class="java.lang.String"/>
+	<field name="applyPoliceStation" class="java.lang.String"/>
+	<field name="applyPoliticalStatus" class="java.lang.String"/>
+	<field name="petitionTypeStr" class="java.lang.String"/>
+	<field name="purposeType" class="java.lang.String"/>
+	<field name="checkType" class="java.lang.Boolean"/>
+	<field name="applyAddress" class="java.lang.String"/>
+	<field name="applyStreet" class="java.lang.String"/>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="responsibleContactName" class="java.lang.String"/>
+	<field name="responsibleContactTelephone" class="java.lang.String"/>
+	<field name="enterBeijingState" class="java.lang.String"/>
+	<field name="teamPetitionState" class="java.lang.Boolean"/>
+	<field name="teamPetitionCount" class="java.lang.String"/>
+	<field name="firstPetitionTime" class="java.util.Date"/>
+	<field name="lastPetitionTime" class="java.util.Date"/>
+	<field name="resolveLevelName" class="java.lang.String"/>
+	<field name="resolveMethodSelf" class="java.lang.Boolean"/>
+	<field name="resolveMethodSelfName" class="java.lang.String"/>
+	<field name="resolveMethodSelfPosition" class="java.lang.String"/>
+	<field name="resolveMethodThird" class="java.lang.Boolean"/>
+	<field name="resolveMethodThirdCompany" class="java.lang.String"/>
+	<field name="resolveMethodThirdName" class="java.lang.String"/>
+	<field name="resolveMethodState" class="java.lang.Boolean"/>
+	<field name="resolveMethodStateName" class="java.lang.String"/>
+	<field name="resolveMethodStatePosition" class="java.lang.String"/>
+	<field name="resolveMethodStateCompany" class="java.lang.String"/>
+	<field name="resolveMethodStateOther" class="java.lang.String"/>
+	<field name="resolveMethodCity" class="java.lang.Boolean"/>
+	<field name="resolveMethodCityLeader" class="java.lang.Boolean"/>
+	<field name="resolveMethodCityLeaderName" class="java.lang.String"/>
+	<field name="resolveMethodCityLeaderPosition" class="java.lang.String"/>
+	<field name="resolveMethodCityMeeting" class="java.lang.Boolean"/>
+	<field name="resolveMethodCityMeetingContent" class="java.lang.String"/>
+	<field name="resolveMethodCitySeparate" class="java.lang.Boolean"/>
+	<field name="resolveMethodCitySeparateContent" class="java.lang.String"/>
+	<field name="resolveMethodCityOther" class="java.lang.Boolean"/>
+	<field name="resolveMethodCityOtherContent" class="java.lang.String"/>
+	<field name="resolveForm" class="java.lang.String"/>
+	<field name="resolveFormOtherContent" class="java.lang.String"/>
+	<field name="contradictionContentStr" class="java.lang.String"/>
+	<field name="contradictionResolveProcessStr" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="3" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="0" width="200" height="30" uuid="d7e3a46f-5e95-4a0d-9c12-c3cbbc142a06"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="20" isBold="true" isUnderline="false" pdfEncoding="Identity-H"/>
+				</textElement>
+				<text><![CDATA[一人一表]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="698" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="148" height="20" uuid="f97946f8-5c66-4484-8880-fc8867450d4e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[突出信访矛盾类别（可多选）：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="30" height="360" uuid="494dfe0c-7d34-4253-a515-8c00e5746f56"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[突出矛盾基本信息]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="20" width="70" height="30" uuid="b2bfb6bc-be11-4728-a5f2-165b7da7416b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[姓名]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="20" width="111" height="30" uuid="f8944176-5283-4915-b260-7eb0f7d9d80f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{applyName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="211" y="20" width="59" height="30" uuid="5fe5d9f9-84ad-47a2-8907-e2b09660e51a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[性别]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM">
+				<reportElement x="452" y="20" width="100" height="30" uuid="68a58075-6d6c-4f08-9b0d-ad82e433353b"/>
+				<textFieldExpression><![CDATA[$F{applyBirth}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="20" width="100" height="30" uuid="acdaf336-49d7-46cd-85ef-8d3bb6bbe65d"/>
+				<textFieldExpression><![CDATA[$F{applySex} != null ? ($F{applySex}.equals("1") ? "男" : "女") : null]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="370" y="20" width="82" height="30" uuid="23ed7daa-9398-484f-852b-673999259201"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[出生年月]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="50" width="70" height="30" uuid="bc49b921-0f61-4231-a309-bce25d956213"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[信访类型]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="80" width="70" height="30" uuid="4617a2d1-80ca-4117-8f93-df9c6a754486"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[目的分类]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="80" width="170" height="30" uuid="e739fb10-5dcb-430b-aa42-efadd2352f31"/>
+				<textFieldExpression><![CDATA[$F{purposeType} != null ? ($F{purposeType}.equals("1") ? "求决" : $F{purposeType}.equals("2") ? "意见建议" : ($F{purposeType}.equals("3") ? "揭发控告" : ($F{purposeType}.equals("4") ? "申诉" : ($F{purposeType}.equals("0") ? "其他" : null)))) : null]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="270" y="50" width="100" height="60" uuid="c8f0d961-c846-4fd3-b498-0d8118b8ff05"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[政治面貌]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="370" y="50" width="182" height="60" uuid="e60184e3-80d0-42b3-b600-0d0acc379a09"/>
+				<textFieldExpression><![CDATA[($F{applyPoliticalStatus} != null) ? ($F{applyPoliticalStatus}.equals("0") ? "群众" : ($F{applyPoliticalStatus}.equals("1") ? "团员" : ($F{applyPoliticalStatus}.equals("2") ? "党员" : null))) : null]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="110" width="70" height="30" uuid="097a0dca-8476-4e38-a26f-d262138ea6b3"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[身份证号]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="110" width="170" height="30" uuid="4cc73a2c-fe47-46d3-9090-00bc8edfd870"/>
+				<textFieldExpression><![CDATA[$F{applyIdCard}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="270" y="110" width="100" height="30" uuid="5140d0fd-1656-47f8-a898-ccc81e382e89"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[核查终结]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="140" width="180" height="30" uuid="b4cfa4b8-5a38-4524-aab4-880d9dbddb9a"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[常住地址]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="210" y="140" width="170" height="30" uuid="45f07a65-9530-450f-bb2a-d23dbed73e62"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[所属派出所]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="140" width="172" height="30" uuid="442f3d8c-f44d-46aa-b943-30d18ad482d9"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[所属区街道]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="30" y="170" width="180" height="30" uuid="117fefff-ee42-4c46-a65c-00b14c0c522f"/>
+				<textFieldExpression><![CDATA[$F{applyAddress}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="170" width="170" height="30" uuid="635402db-a57c-4256-bf97-3b650c88787d"/>
+				<textFieldExpression><![CDATA[$F{applyPoliceStation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="170" width="172" height="30" uuid="5a5ba9ed-33a2-4b87-ac7f-0314b54467f1"/>
+				<textFieldExpression><![CDATA[$F{applyStreet}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="230" width="180" height="30" uuid="ebdc9ae3-c695-4505-8cc1-3d0a2b3f0d09"/>
+				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="200" width="180" height="30" uuid="2fb7b579-dc10-4760-9af8-2659627ee885"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[责任单位]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="210" y="200" width="170" height="30" uuid="c8aec940-e34d-4381-97c7-2f5993efda6d"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[单位负责人]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="200" width="172" height="30" uuid="135d8365-058c-409e-b5e7-4629fc80b0c8"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[负责人手机号]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="210" y="230" width="170" height="30" uuid="e430615d-f816-4426-b51f-a9d40fc66cf3"/>
+				<textFieldExpression><![CDATA[$F{responsibleContactName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="230" width="172" height="30" uuid="85a857f3-7088-4c81-8a58-1a502f8861a0"/>
+				<textFieldExpression><![CDATA[$F{responsibleContactTelephone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="260" width="180" height="30" uuid="c7ee0ae9-8497-4cd4-9008-07b5066fe133"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[近年进京情况]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="210" y="260" width="342" height="30" uuid="efd350a4-8a4a-4734-9037-019ce39852af"/>
+				<textFieldExpression><![CDATA[$F{enterBeijingState}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="290" width="200" height="30" uuid="604a0d51-c2e2-4a26-8d94-1d6bd7693cdd"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[附件上传（表格、文字、视频影音）]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="290" width="39" height="30" uuid="15e8a6b8-ded4-466a-ae02-f31b9318a71d"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="290" width="121" height="30" uuid="dea3e2ff-9536-4f9b-a65f-bff3547ae3e6"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[是否集访、人数]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="470" y="290" width="82" height="30" uuid="82c79c59-00d6-48f1-b2d0-603d778c7b3a"/>
+				<textFieldExpression><![CDATA[$F{teamPetitionCount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="320" width="50" height="60" uuid="3e80ea7b-59e7-42e7-aecd-0a2821355e9d"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[首次信访时间]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="320" width="50" height="60" uuid="93feefd6-cf33-4a82-8814-f963e26adfcd"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[末次信访时间]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="80" y="320" width="100" height="60" uuid="0b64e00d-c9bf-4d64-9941-222c0c2556ae"/>
+				<textFieldExpression><![CDATA[$F{firstPetitionTime}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="230" y="320" width="100" height="60" uuid="3e2664b8-733a-45aa-b5b5-aeab06504e10"/>
+				<textFieldExpression><![CDATA[$F{lastPetitionTime}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="330" y="320" width="90" height="60" uuid="a39c60e4-a9df-427e-90fe-b51456cb72e8"/>
+				<textElement>
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[易化解程度]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="420" y="320" width="132" height="60" uuid="eeaa8190-bb01-4b84-a77b-b0f95421c63b"/>
+				<textFieldExpression><![CDATA[$F{resolveLevelName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="380" width="30" height="70" uuid="5a65734b-84d1-4770-a88a-04fd34170ac2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[信访人诉求概述]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="30" y="380" width="522" height="70" uuid="fb76a6ce-82d2-45d8-9dfa-49b4a6ef8519"/>
+				<textFieldExpression><![CDATA[$F{contradictionContentStr}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="450" width="30" height="70" uuid="8849e53a-34f6-42e9-af2d-72df4777cdef"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[化解过程简述]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="30" y="450" width="522" height="70" uuid="c67dfa5f-5c1a-4232-8015-c641111bc324"/>
+				<textFieldExpression><![CDATA[$F{contradictionResolveProcessStr}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="520" width="30" height="90" uuid="eb648ca7-1c2a-46e9-95fe-e663a6d68665"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[化解推进方法]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="610" width="30" height="88" uuid="db12d5d5-0f8c-40ac-8dde-b8177b071a60"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="宋体" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[化解形式]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="53" y="530" width="231" height="18" uuid="8b762b09-b671-4fab-9644-a2226b472d38"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[立足自身解决：领导包案，包案领导姓名及职务]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="284" y="530" width="100" height="18" uuid="1dac7518-946f-4d3b-b0b0-13c8b86fcfa2"/>
+				<box>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{resolveMethodSelfName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="530" width="100" height="18" uuid="b7dcf960-172f-4f5e-9747-5d6565d23798"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{resolveMethodSelfPosition}]]></textFieldExpression>
+			</textField>
+			<rectangle radius="0">
+				<reportElement key="" positionType="Float" mode="Transparent" x="30" y="520" width="522" height="90" uuid="4675bb6c-fa9d-4fce-a19e-26369899229e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="53" y="555" width="231" height="18" uuid="ecafa67d-f39a-4796-8b5c-4eda97051218"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[国资系统推进：项目制，项目负责人姓名及单位]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="284" y="555" width="100" height="18" uuid="23d3c1e5-68bc-4cba-b8e4-6bdcd416d6a1"/>
+				<box>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{resolveMethodStateName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="555" width="100" height="18" uuid="576a07d0-9d97-48cd-bf91-6d69012bdb13"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{resolveMethodStateCompany}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="53" y="580" width="77" height="18" uuid="2f239f02-4e5c-45fb-946c-fd612876f744"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[市级层面推进：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="148" y="580" width="58" height="18" uuid="5210ed85-aadb-46b5-a078-4df9f4cf21bf"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[市领导接访]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="580" width="94" height="18" uuid="377c721f-a33a-4f60-907b-cf534be8563c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[市信访稳定工作例会]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="580" width="94" height="18" uuid="ae1e2124-d7ab-4173-839e-4974c5f63994"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[市分级分责]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="54" y="615" width="258" height="18" uuid="ea1c8b97-0195-42b2-b837-6d2a8e2be115"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[信访人作出书面息诉罢访承诺书、签订化解协议书]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="54" y="635" width="258" height="18" uuid="cd35fcaa-68ef-419e-bbcb-b5376a9d8431"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[核查终结]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="54" y="655" width="258" height="18" uuid="bc769d75-d512-4c3b-ac94-19784956df30"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[委信访办回访确认信访人满意认可]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="54" y="675" width="258" height="18" uuid="726a5b08-b4bf-4e3c-8c1c-7bf26d2cc929"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[复查复核过程中，信访人以书面形式撤回复查复核申请]]></text>
+			</staticText>
+			<rectangle radius="0">
+				<reportElement key="" positionType="Float" mode="Transparent" x="30" y="610" width="522" height="88" uuid="83018577-06d4-4515-88e4-96743c0f928c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="172" y="0" width="54" height="20" uuid="a5b48b2b-22db-4f71-b9d3-d5df54acf4a5"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[重复信访]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="0" width="65" height="20" uuid="dbee76aa-a450-4b69-9b00-bb23890c772e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[疑难复杂矛盾]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="335" y="0" width="60" height="20" uuid="6d90ae92-5a26-4d0c-851d-e95db02b5059"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" isBold="true"/>
+				</textElement>
+				<text><![CDATA[重要交办件]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement mode="Transparent" x="156" y="6" width="8" height="8" uuid="2704cd1e-beb7-4f69-8f4f-0752a5883d26"/>
+			</rectangle>
+			<image>
+				<reportElement x="156" y="6" width="8" height="8" uuid="a6b09b1a-5dc6-40bc-93cc-3e0954f50957"/>
+				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("1")) ? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="236" y="6" width="8" height="8" uuid="e8c15aef-237c-49d8-9aab-44112afbbfea"/>
+				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("2")) ? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="236" y="6" width="8" height="8" uuid="9bb215fc-9cdb-4531-ad3b-f763e1af043f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="322" y="6" width="8" height="8" uuid="0d5304c9-b783-4a63-853e-47714d95a237"/>
+			</rectangle>
+			<image>
+				<reportElement x="322" y="6" width="8" height="8" uuid="7caf31bf-eb67-4ea8-923d-3415035a5de9"/>
+				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("3")) ? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="370" y="110" width="182" height="30" uuid="adfb7985-5b75-45d4-8c51-3d86ce42f0ea"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="403" y="305" width="8" height="8" uuid="9b9322d2-625e-4056-9dfb-2c15880e6be8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="436" y="305" width="8" height="8" uuid="4ae5bae8-2ec2-4669-a9a4-aaa2569f9d30"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="412" y="300" width="22" height="14" uuid="97842431-5ff0-44d7-aa13-d8767c7abded"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[是]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="446" y="300" width="22" height="14" uuid="ef282c43-d345-43ba-9a84-92ccd5e43abb"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[否]]></text>
+			</staticText>
+			<image>
+				<reportElement x="436" y="305" width="8" height="8" uuid="ec8f7e76-f49e-4141-bed4-0ddcddf23399"/>
+				<imageExpression><![CDATA[($F{teamPetitionState} != null && !$F{teamPetitionState})? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="403" y="305" width="8" height="8" uuid="c9cc693c-27d8-4007-82e0-8a8c213586c7"/>
+				<imageExpression><![CDATA[($F{teamPetitionState} != null && $F{teamPetitionState})? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="420" y="121" width="8" height="8" uuid="f66e551b-80ea-4c9a-a5a6-a5a617221cb8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="470" y="121" width="8" height="8" uuid="4d23099c-80ef-4201-aedc-a1585aeb5ae0"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="430" y="118" width="22" height="14" uuid="914ac4df-30fc-426d-80c5-146d0b9215d7"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[是]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="118" width="22" height="14" uuid="6b27d157-1977-4c64-bf14-500c6de000d5"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[否]]></text>
+			</staticText>
+			<image>
+				<reportElement x="470" y="121" width="8" height="8" uuid="3ff0f305-c69d-4bc0-8407-f278fa5ff844"/>
+				<imageExpression><![CDATA[($F{checkType} != null && !$F{checkType})? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="420" y="121" width="8" height="8" uuid="9f772ad3-6737-4399-ac85-0fd942028948"/>
+				<imageExpression><![CDATA[($F{checkType} != null && $F{checkType})? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="390" y="290" width="80" height="30" uuid="f2ab54c2-1d22-4a30-85ce-e9601b96348a"/>
+			</rectangle>
+			<image>
+				<reportElement x="40" y="535" width="8" height="8" uuid="d6a63ea6-360a-4abb-be3f-86c9a559c53f"/>
+				<imageExpression><![CDATA[($F{resolveMethodSelf} != null && $F{resolveMethodSelf})? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="40" y="535" width="8" height="8" uuid="d9b43699-c50d-4d93-98d7-589481b9f6cc"/>
+			</rectangle>
+			<image>
+				<reportElement x="40" y="560" width="8" height="8" uuid="403fcd2c-c8e9-45cf-b69f-8bb5fc4f125b"/>
+				<imageExpression><![CDATA[($F{resolveMethodState} != null && $F{resolveMethodState})? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="40" y="560" width="8" height="8" uuid="cfe9488f-3ea4-4fd2-bd96-3a86b79a4679"/>
+			</rectangle>
+			<image>
+				<reportElement x="40" y="585" width="8" height="8" uuid="99e1c477-bd4a-4bff-8aaa-6ee1136582fa"/>
+				<imageExpression><![CDATA[($F{resolveMethodCity} != null && $F{resolveMethodCity})? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="40" y="585" width="8" height="8" uuid="f472e5b4-75e9-4729-9c99-0a401afb9be6"/>
+			</rectangle>
+			<image>
+				<reportElement x="138" y="585" width="8" height="8" uuid="62992829-f657-41f8-af40-95fa4c0b6b00"/>
+				<imageExpression><![CDATA[($F{resolveMethodCityLeader} != null && $F{resolveMethodCityLeader})? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="138" y="585" width="8" height="8" uuid="7f5e5d90-8ae9-421f-a012-2104d8a136a0"/>
+			</rectangle>
+			<image>
+				<reportElement x="215" y="585" width="8" height="8" uuid="018c6af4-530e-43b8-b998-d1b011ef9b39"/>
+				<imageExpression><![CDATA[($F{resolveMethodCityMeeting} != null && $F{resolveMethodCityMeeting})? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="330" y="585" width="8" height="8" uuid="24afe0e9-f322-4554-b1aa-9e5d72a97340"/>
+				<imageExpression><![CDATA[($F{resolveMethodCitySeparate} != null && $F{resolveMethodCitySeparate})? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="40" y="620" width="8" height="8" uuid="716b7ead-73e5-41ff-a3ec-4fe4c7832a8a"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="330" y="585" width="8" height="8" uuid="33bfcf2c-c5b3-4577-9e0d-7666572ba367"/>
+			</rectangle>
+			<image>
+				<reportElement x="40" y="620" width="8" height="8" uuid="885fbb7d-020d-433b-aaf1-8f3740d3f762"/>
+				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("1")) ? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="40" y="640" width="8" height="8" uuid="d27e998d-368b-4eb5-a502-c68b3083d0fd"/>
+				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("2")) ? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="40" y="660" width="8" height="8" uuid="2dfd9c67-57f6-443c-b380-f47be9b66b11"/>
+				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("3")) ? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="40" y="680" width="8" height="8" uuid="6d7ee806-bec2-498d-9f79-10098170884d"/>
+				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("4")) ? $P{imageUrl} : null]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement mode="Transparent" x="40" y="640" width="8" height="8" uuid="4e42b177-3bd6-498a-b500-7f6c6af147d3"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="40" y="660" width="8" height="8" uuid="2051d4f1-1f7f-494f-9828-95cc73530004"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="40" y="680" width="8" height="8" uuid="205d7538-9d0f-485f-9906-cc8e38297589"/>
+			</rectangle>
+			<textField>
+				<reportElement x="100" y="50" width="170" height="30" uuid="91644e47-5a0d-4da5-96db-2b1d2360f8d1"/>
+				<textFieldExpression><![CDATA[$F{petitionTypeStr}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="9" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="13" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="12" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="14" splitType="Stretch"/>
+	</summary>
+</jasperReport>

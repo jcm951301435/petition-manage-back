@@ -29,21 +29,16 @@ public class DateUtils {
 
     private final static String SLASH_SHORT_PATTERN = "yyyy/MM/dd";
 
-    public static Date parseDate(String source, String pattern) {
+    public static Date parseDate(String source, String pattern) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        try {
-            return simpleDateFormat.parse(source);
-        } catch (ParseException e) {
-            LOGGER.error("fail to parse date time [" + source + "] use pattern [" + pattern + "]");
-        }
-        return null;
+        return simpleDateFormat.parse(source);
     }
 
-    public static Date parseDate(String source) {
+    public static Date parseDate(String source) throws ParseException {
         return parseDate(source, HYPHEN_LONG_PATTERN);
     }
 
-    public static Date parseDateAuto(String source) {
+    public static Date parseDateAuto(String source) throws ParseException {
         String pattern = null;
         if (checkHyphen(source)) {
             if (checkColon(source)) {

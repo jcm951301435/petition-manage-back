@@ -1,5 +1,6 @@
 package com.ssy.petition.entity.petition;
 
+import com.ssy.petition.annotation.ExcelColumn;
 import com.ssy.petition.entity.base.BaseEntity;
 
 import java.io.Serializable;
@@ -10,16 +11,22 @@ public class PetitionTroubleshoot extends BaseEntity implements Serializable {
 
     private Boolean teamPetitionState;
 
+    @ExcelColumn(text = "矛盾级别", colWidth = 10 * 256, sort=3)
     private String contradictionLevel;
 
+    @ExcelColumn(text = "涉及人数", colWidth = 11 * 256, sort=4)
     private Integer teamPetitionCount;
 
+    @ExcelColumn(text = "责任企业", colWidth = 11 * 256, sort=5)
     private String responsibleCompany;
 
+    @ExcelColumn(text = "信访主要诉求", colWidth = 46 * 256, sort=6)
     private String content;
 
+    @ExcelColumn(text = "矛盾类型", colWidth = 10 * 256, sort=7)
     private String contradictionType;
 
+    @ExcelColumn(text = "主要措施", colWidth = 40 * 256, sort=8)
     private String resolveProcess;
 
     private String status;

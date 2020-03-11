@@ -297,4 +297,23 @@
     ORDER BY insert_on
   </select>
 
+  <insert id="insertList">
+    insert into petition_troubleshoot (id, company_id, team_petition_state,
+                                       contradiction_level, team_petition_count,
+                                       responsible_company, content, contradiction_type,
+                                       resolve_process, status, insert_on,
+                                       insert_by, update_on, update_by,
+                                       delete_flag, delete_on, delete_by,
+                                       remarks)VALUES
+    <foreach collection="list" separator="," item="item" index="index">
+      (#{item.id,jdbcType=BIGINT}, #{item.companyId,jdbcType=BIGINT}, #{item.teamPetitionState,jdbcType=VARCHAR},
+      #{item.contradictionLevel,jdbcType=VARCHAR}, #{item.teamPetitionCount,jdbcType=INTEGER},
+      #{item.responsibleCompany,jdbcType=VARCHAR}, #{item.content,jdbcType=VARCHAR}, #{item.contradictionType,jdbcType=VARCHAR},
+      #{item.resolveProcess,jdbcType=VARCHAR}, #{item.status,jdbcType=VARCHAR}, #{item.insertOn,jdbcType=TIMESTAMP},
+      #{item.insertBy,jdbcType=BIGINT}, #{item.updateOn,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=BIGINT},
+      #{item.deleteFlag,jdbcType=BIT}, #{item.deleteOn,jdbcType=TIMESTAMP}, #{item.deleteBy,jdbcType=BIGINT},
+      #{item.remarks,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
 </mapper>

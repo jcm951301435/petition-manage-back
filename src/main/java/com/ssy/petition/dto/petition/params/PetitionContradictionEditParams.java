@@ -18,8 +18,10 @@ public class PetitionContradictionEditParams extends PetitionContradiction {
 
     private Long companyId;
 
+    //@ExcelColumn(text = "信访人诉求概述", colWidth = 12 * 256, sort=21)
     private List<PetitionContradictionContent> contradictionContent;
 
+    //@ExcelColumn(text = "化解过程简述", colWidth = 12 * 256, sort=22)
     private List<PetitionContradictionResolveProcess> contradictionResolveProcess;
 
     private List<SysFile> fileList;

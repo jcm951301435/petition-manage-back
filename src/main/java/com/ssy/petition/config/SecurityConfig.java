@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/*.html", "/favicon.ico",
                         "/v2/api-docs/**", "/**/*.css", "/**/*.js", "/swagger-resources/**",
-                        "/static/**").permitAll()
+                        "/static/**", "/").permitAll()
                 .antMatchers("/druid/**").permitAll()
                 .antMatchers("/sysUser/login").permitAll()
                 .anyRequest().authenticated();
