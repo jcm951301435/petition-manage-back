@@ -1,6 +1,7 @@
 package com.ssy.petition.service.petition;
 
 
+import com.ssy.petition.common.CommonPage;
 import com.ssy.petition.dto.petition.params.PetitionContradictionEditParams;
 import com.ssy.petition.dto.petition.params.PetitionContradictionParams;
 import com.ssy.petition.dto.petition.result.PetitionContradictionResult;
@@ -15,9 +16,19 @@ import java.util.List;
  */
 public interface PetitionContradictionService {
 
+    /**
+     * 此方法无法获取页码
+     * @param params
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Deprecated
     List<PetitionContradictionResult> list(PetitionContradictionParams params, Integer pageNum, Integer pageSize);
 
-    List<String> applyNameList();
+    CommonPage page(PetitionContradictionParams params, Integer pageNum, Integer pageSize);
+
+    List<String> applyNameList(String applyName);
 
     Long create(PetitionContradictionEditParams params);
 

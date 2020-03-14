@@ -1,16 +1,28 @@
 package com.ssy.petition.dto.petition.params;
 
+import java.util.List;
+
 public class PetitionContradictionParams {
 
     private Long id;
 
+    private List<String> applyName;
+
+    private List<Long> responsibleCompany;
+
+    private String applySex;
+
+    private Boolean checkType;
+
+    private Boolean teamPetitionState;
+
+    private String resolveLevel;
+
+    private String petitionType;
+
+    private String purposeType;
+
     private String contradictionType;
-
-    private String applyName;
-
-    private String checkType;
-
-    private String responsibleCompany;
 
     public Long getId() {
         return id;
@@ -20,35 +32,75 @@ public class PetitionContradictionParams {
         this.id = id;
     }
 
+    public List<String> getApplyName() {
+        return applyName;
+    }
+
+    public void setApplyName(List<String> applyName) {
+        this.applyName = applyName;
+    }
+
+    public List<Long> getResponsibleCompany() {
+        return responsibleCompany;
+    }
+
+    public void setResponsibleCompany(List<Long> responsibleCompany) {
+        this.responsibleCompany = responsibleCompany;
+    }
+
+    public String getApplySex() {
+        return applySex;
+    }
+
+    public void setApplySex(String applySex) {
+        this.applySex = applySex;
+    }
+
+    public Boolean getCheckType() {
+        return checkType;
+    }
+
+    public void setCheckType(Boolean checkType) {
+        this.checkType = checkType;
+    }
+
+    public Boolean getTeamPetitionState() {
+        return teamPetitionState;
+    }
+
+    public void setTeamPetitionState(Boolean teamPetitionState) {
+        this.teamPetitionState = teamPetitionState;
+    }
+
+    public String getResolveLevel() {
+        return resolveLevel;
+    }
+
+    public void setResolveLevel(String resolveLevel) {
+        this.resolveLevel = resolveLevel;
+    }
+
+    public String getPetitionType() {
+        return petitionType;
+    }
+
+    public void setPetitionType(String petitionType) {
+        this.petitionType = petitionType;
+    }
+
+    public String getPurposeType() {
+        return purposeType;
+    }
+
+    public void setPurposeType(String purposeType) {
+        this.purposeType = purposeType;
+    }
+
     public String getContradictionType() {
         return contradictionType;
     }
 
     public void setContradictionType(String contradictionType) {
         this.contradictionType = contradictionType;
-    }
-
-    public String getApplyName() {
-        return applyName;
-    }
-
-    public void setApplyName(String applyName) {
-        this.applyName = applyName;
-    }
-
-    public String getCheckType() {
-        return checkType;
-    }
-
-    public void setCheckType(String checkType) {
-        this.checkType = checkType;
-    }
-
-    public String getResponsibleCompany() {
-        return responsibleCompany;
-    }
-
-    public void setResponsibleCompany(String responsibleCompany) {
-        this.responsibleCompany = responsibleCompany;
     }
 }

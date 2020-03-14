@@ -268,7 +268,7 @@
         WHERE
         delete_flag=0
         <if test="queryParam.listType!=null">
-            AND list_type LIKE concat("%", #{queryParam.listType}, "%")
+            AND list_type = #{queryParam.listType}
         </if>
         <if test="queryParam.listName!=null">
             AND list_name LIKE concat("%", #{queryParam.listName}, "%")

@@ -1,6 +1,7 @@
 package com.ssy.petition.service.petition.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.ssy.petition.common.CommonPage;
 import com.ssy.petition.dao.petition.PetitionContradictionContentMapper;
 import com.ssy.petition.dao.petition.PetitionContradictionMapper;
 import com.ssy.petition.dao.petition.PetitionContradictionResolveProcessMapper;
@@ -72,8 +73,31 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
     }
 
     @Override
-    public List<String> applyNameList() {
-        return mapper.getApplyNameList();
+    public CommonPage page(PetitionContradictionParams params, Integer pageNum, Integer pageSize) {
+        if (pageNum != null && pageSize != null) {
+            PageHelper.startPage(pageNum, pageSize);
+        }
+        List<PetitionContradictionResult> list = mapper.getList(params);
+        CommonPage page = CommonPage.restPage(list);
+        List<PetitionContradictionResult> resultList = new ArrayList<>();
+        for (PetitionContradictionResult result : list) {
+            PetitionContradictionResult newResult = result.toResult();
+            resultList.add(newResult);
+            Long contradictionId = newResult.getId();
+            List<PetitionContradictionContent> contradictionContent = contradictionContentMapper.getListByContradictionId(contradictionId);
+            List<PetitionContradictionResolveProcess> contradictionResolveProcess = resolveProcessMapper.getListByContradictionId(contradictionId);
+            List<SysFile> sysFiles = sysFileMapper.getListByContradictionId(contradictionId);
+            newResult.setContradictionContent(contradictionContent);
+            newResult.setContradictionResolveProcess(contradictionResolveProcess);
+            newResult.setFileList(sysFiles);
+        }
+        page.setList(resultList);
+        return page;
+    }
+
+    @Override
+    public List<String> applyNameList(String applyName) {
+        return mapper.getApplyNameList(applyName);
     }
 
     @Override

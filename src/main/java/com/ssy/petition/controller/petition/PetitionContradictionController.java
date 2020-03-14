@@ -35,9 +35,9 @@ public class PetitionContradictionController {
         this.service = service;
     }
 
-    @RequestMapping(value = "/applyNameList", method = RequestMethod.POST)
-    public CommonResult applyNameList() {
-        List<String> list = service.applyNameList();
+    @RequestMapping(value = "/applyNameList/{applyName}", method = RequestMethod.POST)
+    public CommonResult applyNameList(@PathVariable String applyName) {
+        List<String> list = service.applyNameList(applyName);
         return CommonResult.success(list);
     }
 
@@ -45,11 +45,10 @@ public class PetitionContradictionController {
     @ApiOperation("信访列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('contradiction:list')")
-    public CommonResult list(PetitionContradictionParams params,
+    public CommonResult list(@RequestBody PetitionContradictionParams params,
                              @RequestParam(value = "pageNum", required = false) Integer pageNum,
                              @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        List<PetitionContradictionResult> list = service.list(params, pageNum, pageSize);
-        CommonPage page = CommonPage.restPage(list);
+        CommonPage page = service.page(params, pageNum, pageSize);
         return CommonResult.success(page);
     }
 
@@ -100,6 +99,24 @@ public class PetitionContradictionController {
         } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.failed("导出失败，原因：" + e.getMessage());
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/importTemplate/{name}", method = RequestMethod.POST)
+    public CommonResult importTemplate(@PathVariable String name,
+                               HttpServletResponse response) {
+        try {
+            String title = "导入模板";
+            if ("contradictionTemplate".equals(name)) {
+                title = "一人一表-导入模板";
+            } else if ("troubleshootTemplate".equals(name)) {
+                title = "矛盾排查-导入模板";
+            }
+            ExcelUtils.downLoadTemplate(name, "xlsx", title, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CommonResult.failed("下载失败，原因：" + e.getMessage());
         }
         return null;
     }

@@ -8,17 +8,23 @@ import com.ssy.petition.excel.BaseExcelColumn;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -26,9 +32,14 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 public class ExcelUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelUtils.class);
+
+    private static ResourceLoader resourceLoader;
+
+    private static final String TEMPLATE_FILE_BASE_PATH = "classpath:template/";
 
     private static final Map<Class<?>, BaseExcelBook> EXCEL_CLASS_MAP = new HashMap<>();
 
@@ -54,11 +65,42 @@ public class ExcelUtils {
 
     private static final int TITLE_COUNT = 2;
 
+    public static ResourceLoader getResourceLoader() {
+        return resourceLoader;
+    }
+
+    @Autowired
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        ExcelUtils.resourceLoader = resourceLoader;
+    }
+
+    public static void downLoadTemplate(String name, String type, String title, HttpServletResponse response) {
+        String path = TEMPLATE_FILE_BASE_PATH + name + "." + XLS_FILE_SUFFIX_2007;
+        Resource resource = resourceLoader.getResource(path);
+        InputStream inputStream;
+        try {
+            inputStream = resource.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("模板文件不存在，请联系管理员上传！");
+        }
+        if (inputStream != null) {
+            try {
+                HttpUtils.downLoadResponse(title + "." + XLS_FILE_SUFFIX_2007, response);
+                OutputStream outputStream = response.getOutputStream();
+                IOUtils.copy(inputStream, outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("模板文件下载出错，请联系管理员！");
+            }
+        }
+    }
+
     public static <T> void downLoad(List<T> list, Class<T> cls, HttpServletResponse response) {
         BaseExcelBook baseExcelBook = getExcelBook(cls);
         String title = baseExcelBook.getTitle();
         XSSFWorkbook wb = generateExcelBook(list, cls);
-        HttpUtils.downLoadResponse(title+ ".xlsx", response);
+        HttpUtils.downLoadResponse(title + ".xlsx", response);
         try {
             wb.write(response.getOutputStream());
             wb.close();
@@ -144,9 +186,10 @@ public class ExcelUtils {
                 Class fieldClass = field.getType();
                 Object value = null;
                 if (fieldClass.equals(String.class)) {
-                    switch (cell.getCellType()){
+                    switch (cell.getCellType()) {
                         case NUMERIC:
-                            value = String.valueOf(cell.getNumericCellValue());
+                            Double doubleValue =cell.getNumericCellValue();
+                            value = String.valueOf(doubleValue.intValue());
                             break;
                         case STRING:
                             value = cell.getStringCellValue();

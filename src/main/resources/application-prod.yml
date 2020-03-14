@@ -31,9 +31,6 @@ logging:
       ssy:
         petition:
           dao: debug
-    org:
-      springframework:
-        security: debug
 
 file:
   upload:

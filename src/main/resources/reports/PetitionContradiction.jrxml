@@ -11,7 +11,12 @@
 			<rightPen lineWidth="1.0"/>
 		</box>
 	</style>
-	<parameter name="imageUrl" class="java.lang.String"/>
+	<parameter name="IMAGE_YES" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[this.getClass().getResourceAsStream("/images/yes.png")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="IMAGE_NO" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[this.getClass().getResourceAsStream("/images/no.png")]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -626,35 +631,25 @@
 				</textElement>
 				<text><![CDATA[重要交办件]]></text>
 			</staticText>
-			<rectangle>
-				<reportElement mode="Transparent" x="156" y="6" width="8" height="8" uuid="2704cd1e-beb7-4f69-8f4f-0752a5883d26"/>
-			</rectangle>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="156" y="6" width="8" height="8" uuid="a6b09b1a-5dc6-40bc-93cc-3e0954f50957"/>
-				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("1")) ? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("1")) ? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="236" y="6" width="8" height="8" uuid="e8c15aef-237c-49d8-9aab-44112afbbfea"/>
-				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("2")) ? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("2")) ? $P{IMAGE_YES} : $P{IMAGE_NO}
+
+
+]]></imageExpression>
 			</image>
-			<rectangle>
-				<reportElement mode="Transparent" x="236" y="6" width="8" height="8" uuid="9bb215fc-9cdb-4531-ad3b-f763e1af043f"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="322" y="6" width="8" height="8" uuid="0d5304c9-b783-4a63-853e-47714d95a237"/>
-			</rectangle>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="322" y="6" width="8" height="8" uuid="7caf31bf-eb67-4ea8-923d-3415035a5de9"/>
-				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("3")) ? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("3")) ? $P{IMAGE_YES} : $P{IMAGE_NO}
+
+]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement mode="Transparent" x="370" y="110" width="182" height="30" uuid="adfb7985-5b75-45d4-8c51-3d86ce42f0ea"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="403" y="305" width="8" height="8" uuid="9b9322d2-625e-4056-9dfb-2c15880e6be8"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="436" y="305" width="8" height="8" uuid="4ae5bae8-2ec2-4669-a9a4-aaa2569f9d30"/>
 			</rectangle>
 			<staticText>
 				<reportElement positionType="Float" x="412" y="300" width="22" height="14" uuid="97842431-5ff0-44d7-aa13-d8767c7abded"/>
@@ -682,20 +677,14 @@
 				</textElement>
 				<text><![CDATA[否]]></text>
 			</staticText>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="436" y="305" width="8" height="8" uuid="ec8f7e76-f49e-4141-bed4-0ddcddf23399"/>
-				<imageExpression><![CDATA[($F{teamPetitionState} != null && !$F{teamPetitionState})? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{teamPetitionState} != null && !$F{teamPetitionState}) ? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="403" y="305" width="8" height="8" uuid="c9cc693c-27d8-4007-82e0-8a8c213586c7"/>
-				<imageExpression><![CDATA[($F{teamPetitionState} != null && $F{teamPetitionState})? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{teamPetitionState} != null && $F{teamPetitionState}) ? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<rectangle>
-				<reportElement mode="Transparent" x="420" y="121" width="8" height="8" uuid="f66e551b-80ea-4c9a-a5a6-a5a617221cb8"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="470" y="121" width="8" height="8" uuid="4d23099c-80ef-4201-aedc-a1585aeb5ae0"/>
-			</rectangle>
 			<staticText>
 				<reportElement positionType="Float" x="430" y="118" width="22" height="14" uuid="914ac4df-30fc-426d-80c5-146d0b9215d7"/>
 				<box>
@@ -722,84 +711,57 @@
 				</textElement>
 				<text><![CDATA[否]]></text>
 			</staticText>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="470" y="121" width="8" height="8" uuid="3ff0f305-c69d-4bc0-8407-f278fa5ff844"/>
-				<imageExpression><![CDATA[($F{checkType} != null && !$F{checkType})? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{checkType} != null && !$F{checkType})? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="420" y="121" width="8" height="8" uuid="9f772ad3-6737-4399-ac85-0fd942028948"/>
-				<imageExpression><![CDATA[($F{checkType} != null && $F{checkType})? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{checkType} != null && $F{checkType})? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement mode="Transparent" x="390" y="290" width="80" height="30" uuid="f2ab54c2-1d22-4a30-85ce-e9601b96348a"/>
 			</rectangle>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="40" y="535" width="8" height="8" uuid="d6a63ea6-360a-4abb-be3f-86c9a559c53f"/>
-				<imageExpression><![CDATA[($F{resolveMethodSelf} != null && $F{resolveMethodSelf})? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{resolveMethodSelf} != null && $F{resolveMethodSelf})? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<rectangle>
-				<reportElement mode="Transparent" x="40" y="535" width="8" height="8" uuid="d9b43699-c50d-4d93-98d7-589481b9f6cc"/>
-			</rectangle>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="40" y="560" width="8" height="8" uuid="403fcd2c-c8e9-45cf-b69f-8bb5fc4f125b"/>
-				<imageExpression><![CDATA[($F{resolveMethodState} != null && $F{resolveMethodState})? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{resolveMethodState} != null && $F{resolveMethodState})? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<rectangle>
-				<reportElement mode="Transparent" x="40" y="560" width="8" height="8" uuid="cfe9488f-3ea4-4fd2-bd96-3a86b79a4679"/>
-			</rectangle>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="40" y="585" width="8" height="8" uuid="99e1c477-bd4a-4bff-8aaa-6ee1136582fa"/>
-				<imageExpression><![CDATA[($F{resolveMethodCity} != null && $F{resolveMethodCity})? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{resolveMethodCity} != null && $F{resolveMethodCity})? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<rectangle>
-				<reportElement mode="Transparent" x="40" y="585" width="8" height="8" uuid="f472e5b4-75e9-4729-9c99-0a401afb9be6"/>
-			</rectangle>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="138" y="585" width="8" height="8" uuid="62992829-f657-41f8-af40-95fa4c0b6b00"/>
-				<imageExpression><![CDATA[($F{resolveMethodCityLeader} != null && $F{resolveMethodCityLeader})? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{resolveMethodCityLeader} != null && $F{resolveMethodCityLeader})? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<rectangle>
-				<reportElement mode="Transparent" x="138" y="585" width="8" height="8" uuid="7f5e5d90-8ae9-421f-a012-2104d8a136a0"/>
-			</rectangle>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="215" y="585" width="8" height="8" uuid="018c6af4-530e-43b8-b998-d1b011ef9b39"/>
-				<imageExpression><![CDATA[($F{resolveMethodCityMeeting} != null && $F{resolveMethodCityMeeting})? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{resolveMethodCityMeeting} != null && $F{resolveMethodCityMeeting})? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="330" y="585" width="8" height="8" uuid="24afe0e9-f322-4554-b1aa-9e5d72a97340"/>
-				<imageExpression><![CDATA[($F{resolveMethodCitySeparate} != null && $F{resolveMethodCitySeparate})? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{resolveMethodCitySeparate} != null && $F{resolveMethodCitySeparate})? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<rectangle>
-				<reportElement mode="Transparent" x="40" y="620" width="8" height="8" uuid="716b7ead-73e5-41ff-a3ec-4fe4c7832a8a"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="330" y="585" width="8" height="8" uuid="33bfcf2c-c5b3-4577-9e0d-7666572ba367"/>
-			</rectangle>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="40" y="620" width="8" height="8" uuid="885fbb7d-020d-433b-aaf1-8f3740d3f762"/>
-				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("1")) ? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("1")) ? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="40" y="640" width="8" height="8" uuid="d27e998d-368b-4eb5-a502-c68b3083d0fd"/>
-				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("2")) ? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("2")) ? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="40" y="660" width="8" height="8" uuid="2dfd9c67-57f6-443c-b380-f47be9b66b11"/>
-				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("3")) ? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("3")) ? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<image>
+			<image isUsingCache="true">
 				<reportElement x="40" y="680" width="8" height="8" uuid="6d7ee806-bec2-498d-9f79-10098170884d"/>
-				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("4")) ? $P{imageUrl} : null]]></imageExpression>
+				<imageExpression><![CDATA[($F{resolveForm} != null && $F{resolveForm}.contains("4")) ? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
-			<rectangle>
-				<reportElement mode="Transparent" x="40" y="640" width="8" height="8" uuid="4e42b177-3bd6-498a-b500-7f6c6af147d3"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="40" y="660" width="8" height="8" uuid="2051d4f1-1f7f-494f-9828-95cc73530004"/>
-			</rectangle>
-			<rectangle>
-				<reportElement mode="Transparent" x="40" y="680" width="8" height="8" uuid="205d7538-9d0f-485f-9906-cc8e38297589"/>
-			</rectangle>
 			<textField>
 				<reportElement x="100" y="50" width="170" height="30" uuid="91644e47-5a0d-4da5-96db-2b1d2360f8d1"/>
 				<textFieldExpression><![CDATA[$F{petitionTypeStr}]]></textFieldExpression>
