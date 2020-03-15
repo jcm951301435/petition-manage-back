@@ -765,42 +765,52 @@ insert_on, insert_by, update_on, update_by,
         FROM petition_contradiction
         WHERE
         delete_flag=0
-        <if test="queryParam.id!=null">
-            AND id = #{queryParam.id,jdbcType=BIGINT}
-        </if>
-        <if test="queryParam.applyName!=null and queryParam.applyName.size > 0">
-            AND apply_name IN
-            <foreach item="item" index="index" collection="queryParam.applyName" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        <if test="queryParam.responsibleCompany!=null and queryParam.responsibleCompany.size > 0">
-            AND responsible_company IN
-            <foreach item="item" index="index" collection="queryParam.responsibleCompany" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        <if test="queryParam.applySex!=null">
-            AND apply_sex = #{queryParam.applySex,jdbcType=VARCHAR}
-        </if>
-        <if test="queryParam.checkType == true">
-            AND check_type = #{queryParam.checkType,jdbcType=BIT}
-        </if>
-        <if test="queryParam.teamPetitionState == true">
-            AND team_petition_state = #{queryParam.teamPetitionState,jdbcType=BIT}
-        </if>
-        <if test="queryParam.resolveLevel!=null">
-            AND resolve_level = #{queryParam.resolveLevel,jdbcType=VARCHAR}
-        </if>
-        <if test="queryParam.petitionType!=null">
-            AND petition_type LIKE concat("%", #{queryParam.petitionType}, "%")
-        </if>
-        <if test="queryParam.purposeType!=null">
-            AND purpose_type = #{queryParam.purposeType,jdbcType=VARCHAR}
-        </if>
-        <if test="queryParam.contradictionType!=null">
-            AND contradiction_type LIKE concat("%", #{queryParam.contradictionType}, "%")
-        </if>
+        <choose>
+          <when test="queryParam.idList!=null and queryParam.idList.size>0">
+              AND id IN
+              <foreach item="item" index="index" collection="queryParam.idList" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </when>
+          <otherwise>
+              <if test="queryParam.id!=null">
+                  AND id = #{queryParam.id,jdbcType=BIGINT}
+              </if>
+              <if test="queryParam.applyName!=null and queryParam.applyName.size > 0">
+                  AND apply_name IN
+                  <foreach item="item" index="index" collection="queryParam.applyName" open="(" separator="," close=")">
+                      #{item}
+                  </foreach>
+              </if>
+              <if test="queryParam.responsibleCompany!=null and queryParam.responsibleCompany.size > 0">
+                  AND responsible_company IN
+                  <foreach item="item" index="index" collection="queryParam.responsibleCompany" open="(" separator="," close=")">
+                      #{item}
+                  </foreach>
+              </if>
+              <if test="queryParam.applySex!=null">
+                  AND apply_sex = #{queryParam.applySex,jdbcType=VARCHAR}
+              </if>
+              <if test="queryParam.checkType == true">
+                  AND check_type = #{queryParam.checkType,jdbcType=BIT}
+              </if>
+              <if test="queryParam.teamPetitionState == true">
+                  AND team_petition_state = #{queryParam.teamPetitionState,jdbcType=BIT}
+              </if>
+              <if test="queryParam.resolveLevel!=null">
+                  AND resolve_level = #{queryParam.resolveLevel,jdbcType=VARCHAR}
+              </if>
+              <if test="queryParam.petitionType!=null">
+                  AND petition_type LIKE concat("%", #{queryParam.petitionType}, "%")
+              </if>
+              <if test="queryParam.purposeType!=null">
+                  AND purpose_type = #{queryParam.purposeType,jdbcType=VARCHAR}
+              </if>
+              <if test="queryParam.contradictionType!=null">
+                  AND contradiction_type LIKE concat("%", #{queryParam.contradictionType}, "%")
+              </if>
+          </otherwise>
+        </choose>
         ORDER BY insert_on
     </select>
 

@@ -90,7 +90,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="698" splitType="Stretch">
+		<band height="722" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="148" height="20" uuid="f97946f8-5c66-4484-8880-fc8867450d4e"/>
 				<box>
@@ -637,16 +637,11 @@
 			</image>
 			<image isUsingCache="true">
 				<reportElement x="236" y="6" width="8" height="8" uuid="e8c15aef-237c-49d8-9aab-44112afbbfea"/>
-				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("2")) ? $P{IMAGE_YES} : $P{IMAGE_NO}
-
-
-]]></imageExpression>
+				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("2")) ? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
 			<image isUsingCache="true">
 				<reportElement x="322" y="6" width="8" height="8" uuid="7caf31bf-eb67-4ea8-923d-3415035a5de9"/>
-				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("3")) ? $P{IMAGE_YES} : $P{IMAGE_NO}
-
-]]></imageExpression>
+				<imageExpression><![CDATA[($F{contradictionType}!= null && $F{contradictionType}.contains("3")) ? $P{IMAGE_YES} : $P{IMAGE_NO}]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement mode="Transparent" x="370" y="110" width="182" height="30" uuid="adfb7985-5b75-45d4-8c51-3d86ce42f0ea"/>
@@ -768,16 +763,4 @@
 			</textField>
 		</band>
 	</columnHeader>
-	<detail>
-		<band height="9" splitType="Stretch"/>
-	</detail>
-	<columnFooter>
-		<band height="13" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="12" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="14" splitType="Stretch"/>
-	</summary>
 </jasperReport>

@@ -6,6 +6,8 @@ public class PetitionContradictionParams {
 
     private Long id;
 
+    private List<Long> idList;
+
     private List<String> applyName;
 
     private List<Long> responsibleCompany;
@@ -30,6 +32,14 @@ public class PetitionContradictionParams {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Long> getIdList() {
+        return idList;
+    }
+
+    public void setIdList(List<Long> idList) {
+        this.idList = idList;
     }
 
     public List<String> getApplyName() {

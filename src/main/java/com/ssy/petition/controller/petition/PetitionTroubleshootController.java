@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "PetitionTroubleshootController", description = "信访管理")
@@ -77,7 +78,11 @@ public class PetitionTroubleshootController {
 
     @RequestMapping(value = "/export", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('troubleshoot:export')")
-    public CommonResult export(@RequestBody PetitionTroubleshootParams params, HttpServletResponse response) {
+    public CommonResult export(@RequestBody PetitionTroubleshootParams params, @RequestParam String dataType,
+                               HttpServletResponse response) {
+        if (!"select".equalsIgnoreCase(dataType)) {
+            params.setIdList(new ArrayList<>());
+        }
         List<PetitionTroubleshootResult> list = service.list(params, null, null);
         ExcelUtils.downLoad(list, PetitionTroubleshootResult.class, response);
         return null;

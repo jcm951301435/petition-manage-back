@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,14 +87,19 @@ public class PetitionContradictionController {
     }
 
     @RequestMapping(value = "/export", method = RequestMethod.POST)
-    public CommonResult export(@RequestBody PetitionContradictionParams params, @RequestParam String type,HttpServletRequest request,
+    public CommonResult export(@RequestBody PetitionContradictionParams params, @RequestParam String exportType,
+                               @RequestParam String dataType,
+                               HttpServletRequest request,
                                HttpServletResponse response) {
+        if (!"select".equalsIgnoreCase(dataType)) {
+            params.setIdList(new ArrayList<>());
+        }
         List<PetitionContradictionResult> list = service.list(params, null, null);
         Map<String, Object> paramsMap = new HashMap<>();
         try {
-            if ("pdf".equalsIgnoreCase(type)) {
+            if ("pdf".equalsIgnoreCase(exportType)) {
                 JasperUtils.showPdf("PetitionContradiction", list, paramsMap, request, response);
-            } else if ("doc".equalsIgnoreCase(type)) {
+            } else if ("doc".equalsIgnoreCase(exportType)) {
                 JasperUtils.exportWord("PetitionContradiction", list, paramsMap, request, response);
             }
         } catch (Exception e) {
@@ -105,7 +111,7 @@ public class PetitionContradictionController {
 
     @RequestMapping(value = "/importTemplate/{name}", method = RequestMethod.POST)
     public CommonResult importTemplate(@PathVariable String name,
-                               HttpServletResponse response) {
+                                       HttpServletResponse response) {
         try {
             String title = "导入模板";
             if ("contradictionTemplate".equals(name)) {

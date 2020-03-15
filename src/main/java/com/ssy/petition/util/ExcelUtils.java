@@ -199,7 +199,12 @@ public class ExcelUtils {
                             break;
                     }
                 } else if (fieldClass.equals(Integer.class) || fieldClass.equals(Short.class)) {
-                    value = Integer.valueOf(cell.getStringCellValue());
+                    if (cell.getCellType() == CellType.NUMERIC) {
+                        Double doubleValue =cell.getNumericCellValue();
+                        value = doubleValue.intValue();
+                    } else {
+                        value = Integer.valueOf(cell.getStringCellValue());
+                    }
                 } else if (fieldClass.equals(Date.class)) {
                     value = cell.getDateCellValue();
                 } else if (fieldClass.equals(Boolean.class)) {

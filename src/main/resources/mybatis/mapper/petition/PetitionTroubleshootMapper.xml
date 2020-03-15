@@ -285,15 +285,25 @@
     FROM petition_troubleshoot
     WHERE
     delete_flag=0
-    <if test="queryParam.companyName!=null">
-      AND FT_getCompanynameById(company_id) LIKE concat("%", #{queryParam.companyName}, "%")
-    </if>
-    <if test="queryParam.status!=null">
-      AND status LIKE concat("%", #{queryParam.status}, "%")
-    </if>
-    <if test="queryParam.contradictionLevel!=null">
-      AND contradiction_level LIKE concat("%", #{queryParam.contradictionLevel}, "%")
-    </if>
+    <choose>
+      <when test="queryParam.idList!=null and queryParam.idList.size>0">
+        AND id IN
+        <foreach item="item" index="index" collection="queryParam.idList" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </when>
+      <otherwise>
+        <if test="queryParam.companyName!=null">
+          AND FT_getCompanynameById(company_id) LIKE concat("%", #{queryParam.companyName}, "%")
+        </if>
+        <if test="queryParam.status!=null">
+          AND status LIKE concat("%", #{queryParam.status}, "%")
+        </if>
+        <if test="queryParam.contradictionLevel!=null">
+          AND contradiction_level LIKE concat("%", #{queryParam.contradictionLevel}, "%")
+        </if>
+      </otherwise>
+    </choose>
     ORDER BY insert_on
   </select>
 

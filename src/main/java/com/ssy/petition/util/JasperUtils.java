@@ -370,7 +370,6 @@ public class JasperUtils {
 
         try {
             String path = ResourceUtils.getURL("classpath:").getPath();
-            //path = path.substring(1);
             paramsMap.put("imageUrl", path + "images/yes.png");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
