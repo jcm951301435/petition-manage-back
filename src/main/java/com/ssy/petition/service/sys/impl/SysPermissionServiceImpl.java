@@ -39,7 +39,18 @@ public class SysPermissionServiceImpl implements SysPermissionService {
     @Override
     public List<SysPermissionResult> getPermissionTree(SysPermissionParams params) {
         List<SysPermissionResult> list = getPermissionList(params);
-        return TreeUtils.getTreeList(list);
+        List<SysPermissionResult> treeList = TreeUtils.getTreeList(list);
+        List<SysPermissionResult> result = treeList.stream().sorted((result1, result2) -> {
+            String sort1 = result1.getSort();
+            String sort2 = result2.getSort();
+            if (sort1 == null) {
+                return 1;
+            } else if (sort2 == null) {
+                return -1;
+            }
+            return sort1.compareTo(sort2);
+        }).collect(Collectors.toList());
+        return result;
     }
 
     @Override

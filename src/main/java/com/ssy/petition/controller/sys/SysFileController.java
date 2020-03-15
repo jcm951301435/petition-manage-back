@@ -9,12 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.List;
@@ -72,6 +77,63 @@ public class SysFileController {
             return CommonResult.failed(e.getMessage());
         }
         return CommonResult.failed("上传失败");
+    }
+
+    private String getFileTypeName(MultipartFile file) {
+        String fileTypeName = null;
+        String oldName = file.getOriginalFilename();
+        if (StringUtils.isNotEmpty(oldName)) {
+            String[] nameArray = oldName.split("\\.");
+            if (nameArray.length > 1) {
+                fileTypeName = nameArray[nameArray.length - 1];
+            }
+        }
+        return fileTypeName;
+    }
+
+    @RequestMapping(value = "/uploadMainImage", method = RequestMethod.POST)
+    public CommonResult uploadMainImage(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return CommonResult.failed("文件为空，请检查");
+        }
+        String fileName = "mainImage";
+        String fileTypeName = getFileTypeName(file);
+        fileName = fileName + "." + fileTypeName;
+        try {
+            boolean flag = sysFileService.upload(fileBasePath, fileName, file);
+            if (flag) {
+                    return CommonResult.success("上传成功");
+            }
+        } catch (Exception e) {
+            return CommonResult.failed(e.getMessage());
+        }
+        return CommonResult.failed("上传失败");
+    }
+
+    @RequestMapping(value = "/showMainImage")
+    public ResponseEntity<byte[]> showMainImage() {
+        String imageUrl = fileBasePath + "mainImage.jpg";
+        File image = new File(imageUrl);
+        byte[] imageContent = null;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            if (image.exists()) {
+                BufferedImage bi;
+                bi = ImageIO.read(image);
+                ImageIO.write(bi, "jpeg", byteArrayOutputStream);
+                imageContent = byteArrayOutputStream.toByteArray();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                byteArrayOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        return new ResponseEntity<>(imageContent, httpHeaders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
