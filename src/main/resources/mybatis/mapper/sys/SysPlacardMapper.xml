@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssy.petition.dao.sys.SysPlacardMapper">
+    <resultMap id="BaseResultMap" type="com.ssy.petition.entity.sys.SysPlacard">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="placard_title" jdbcType="VARCHAR" property="placardTitle"/>
+        <result column="placard_content" jdbcType="VARCHAR" property="placardContent"/>
+        <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
+        <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
+        <result column="update_on" jdbcType="TIMESTAMP" property="updateOn"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="delete_flag" jdbcType="BIT" property="deleteFlag"/>
+        <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn"/>
+        <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+
+    <resultMap id="SysPlacardListResultMap" type="com.ssy.petition.dto.sys.result.SysPlacardListResult">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="placard_title" jdbcType="VARCHAR" property="placardTitle"/>
+        <result column="placard_content" jdbcType="VARCHAR" property="placardContent"/>
+        <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
+        <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
+        <result column="update_on" jdbcType="TIMESTAMP" property="updateOn"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="delete_flag" jdbcType="BIT" property="deleteFlag"/>
+        <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn"/>
+        <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="insert_by_name" jdbcType="VARCHAR" property="insertByName"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, placard_title, placard_content, insert_on, insert_by, update_on, update_by, delete_flag,
+    delete_on, delete_by, remarks
+    </sql>
+
+    <sql id="Result_Column_List">
+        id, placard_title, placard_content, insert_on, insert_by, update_on, update_by, delete_flag,
+        delete_on, delete_by, remarks,
+        FT_getUsernameById(insert_by) as insert_by_name
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_placard
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sys_placard
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.ssy.petition.entity.sys.SysPlacard">
+        insert into sys_placard (id, placard_title, placard_content,
+                                 insert_on, insert_by, update_on,
+                                 update_by, delete_flag, delete_on,
+                                 delete_by, remarks)
+        values (#{id,jdbcType=BIGINT}, #{placardTitle,jdbcType=VARCHAR}, #{placardContent,jdbcType=VARCHAR},
+                #{insertOn,jdbcType=TIMESTAMP}, #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP},
+                #{updateBy,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP},
+                #{deleteBy,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.ssy.petition.entity.sys.SysPlacard">
+        insert into sys_placard
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="placardTitle != null">
+                placard_title,
+            </if>
+            <if test="placardContent != null">
+                placard_content,
+            </if>
+            <if test="insertOn != null">
+                insert_on,
+            </if>
+            <if test="insertBy != null">
+                insert_by,
+            </if>
+            <if test="updateOn != null">
+                update_on,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="deleteOn != null">
+                delete_on,
+            </if>
+            <if test="deleteBy != null">
+                delete_by,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="placardTitle != null">
+                #{placardTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="placardContent != null">
+                #{placardContent,jdbcType=VARCHAR},
+            </if>
+            <if test="insertOn != null">
+                #{insertOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="insertBy != null">
+                #{insertBy,jdbcType=BIGINT},
+            </if>
+            <if test="updateOn != null">
+                #{updateOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=BIGINT},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=BIT},
+            </if>
+            <if test="deleteOn != null">
+                #{deleteOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteBy != null">
+                #{deleteBy,jdbcType=BIGINT},
+            </if>
+            <if test="remarks != null">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.sys.SysPlacard">
+        update sys_placard
+        <set>
+            <if test="placardTitle != null">
+                placard_title = #{placardTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="placardContent != null">
+                placard_content = #{placardContent,jdbcType=VARCHAR},
+            </if>
+            <if test="insertOn != null">
+                insert_on = #{insertOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="insertBy != null">
+                insert_by = #{insertBy,jdbcType=BIGINT},
+            </if>
+            <if test="updateOn != null">
+                update_on = #{updateOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=BIT},
+            </if>
+            <if test="deleteOn != null">
+                delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteBy != null">
+                delete_by = #{deleteBy,jdbcType=BIGINT},
+            </if>
+            <if test="remarks != null">
+                remarks = #{remarks,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.sys.SysPlacard">
+        update sys_placard
+        set placard_title   = #{placardTitle,jdbcType=VARCHAR},
+            placard_content = #{placardContent,jdbcType=VARCHAR},
+            insert_on       = #{insertOn,jdbcType=TIMESTAMP},
+            insert_by       = #{insertBy,jdbcType=BIGINT},
+            update_on       = #{updateOn,jdbcType=TIMESTAMP},
+            update_by       = #{updateBy,jdbcType=BIGINT},
+            delete_flag     = #{deleteFlag,jdbcType=BIT},
+            delete_on       = #{deleteOn,jdbcType=TIMESTAMP},
+            delete_by       = #{deleteBy,jdbcType=BIGINT},
+            remarks         = #{remarks,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="getList" resultMap="SysPlacardListResultMap">
+        SELECT
+        <include refid="Result_Column_List"/>
+        FROM sys_placard
+        WHERE
+        delete_flag=0
+        <if test="queryParam.placardTitle!=null">
+            AND placard_title LIKE concat("%", #{queryParam.placardTitle}, "%")
+        </if>
+        <if test="queryParam.placardContent!=null">
+            AND placard_content LIKE concat("%", #{queryParam.placardContent}, "%")
+        </if>
+        <if test="queryParam.insertOnFrom!=null">
+            AND insert_on &gt;= #{queryParam.insertOnFrom}
+        </if>
+        <if test="queryParam.insertOnTo!=null">
+            AND insert_on &lt; #{queryParam.insertOnTo}
+        </if>
+        ORDER BY insert_on desc
+    </select>
+
+    <select id="getFirst" resultMap="SysPlacardListResultMap">
+        SELECT
+        <include refid="Result_Column_List"/>
+        FROM sys_placard
+        WHERE
+        delete_flag=0
+        ORDER BY insert_on desc limit 1
+    </select>
+</mapper>
