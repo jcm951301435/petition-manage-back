@@ -279,6 +279,7 @@
         <if test="queryParam.listValue!=null">
             AND list_value LIKE concat("%", #{queryParam.listValue}, "%")
         </if>
+        ORDER BY list_type, list_key
     </select>
 
 </mapper>

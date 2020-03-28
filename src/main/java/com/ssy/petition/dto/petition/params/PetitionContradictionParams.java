@@ -22,6 +22,8 @@ public class PetitionContradictionParams {
 
     private String petitionType;
 
+    private List<String> petitionTypes;
+
     private String purposeType;
 
     private String contradictionType;
@@ -112,5 +114,13 @@ public class PetitionContradictionParams {
 
     public void setContradictionType(String contradictionType) {
         this.contradictionType = contradictionType;
+    }
+
+    public List<String> getPetitionTypes() {
+        return petitionTypes;
+    }
+
+    public void setPetitionTypes(List<String> petitionTypes) {
+        this.petitionTypes = petitionTypes;
     }
 }

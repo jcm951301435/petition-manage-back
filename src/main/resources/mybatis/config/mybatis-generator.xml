@@ -45,6 +45,13 @@
         </javaClientGenerator>
 
         <!-- 需要生成的实体类对应的表名，多个实体类复制多份该配置即可 -->
+
+        <!--<table tableName="sys_placard" domainObjectName="sys.SysPlacard"-->
+            <!--enableCountByExample="false" enableUpdateByExample="false"-->
+            <!--enableDeleteByExample="false"-->
+            <!--selectByExampleQueryId="false"-->
+            <!--enableSelectByExample="false">-->
+        <!--</table>-->
         <!--<table tableName="sys_file" domainObjectName="sys.SysFile"-->
             <!--enableCountByExample="false" enableUpdateByExample="false"-->
             <!--enableDeleteByExample="false"-->

@@ -18,6 +18,8 @@ public class SysUser extends BaseEntity implements Serializable {
 
     private String realName;
 
+    private Long companyId;
+
     private static final long serialVersionUID = 1L;
 
     public String getUsername() {
@@ -50,5 +52,13 @@ public class SysUser extends BaseEntity implements Serializable {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 }

@@ -116,6 +116,7 @@
         </dependency>
 
         <!-- jasper reports-->
+        <!-- 依赖 jar 包 com.lowagie 在maven仓库中不存在，可手动去网络下载，然后手动安装到本地仓库-->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>

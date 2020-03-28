@@ -800,8 +800,10 @@ insert_on, insert_by, update_on, update_by,
               <if test="queryParam.resolveLevel!=null">
                   AND resolve_level = #{queryParam.resolveLevel,jdbcType=VARCHAR}
               </if>
-              <if test="queryParam.petitionType!=null">
-                  AND petition_type LIKE concat("%", #{queryParam.petitionType}, "%")
+              <if test="queryParam.petitionTypes!=null and queryParam.petitionTypes.size > 0">
+                  <foreach item="item" index="index" collection="queryParam.petitionTypes" open="" separator="" close="">
+                      AND petition_type LIKE concat("%", #{item}, "%")
+                  </foreach>
               </if>
               <if test="queryParam.purposeType!=null">
                   AND purpose_type = #{queryParam.purposeType,jdbcType=VARCHAR}

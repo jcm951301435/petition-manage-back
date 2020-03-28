@@ -63,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/static/**", "/").permitAll()
                 .antMatchers("/druid/**").permitAll()
                 .antMatchers("/sysUser/login").permitAll()
+                .antMatchers("/sysFile/showMainImage").permitAll()
                 .anyRequest().authenticated();
         http.httpBasic().disable();
         http.formLogin().disable();
