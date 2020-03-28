@@ -10,6 +10,10 @@ public class PetitionContradiction extends BaseEntity implements Serializable {
 
     private String contradictionType;
 
+    private Boolean lawsuit;
+
+    private Boolean finished;
+
     @ExcelColumn(text = "姓名", colWidth = 12 * 256, sort=1)
     private String applyName;
 
@@ -116,6 +120,22 @@ public class PetitionContradiction extends BaseEntity implements Serializable {
 
     public void setContradictionType(String contradictionType) {
         this.contradictionType = contradictionType == null ? null : contradictionType.trim();
+    }
+
+    public Boolean getLawsuit() {
+        return lawsuit;
+    }
+
+    public void setLawsuit(Boolean lawsuit) {
+        this.lawsuit = lawsuit;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 
     public String getApplyName() {

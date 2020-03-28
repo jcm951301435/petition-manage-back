@@ -8,6 +8,7 @@ import com.ssy.petition.entity.petition.PetitionTroubleshoot;
 import com.ssy.petition.service.petition.PetitionCompanyService;
 import com.ssy.petition.service.petition.PetitionTroubleshootService;
 import com.ssy.petition.util.EntityUtils;
+import com.ssy.petition.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class PetitionTroubleshootServiceImpl implements PetitionTroubleshootServ
         if (pageNum != null && pageSize != null) {
             PageHelper.startPage(pageNum, pageSize);
         }
+        params.setCompanyId(SecurityUtil.getCheckedCurrentCompanyId());
         return mapper.getList(params);
     }
 

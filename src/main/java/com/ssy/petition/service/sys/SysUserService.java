@@ -3,6 +3,7 @@ package com.ssy.petition.service.sys;
 import com.ssy.petition.dto.sys.params.SysUserListParams;
 import com.ssy.petition.dto.sys.result.SysUserListResult;
 import com.ssy.petition.entity.sys.SysPermission;
+import com.ssy.petition.entity.sys.SysRole;
 import com.ssy.petition.entity.sys.SysUser;
 
 import java.util.List;
@@ -29,6 +30,14 @@ public interface SysUserService {
      * @return 用户
      */
     SysUser getUserByUserId(Long userId);
+
+    /**
+     * 根据用户id获取角色
+     *
+     * @param userId 用户id
+     * @return 角色
+     */
+    List<SysRole> getRoleByUserId(Long userId);
 
     /**
      * 根据用户 id 获取对应权限列表

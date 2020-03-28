@@ -15,6 +15,7 @@
         <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn"/>
         <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="company_id" jdbcType="BIGINT" property="companyId"/>
     </resultMap>
 
     <resultMap id="SysUserListResultMap" type="com.ssy.petition.dto.sys.result.SysUserListResult">
@@ -33,6 +34,8 @@
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
         <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
         <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="company_id" jdbcType="BIGINT" property="companyId"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
     </resultMap>
 
     <sql id="Example_Where_Clause">
@@ -66,7 +69,7 @@
     </sql>
     <sql id="Base_Column_List">
         id, username, password, status, insert_on, insert_by, update_on, update_by,
-    delete_flag, delete_on, delete_by, remarks
+    delete_flag, delete_on, delete_by, remarks, company_id
     </sql>
     <select id="selectByExample" parameterType="com.ssy.petition.entity.base.example.BaseExample" resultMap="BaseResultMap">
         select
@@ -98,12 +101,12 @@
                               status, real_name, insert_on,
                               insert_by, update_on, update_by,
                               delete_flag, delete_on, delete_by,
-                              remarks)
+                              remarks, company_id)
         values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-                #{status,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},  #{insertOn,jdbcType=TIMESTAMP},
+                #{status,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{insertOn,jdbcType=TIMESTAMP},
                 #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT},
                 #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT},
-                #{remarks,jdbcType=VARCHAR})
+                #{remarks,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" parameterType="com.ssy.petition.entity.sys.SysUser">
         insert into sys_user
@@ -147,6 +150,9 @@
             <if test="remarks != null">
                 remarks,
             </if>
+            <if test="companyId != null">
+                company_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -187,6 +193,9 @@
             </if>
             <if test="remarks != null">
                 #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -229,6 +238,9 @@
             <if test="remarks != null">
                 remarks = #{remarks,jdbcType=VARCHAR},
             </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=BIGINT},
+            </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
@@ -237,7 +249,7 @@
         set username    = #{username,jdbcType=VARCHAR},
             password    = #{password,jdbcType=VARCHAR},
             status      = #{status,jdbcType=VARCHAR},
-            real_name      = #{realName,jdbcType=VARCHAR},
+            real_name   = #{realName,jdbcType=VARCHAR},
             insert_on   = #{insertOn,jdbcType=TIMESTAMP},
             insert_by   = #{insertBy,jdbcType=BIGINT},
             update_on   = #{updateOn,jdbcType=TIMESTAMP},
@@ -245,16 +257,37 @@
             delete_flag = #{deleteFlag,jdbcType=BIT},
             delete_on   = #{deleteOn,jdbcType=TIMESTAMP},
             delete_by   = #{deleteBy,jdbcType=BIGINT},
-            remarks     = #{remarks,jdbcType=VARCHAR}
+            remarks     = #{remarks,jdbcType=VARCHAR},
+            company_id  = #{companyId,jdbcType=BIGINT}
         where id = #{id,jdbcType=BIGINT}
     </update>
 
+    <select id="getRoleByUserId" resultMap="com.ssy.petition.dao.sys.SysRoleMapper.BaseResultMap">
+        SELECT DISTINCT
+            r.id, r.name, r.description, r.sort, r.insert_on, r.insert_by, r.update_on, r.update_by, r.delete_flag,
+            r.delete_on, r.delete_by, r.remarks, r.filter_data
+        FROM sys_user_role_relation ur
+                 LEFT JOIN sys_role r ON ur.role_id = r.id
+        WHERE ur.user_id = #{userId}
+    </select>
+
     <select id="getPermissionListById" resultMap="com.ssy.petition.dao.sys.SysPermissionMapper.BaseResultMap">
-        SELECT DISTINCT p.id, p.pid, p.name, p.value,
-                        p.icon, p.type, p.uri, p.sort,
-                        p.insert_on, p.insert_by,
-                        p.update_on, p.update_by,
-                        p.delete_flag, p.delete_on, p.delete_by, p.remarks
+        SELECT DISTINCT p.id,
+                        p.pid,
+                        p.name,
+                        p.value,
+                        p.icon,
+                        p.type,
+                        p.uri,
+                        p.sort,
+                        p.insert_on,
+                        p.insert_by,
+                        p.update_on,
+                        p.update_by,
+                        p.delete_flag,
+                        p.delete_on,
+                        p.delete_by,
+                        p.remarks
         FROM sys_user_role_relation ur
                  LEFT JOIN sys_role r ON ur.role_id = r.id
                  LEFT JOIN sys_role_permission_relation rp ON r.id = rp.role_id
@@ -264,20 +297,31 @@
 
     <select id="getUserList" resultMap="SysUserListResultMap">
         SELECT
-               u.id,u.username,u.real_name,u.status,u.insert_on,u.insert_by,
-               FT_getUsernameById(u.insert_by) as insert_by_name,
-               u.update_on,u.update_by,u.delete_flag,u.delete_on,u.delete_by,u.remarks,
-               r.id as role_id,r.name as role_name
+        u.id,u.username,u.real_name,u.status,u.insert_on,u.insert_by,
+        FT_getUsernameById(u.insert_by) as insert_by_name,
+        u.update_on,u.update_by,u.delete_flag,u.delete_on,u.delete_by,u.remarks,
+        r.id as role_id,r.name as role_name, u.company_id,
+        FT_getCompanynameById(u.company_id) as company_name
         FROM sys_user u
-                 LEFT JOIN sys_user_role_relation ur ON u.id=ur.user_id
-                 LEFT JOIN sys_role r ON ur.role_id=r.id
+        LEFT JOIN sys_user_role_relation ur ON u.id=ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id=r.id
         WHERE
-              u.delete_flag=0
+        u.delete_flag=0
         <if test="queryParam.username!=null">
             AND username LIKE concat("%", #{queryParam.username}, "%")
         </if>
         <if test="queryParam.realName!=null">
             AND real_name LIKE concat("%", #{queryParam.realName}, "%")
+        </if>
+        <if test="queryParam.companyId!=null">
+            AND company_id = #{queryParam.companyId}
+        </if>
+        <if test="queryParam.companyName!=null">
+            AND company_id in
+                (
+                  SELECT id FROM petition_company
+                  WHERE name LIKE concat("%", #{queryParam.companyName}, "%")
+                )
         </if>
         <if test="queryParam.insertOnFrom!=null">
             AND u.insert_on &gt;= #{queryParam.insertOnFrom}

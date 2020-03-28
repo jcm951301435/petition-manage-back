@@ -28,6 +28,8 @@ public class PetitionContradictionParams {
 
     private String contradictionType;
 
+    private Boolean finished;
+
     public Long getId() {
         return id;
     }
@@ -122,5 +124,13 @@ public class PetitionContradictionParams {
 
     public void setPetitionTypes(List<String> petitionTypes) {
         this.petitionTypes = petitionTypes;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 }

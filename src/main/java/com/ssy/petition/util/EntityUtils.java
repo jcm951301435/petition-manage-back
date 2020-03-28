@@ -1,12 +1,9 @@
 package com.ssy.petition.util;
 
 import com.ssy.petition.common.MapperOperateType;
-import com.ssy.petition.config.entity.SysUserDetails;
 import com.ssy.petition.entity.base.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Date;
 
@@ -33,9 +30,7 @@ public class EntityUtils {
     private static boolean initEntity(BaseEntity entity, MapperOperateType type) {
         boolean initFlag = true;
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            SysUserDetails sysUserDetails = (SysUserDetails) authentication.getPrincipal();
-            Long currentUserId = sysUserDetails.getUser().getId();
+            Long currentUserId = SecurityUtil.getCurrentUserId();
             Date now = DateUtils.now();
             switch (type) {
                 case INSERT:

@@ -85,6 +85,7 @@ public class SecurityUserServiceImpl implements SecurityUserService {
         SysUser sysUser = new SysUser();
         sysUser.setUsername(userListResult.getUsername());
         sysUser.setRealName(userListResult.getRealName());
+        sysUser.setCompanyId(userListResult.getCompanyId());
         boolean encodePassword = false;
         boolean useOldId = false;
         switch (type) {

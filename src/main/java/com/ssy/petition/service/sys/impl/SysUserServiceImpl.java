@@ -1,15 +1,18 @@
 package com.ssy.petition.service.sys.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.ssy.petition.dao.sys.SysRoleMapper;
 import com.ssy.petition.dao.sys.SysUserMapper;
 import com.ssy.petition.dto.sys.params.SysUserListParams;
 import com.ssy.petition.dto.sys.result.SysUserListResult;
 import com.ssy.petition.entity.base.example.BaseExample;
 import com.ssy.petition.entity.sys.SysPermission;
+import com.ssy.petition.entity.sys.SysRole;
 import com.ssy.petition.entity.sys.SysUser;
 import com.ssy.petition.service.sys.SysUserService;
 import com.ssy.petition.util.CollectionUtils;
 import com.ssy.petition.util.EntityUtils;
+import com.ssy.petition.util.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +32,12 @@ public class SysUserServiceImpl implements SysUserService {
 
     private final SysUserMapper userMapper;
 
+    private final SysRoleMapper roleMapper;
+
     @Autowired
-    public SysUserServiceImpl(SysUserMapper userMapper) {
+    public SysUserServiceImpl(SysUserMapper userMapper, SysRoleMapper roleMapper) {
         this.userMapper = userMapper;
+        this.roleMapper = roleMapper;
     }
 
     @Override
@@ -43,6 +49,11 @@ public class SysUserServiceImpl implements SysUserService {
             return userList.get(0);
         }
         return null;
+    }
+
+    @Override
+    public List<SysRole> getRoleByUserId(Long userId) {
+        return userMapper.getRoleByUserId(userId);
     }
 
     @Override
@@ -60,6 +71,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (pageNum != null && pageSize != null) {
             PageHelper.startPage(pageNum, pageSize);
         }
+        params.setCompanyId(SecurityUtil.getCheckedCurrentCompanyId());
         return userMapper.getUserList(params);
     }
 

@@ -8,6 +8,7 @@ import com.ssy.petition.entity.base.example.BaseExample;
 import com.ssy.petition.entity.petition.PetitionCompany;
 import com.ssy.petition.service.petition.PetitionCompanyService;
 import com.ssy.petition.util.EntityUtils;
+import com.ssy.petition.util.SecurityUtil;
 import com.ssy.petition.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ public class PetitionCompanyServiceImpl implements PetitionCompanyService {
         if (pageNum != null && pageSize != null) {
             PageHelper.startPage(pageNum, pageSize);
         }
+        params.setId(SecurityUtil.getCheckedCurrentCompanyId());
         return mapper.getList(params);
     }
 

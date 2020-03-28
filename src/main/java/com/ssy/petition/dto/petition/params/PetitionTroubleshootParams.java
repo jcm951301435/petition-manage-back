@@ -8,6 +8,8 @@ public class PetitionTroubleshootParams {
 
     private String companyName;
 
+    private Long companyId;
+
     private String status;
 
     private String contradictionLevel;
@@ -26,6 +28,14 @@ public class PetitionTroubleshootParams {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public String getStatus() {

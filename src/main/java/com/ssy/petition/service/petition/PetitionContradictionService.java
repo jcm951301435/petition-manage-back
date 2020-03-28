@@ -16,17 +16,9 @@ import java.util.List;
  */
 public interface PetitionContradictionService {
 
-    /**
-     * 此方法无法获取页码
-     * @param params
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    @Deprecated
     List<PetitionContradictionResult> list(PetitionContradictionParams params, Integer pageNum, Integer pageSize);
 
-    CommonPage page(PetitionContradictionParams params, Integer pageNum, Integer pageSize);
+    CommonPage<PetitionContradictionResult> page(PetitionContradictionParams params, Integer pageNum, Integer pageSize);
 
     List<String> applyNameList(String applyName);
 

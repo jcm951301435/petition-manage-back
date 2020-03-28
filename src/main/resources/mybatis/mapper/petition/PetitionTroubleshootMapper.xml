@@ -293,6 +293,9 @@
         </foreach>
       </when>
       <otherwise>
+        <if test="queryParam.companyId!=null">
+          AND company_id = #{queryParam.companyId}
+        </if>
         <if test="queryParam.companyName!=null">
           AND FT_getCompanynameById(company_id) LIKE concat("%", #{queryParam.companyName}, "%")
         </if>

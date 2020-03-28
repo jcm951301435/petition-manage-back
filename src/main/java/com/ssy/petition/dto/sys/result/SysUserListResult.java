@@ -21,6 +21,8 @@ public class SysUserListResult extends SysUser {
 
     private String insertByName;
 
+    private String companyName;
+
     public Long getRoleId() {
         return roleId;
     }
@@ -61,4 +63,11 @@ public class SysUserListResult extends SysUser {
         this.insertByName = insertByName;
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 }

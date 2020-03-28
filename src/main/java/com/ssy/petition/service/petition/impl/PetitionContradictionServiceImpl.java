@@ -17,6 +17,7 @@ import com.ssy.petition.service.petition.PetitionCompanyService;
 import com.ssy.petition.service.petition.PetitionContradictionService;
 import com.ssy.petition.util.DateUtils;
 import com.ssy.petition.util.EntityUtils;
+import com.ssy.petition.util.SecurityUtil;
 import com.ssy.petition.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,30 +54,21 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
 
     @Override
     public List<PetitionContradictionResult> list(PetitionContradictionParams params, Integer pageNum, Integer pageSize) {
-        if (pageNum != null && pageSize != null) {
-            PageHelper.startPage(pageNum, pageSize);
-        }
-        List<PetitionContradictionResult> list = mapper.getList(params);
-        List<PetitionContradictionResult> resultList = new ArrayList<>();
-        for (PetitionContradictionResult result : list) {
-            PetitionContradictionResult newResult = result.toResult();
-            resultList.add(newResult);
-            Long contradictionId = newResult.getId();
-            List<PetitionContradictionContent> contradictionContent = contradictionContentMapper.getListByContradictionId(contradictionId);
-            List<PetitionContradictionResolveProcess> contradictionResolveProcess = resolveProcessMapper.getListByContradictionId(contradictionId);
-            List<SysFile> sysFiles = sysFileMapper.getListByContradictionId(contradictionId);
-            newResult.setContradictionContent(contradictionContent);
-            newResult.setContradictionResolveProcess(contradictionResolveProcess);
-            newResult.setFileList(sysFiles);
-        }
-        return resultList;
+        CommonPage<PetitionContradictionResult> page = page(params, pageNum, pageSize);
+        return page.getList();
     }
 
     @Override
-    public CommonPage page(PetitionContradictionParams params, Integer pageNum, Integer pageSize) {
+    public CommonPage<PetitionContradictionResult> page(PetitionContradictionParams params, Integer pageNum, Integer pageSize) {
         if (pageNum != null && pageSize != null) {
             PageHelper.startPage(pageNum, pageSize);
         }
+        List<Long> responsibleCompany = new ArrayList<>();
+        Long companyId = SecurityUtil.getCheckedCurrentCompanyId();
+        if (companyId != null) {
+            responsibleCompany.add(SecurityUtil.getCheckedCurrentCompanyId());
+        }
+        params.setResponsibleCompany(responsibleCompany);
         List<PetitionContradictionResult> list = mapper.getList(params);
         CommonPage page = CommonPage.restPage(list);
         List<PetitionContradictionResult> resultList = new ArrayList<>();
@@ -206,7 +198,7 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
         return mapper.insertList(initList);
     }
 
-    private String getSexValue (String str) {
+    private String getSexValue(String str) {
         if (StringUtils.isNotEmpty(str)) {
             if (str.equals("男")) {
                 return "1";
@@ -219,7 +211,7 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
         return null;
     }
 
-    private Date getDateValue (String dateStr, String format) {
+    private Date getDateValue(String dateStr, String format) {
         Date result;
         try {
             result = DateUtils.parseDate(dateStr, format);
@@ -229,7 +221,7 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
         return result;
     }
 
-    private Boolean getBooleanValue (String bool) {
+    private Boolean getBooleanValue(String bool) {
         if (StringUtils.isEmpty(bool)) {
             return null;
         }

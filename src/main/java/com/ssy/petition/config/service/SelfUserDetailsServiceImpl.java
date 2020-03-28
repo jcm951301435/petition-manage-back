@@ -2,8 +2,10 @@ package com.ssy.petition.config.service;
 
 import com.ssy.petition.config.entity.SysUserDetails;
 import com.ssy.petition.entity.sys.SysPermission;
+import com.ssy.petition.entity.sys.SysRole;
 import com.ssy.petition.entity.sys.SysUser;
 import com.ssy.petition.service.sys.SysUserService;
+import com.ssy.petition.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,8 +36,13 @@ public class SelfUserDetailsServiceImpl implements UserDetailsService {
         if (sysUser == null) {
             throw new UsernameNotFoundException("用户名或密码错误");
         }
+        List<SysRole> roleList = sysUserService.getRoleByUserId(sysUser.getId());
+        SysRole sysRole = null;
+        if (CollectionUtils.isNotEmpty(roleList)) {
+            sysRole = roleList.get(0);
+        }
         List<SysPermission> permissionList = sysUserService.getPermissionListByUserId(sysUser.getId());
-        return new SysUserDetails(sysUser, permissionList);
+        return new SysUserDetails(sysUser, permissionList, sysRole);
     }
 
 }

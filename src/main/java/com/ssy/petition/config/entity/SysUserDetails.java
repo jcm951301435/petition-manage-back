@@ -1,6 +1,7 @@
 package com.ssy.petition.config.entity;
 
 import com.ssy.petition.entity.sys.SysPermission;
+import com.ssy.petition.entity.sys.SysRole;
 import com.ssy.petition.entity.sys.SysUser;
 import com.ssy.petition.util.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,9 +23,17 @@ public class SysUserDetails implements UserDetails {
 
     private List<SysPermission> permissionList;
 
+    private SysRole role;
+
     public SysUserDetails(SysUser user, List<SysPermission> permissionList) {
         this.user = user;
         this.permissionList = permissionList;
+    }
+
+    public SysUserDetails(SysUser user, List<SysPermission> permissionList, SysRole role) {
+        this.user = user;
+        this.permissionList = permissionList;
+        this.role = role;
     }
 
     @Override
@@ -75,5 +84,21 @@ public class SysUserDetails implements UserDetails {
 
     public List<SysPermission> getPermissionList() {
         return permissionList;
+    }
+
+    public void setUser(SysUser user) {
+        this.user = user;
+    }
+
+    public void setPermissionList(List<SysPermission> permissionList) {
+        this.permissionList = permissionList;
+    }
+
+    public SysRole getRole() {
+        return role;
+    }
+
+    public void setRole(SysRole role) {
+        this.role = role;
     }
 }

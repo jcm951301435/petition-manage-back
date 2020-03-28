@@ -16,6 +16,8 @@ public class SysRole extends BaseEntity implements Serializable {
 
     private Integer sort;
 
+    private Boolean filterData;
+
     private static final long serialVersionUID = 1L;
 
     public String getName() {
@@ -40,5 +42,13 @@ public class SysRole extends BaseEntity implements Serializable {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public Boolean getFilterData() {
+        return filterData;
+    }
+
+    public void setFilterData(Boolean filterData) {
+        this.filterData = filterData;
     }
 }

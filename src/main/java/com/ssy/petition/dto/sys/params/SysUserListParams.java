@@ -12,6 +12,10 @@ public class SysUserListParams {
 
     private Date insertOnTo;
 
+    private Long companyId;
+
+    private String companyName;
+
     public String getUsername() {
         return username;
     }
@@ -42,5 +46,21 @@ public class SysUserListParams {
 
     public void setInsertOnTo(Date insertOnTo) {
         this.insertOnTo = insertOnTo;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }
