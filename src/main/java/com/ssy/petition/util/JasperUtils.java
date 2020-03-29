@@ -3,7 +3,9 @@ package com.ssy.petition.util;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.base.JRBaseReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.*;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -19,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.Field;
-import java.net.URLEncoder;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -80,34 +81,34 @@ public class JasperUtils {
         /*
          * 设置头信息
          */
-        response.setContentType("application/vnd.ms-excel");
-        String defaultname = null;
-        if (defaultFilename.trim() != null && defaultFilename != null) {
-            defaultname = defaultFilename + ".xls";
-        } else {
-            defaultname = "export.xls";
-        }
-
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(defaultname, "UTF-8") + "\"");
-
-
-        ServletOutputStream ouputStream = response.getOutputStream();
-        JRXlsExporter exporter = new JRXlsExporter();
-
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-
-        exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, ouputStream);
-
-        // 删除记录最下面的空行
-        exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-
-        // 删除多余的ColumnHeader
-        exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-        // 显示边框
-        exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
-        exporter.exportReport();
-        ouputStream.flush();
-        ouputStream.close();
+        //response.setContentType("application/vnd.ms-excel");
+        //String defaultname = null;
+        //if (defaultFilename.trim() != null && defaultFilename != null) {
+        //    defaultname = defaultFilename + ".xls";
+        //} else {
+        //    defaultname = "export.xls";
+        //}
+        //
+        //response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(defaultname, "UTF-8") + "\"");
+        //
+        //
+        //ServletOutputStream ouputStream = response.getOutputStream();
+        //JRXlsExporter exporter = new JRXlsExporter();
+        //
+        //exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+        //
+        //exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, ouputStream);
+        //
+        //// 删除记录最下面的空行
+        //exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+        //
+        //// 删除多余的ColumnHeader
+        //exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+        //// 显示边框
+        //exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+        //exporter.exportReport();
+        //ouputStream.flush();
+        //ouputStream.close();
     }
 
     public static enum DocType {
@@ -317,7 +318,7 @@ public class JasperUtils {
     public static <T> void exportWord(String name, List<T> list, Map<String, Object> paramsMap, HttpServletRequest request,
                                       HttpServletResponse response) throws UnsupportedEncodingException, JRException {
         String fileName = "一人一表";
-        HttpUtils.downLoadResponse(fileName+ ".docx", response);
+        HttpUtils.downLoadResponse(fileName+ ".doc", response);
         try {
             String path = ResourceUtils.getURL("classpath:").getPath();
             path = path.substring(1);
@@ -365,7 +366,7 @@ public class JasperUtils {
                                    HttpServletResponse response) throws UnsupportedEncodingException {
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
-        response.setContentType("text/html");
+        //response.setContentType("text/html");
         response.setContentType("application/pdf");
 
         try {

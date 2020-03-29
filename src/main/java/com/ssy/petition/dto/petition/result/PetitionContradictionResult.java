@@ -216,7 +216,7 @@ public class PetitionContradictionResult extends PetitionContradictionEditParams
 
     @Override
     public void setContradictionResolveProcess(List<PetitionContradictionResolveProcess> processList) {
-        if (this.getContradictionResolveProcessStr() != null) {
+        if (this.getContradictionResolveProcessStr() == null) {
             if (CollectionUtils.isNotEmpty(processList)) {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (int i = 0; i < processList.size(); i ++) {
