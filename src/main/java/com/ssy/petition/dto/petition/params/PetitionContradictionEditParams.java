@@ -3,9 +3,11 @@ package com.ssy.petition.dto.petition.params;
 import com.ssy.petition.entity.petition.PetitionContradiction;
 import com.ssy.petition.entity.petition.PetitionContradictionContent;
 import com.ssy.petition.entity.petition.PetitionContradictionResolveProcess;
+import com.ssy.petition.entity.petition.PetitionContradictionResolveReason;
 import com.ssy.petition.entity.sys.SysFile;
 import com.ssy.petition.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PetitionContradictionEditParams extends PetitionContradiction {
@@ -23,6 +25,8 @@ public class PetitionContradictionEditParams extends PetitionContradiction {
 
     //@ExcelColumn(text = "化解过程简述", colWidth = 12 * 256, sort=22)
     private List<PetitionContradictionResolveProcess> contradictionResolveProcess;
+
+    private List<PetitionContradictionResolveReason> contradictionResolveReason;
 
     private List<SysFile> fileList;
 
@@ -65,6 +69,9 @@ public class PetitionContradictionEditParams extends PetitionContradiction {
     }
 
     public void setContradictionContent(List<PetitionContradictionContent> contradictionContent) {
+        if (CollectionUtils.isEmpty(contradictionContent)) {
+            contradictionContent = new ArrayList<>();
+        }
         this.contradictionContent = contradictionContent;
     }
 
@@ -73,7 +80,21 @@ public class PetitionContradictionEditParams extends PetitionContradiction {
     }
 
     public void setContradictionResolveProcess(List<PetitionContradictionResolveProcess> contradictionResolveProcess) {
+        if (CollectionUtils.isEmpty(contradictionResolveProcess)) {
+            contradictionResolveProcess = new ArrayList<>();
+        }
         this.contradictionResolveProcess = contradictionResolveProcess;
+    }
+
+    public List<PetitionContradictionResolveReason> getContradictionResolveReason() {
+        return contradictionResolveReason;
+    }
+
+    public void setContradictionResolveReason(List<PetitionContradictionResolveReason> contradictionResolveReason) {
+        if (CollectionUtils.isEmpty(contradictionResolveReason)) {
+            contradictionResolveReason = new ArrayList<>();
+        }
+        this.contradictionResolveReason = contradictionResolveReason;
     }
 
     public List<SysFile> getFileList() {

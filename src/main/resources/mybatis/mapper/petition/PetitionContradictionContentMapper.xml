@@ -28,6 +28,20 @@
     delete from petition_contradiction_content
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteByContradictionId" parameterType="java.lang.Long">
+    delete from petition_contradiction_content
+    where contradiction_id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByContradictionIdAndNotExists">
+    delete from petition_contradiction_content
+    where contradiction_id = #{contradictionId,jdbcType=BIGINT}
+    <if test="PetitionContradictionContents!=null and PetitionContradictionContents.size > 0">
+      AND id NOT IN
+      <foreach item="item" index="index" collection="PetitionContradictionContents" open="(" separator="," close=")">
+        #{item.id}
+      </foreach>
+    </if>
+  </delete>
   <insert id="insert" parameterType="com.ssy.petition.entity.petition.PetitionContradictionContent">
     insert into petition_contradiction_content (id, contradiction_id, contradiction_content, 
       insert_on, insert_by, update_on, 

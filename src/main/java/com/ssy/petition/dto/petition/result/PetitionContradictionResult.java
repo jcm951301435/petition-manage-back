@@ -5,6 +5,7 @@ import com.ssy.petition.annotation.ExcelColumn;
 import com.ssy.petition.dto.petition.params.PetitionContradictionEditParams;
 import com.ssy.petition.entity.petition.PetitionContradictionContent;
 import com.ssy.petition.entity.petition.PetitionContradictionResolveProcess;
+import com.ssy.petition.entity.petition.PetitionContradictionResolveReason;
 import com.ssy.petition.util.CollectionUtils;
 import com.ssy.petition.util.StringUtils;
 
@@ -47,6 +48,8 @@ public class PetitionContradictionResult extends PetitionContradictionEditParams
     private String contradictionContentStr;
 
     private String contradictionResolveProcessStr;
+
+    private String contradictionResolveReasonStr;
 
     private String petitionTypePdfStr;
 
@@ -154,6 +157,14 @@ public class PetitionContradictionResult extends PetitionContradictionEditParams
         this.contradictionResolveProcessStr = contradictionResolveProcessStr;
     }
 
+    public String getContradictionResolveReasonStr() {
+        return contradictionResolveReasonStr;
+    }
+
+    public void setContradictionResolveReasonStr(String contradictionResolveReasonStr) {
+        this.contradictionResolveReasonStr = contradictionResolveReasonStr;
+    }
+
     public String getPetitionTypePdfStr() {
         return petitionTypePdfStr;
     }
@@ -235,6 +246,29 @@ public class PetitionContradictionResult extends PetitionContradictionEditParams
             }
         }
         super.setContradictionResolveProcess(processList);
+    }
+
+    @Override
+    public void setContradictionResolveReason(List<PetitionContradictionResolveReason> reasonList) {
+        if (this.getContradictionResolveReasonStr() == null) {
+            if (CollectionUtils.isNotEmpty(reasonList)) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < reasonList.size(); i ++) {
+                    PetitionContradictionResolveReason reason = reasonList.get(i);
+                    String content = reason.getReason();
+                    if (StringUtils.isNotEmpty(content)) {
+                        stringBuilder.append(i + 1);
+                        stringBuilder.append(".");
+                        stringBuilder.append(content);
+                        stringBuilder.append("\n");
+                    }
+                }
+                if (stringBuilder.length() > 0) {
+                    this.setContradictionResolveReasonStr(stringBuilder.toString());
+                }
+            }
+        }
+        super.setContradictionResolveReason(reasonList);
     }
 
     public PetitionContradictionResult toResult() {

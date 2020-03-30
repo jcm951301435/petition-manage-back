@@ -30,6 +30,8 @@ public class PetitionContradictionParams {
 
     private Boolean finished;
 
+    private Boolean lawsuit;
+
     public Long getId() {
         return id;
     }
@@ -132,5 +134,13 @@ public class PetitionContradictionParams {
 
     public void setFinished(Boolean finished) {
         this.finished = finished;
+    }
+
+    public Boolean getLawsuit() {
+        return lawsuit;
+    }
+
+    public void setLawsuit(Boolean lawsuit) {
+        this.lawsuit = lawsuit;
     }
 }

@@ -818,8 +818,11 @@ insert_on, insert_by, update_on, update_by,
               <if test="queryParam.checkType == true">
                   AND check_type = #{queryParam.checkType,jdbcType=BIT}
               </if>
-              <if test="queryParam.finished == true">
+              <if test="queryParam.finished != null">
                   AND finished = #{queryParam.finished,jdbcType=BIT}
+              </if>
+              <if test="queryParam.lawsuit != null">
+                  AND lawsuit = #{queryParam.lawsuit,jdbcType=BIT}
               </if>
               <if test="queryParam.teamPetitionState == true">
                   AND team_petition_state = #{queryParam.teamPetitionState,jdbcType=BIT}

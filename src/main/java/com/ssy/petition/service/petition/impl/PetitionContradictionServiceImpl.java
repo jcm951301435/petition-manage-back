@@ -5,6 +5,7 @@ import com.ssy.petition.common.CommonPage;
 import com.ssy.petition.dao.petition.PetitionContradictionContentMapper;
 import com.ssy.petition.dao.petition.PetitionContradictionMapper;
 import com.ssy.petition.dao.petition.PetitionContradictionResolveProcessMapper;
+import com.ssy.petition.dao.petition.PetitionContradictionResolveReasonMapper;
 import com.ssy.petition.dao.sys.SysFileMapper;
 import com.ssy.petition.dto.petition.params.PetitionContradictionEditParams;
 import com.ssy.petition.dto.petition.params.PetitionContradictionParams;
@@ -12,6 +13,7 @@ import com.ssy.petition.dto.petition.result.PetitionContradictionResult;
 import com.ssy.petition.entity.petition.PetitionContradiction;
 import com.ssy.petition.entity.petition.PetitionContradictionContent;
 import com.ssy.petition.entity.petition.PetitionContradictionResolveProcess;
+import com.ssy.petition.entity.petition.PetitionContradictionResolveReason;
 import com.ssy.petition.entity.sys.SysFile;
 import com.ssy.petition.service.petition.PetitionCompanyService;
 import com.ssy.petition.service.petition.PetitionContradictionService;
@@ -21,6 +23,7 @@ import com.ssy.petition.util.SecurityUtil;
 import com.ssy.petition.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +38,8 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
 
     private final PetitionContradictionResolveProcessMapper resolveProcessMapper;
 
+    private final PetitionContradictionResolveReasonMapper resolveReasonMapper;
+
     private final SysFileMapper sysFileMapper;
 
     private final PetitionCompanyService companyService;
@@ -43,11 +48,13 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
     public PetitionContradictionServiceImpl(PetitionContradictionMapper mapper,
                                             PetitionContradictionContentMapper contradictionContentMapper,
                                             PetitionContradictionResolveProcessMapper resolveProcessMapper,
+                                            PetitionContradictionResolveReasonMapper resolveReasonMapper,
                                             SysFileMapper sysFileMapper,
                                             PetitionCompanyService companyService) {
         this.mapper = mapper;
         this.contradictionContentMapper = contradictionContentMapper;
         this.resolveProcessMapper = resolveProcessMapper;
+        this.resolveReasonMapper = resolveReasonMapper;
         this.sysFileMapper = sysFileMapper;
         this.companyService = companyService;
     }
@@ -70,7 +77,7 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
         }
         params.setResponsibleCompany(responsibleCompany);
         List<PetitionContradictionResult> list = mapper.getList(params);
-        CommonPage page = CommonPage.restPage(list);
+        CommonPage<PetitionContradictionResult> page = CommonPage.restPage(list);
         List<PetitionContradictionResult> resultList = new ArrayList<>();
         for (PetitionContradictionResult result : list) {
             PetitionContradictionResult newResult = result.toResult();
@@ -78,9 +85,11 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
             Long contradictionId = newResult.getId();
             List<PetitionContradictionContent> contradictionContent = contradictionContentMapper.getListByContradictionId(contradictionId);
             List<PetitionContradictionResolveProcess> contradictionResolveProcess = resolveProcessMapper.getListByContradictionId(contradictionId);
+            List<PetitionContradictionResolveReason> contradictionResolveReason = resolveReasonMapper.getListByContradictionId(contradictionId);
             List<SysFile> sysFiles = sysFileMapper.getListByContradictionId(contradictionId);
             newResult.setContradictionContent(contradictionContent);
             newResult.setContradictionResolveProcess(contradictionResolveProcess);
+            newResult.setContradictionResolveReason(contradictionResolveReason);
             newResult.setFileList(sysFiles);
         }
         page.setList(resultList);
@@ -93,6 +102,7 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
     }
 
     @Override
+    @Transactional
     public Long create(PetitionContradictionEditParams params) {
         PetitionContradiction petitionContradiction = params.toParams();
         EntityUtils.initInsertEntity(petitionContradiction);
@@ -112,18 +122,28 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
             }
         }
         if (insertFlag == 1) {
+            for (PetitionContradictionResolveReason temp : params.getContradictionResolveReason()) {
+                EntityUtils.initInsertEntity(temp);
+                temp.setContradictionId(petitionContradiction.getId());
+                insertFlag = resolveReasonMapper.insertSelective(temp);
+            }
+        }
+        if (insertFlag == 1) {
             return petitionContradiction.getId();
         }
         return null;
     }
 
     @Override
+    @Transactional
     public int update(PetitionContradictionEditParams params) {
         PetitionContradiction petitionContradiction = params.toParams();
         EntityUtils.initUpdateEntity(petitionContradiction);
         int insertFlag = mapper.updateByPrimaryKeySelective(petitionContradiction);
-        if (insertFlag == 1) {
-            for (PetitionContradictionContent temp : params.getContradictionContent()) {
+         if (insertFlag == 1) {
+            List<PetitionContradictionContent> contradictionContents = params.getContradictionContent();
+            contradictionContentMapper.deleteByContradictionIdAndNotExists(petitionContradiction.getId(), contradictionContents);
+            for (PetitionContradictionContent temp : contradictionContents) {
                 if (temp.getId() == null) {
                     EntityUtils.initInsertEntity(temp);
                     temp.setContradictionId(petitionContradiction.getId());
@@ -136,7 +156,9 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
             }
         }
         if (insertFlag == 1) {
-            for (PetitionContradictionResolveProcess temp : params.getContradictionResolveProcess()) {
+            List<PetitionContradictionResolveProcess> resolveProcesses = params.getContradictionResolveProcess();
+            resolveProcessMapper.deleteByContradictionIdAndNotExists(petitionContradiction.getId(), resolveProcesses);
+            for (PetitionContradictionResolveProcess temp : resolveProcesses) {
                 if (temp.getId() == null) {
                     EntityUtils.initInsertEntity(temp);
                     temp.setContradictionId(petitionContradiction.getId());
@@ -145,6 +167,21 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
                     EntityUtils.initUpdateEntity(temp);
                     temp.setContradictionId(petitionContradiction.getId());
                     insertFlag = resolveProcessMapper.updateByPrimaryKeySelective(temp);
+                }
+            }
+        }
+        if (insertFlag == 1) {
+            List<PetitionContradictionResolveReason> resolveReasons = params.getContradictionResolveReason();
+            resolveReasonMapper.deleteByContradictionIdAndNotExists(petitionContradiction.getId(), resolveReasons);
+            for (PetitionContradictionResolveReason temp : resolveReasons) {
+                if (temp.getId() == null) {
+                    EntityUtils.initInsertEntity(temp);
+                    temp.setContradictionId(petitionContradiction.getId());
+                    insertFlag = resolveReasonMapper.insertSelective(temp);
+                } else {
+                    EntityUtils.initUpdateEntity(temp);
+                    temp.setContradictionId(petitionContradiction.getId());
+                    insertFlag = resolveReasonMapper.updateByPrimaryKeySelective(temp);
                 }
             }
         }
