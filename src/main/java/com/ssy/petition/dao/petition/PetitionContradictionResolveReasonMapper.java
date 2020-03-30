@@ -17,5 +17,6 @@ public interface PetitionContradictionResolveReasonMapper extends BaseMapper<Pet
     int deleteByContradictionIdAndNotExists(@Param("contradictionId")Long contradictionId,
                                             @Param("petitionContradictionResolveReasons")List<PetitionContradictionResolveReason> petitionContradictionResolveReasons);
 
+    int insertList(@Param("list")List<PetitionContradictionResolveReason> list);
 
 }

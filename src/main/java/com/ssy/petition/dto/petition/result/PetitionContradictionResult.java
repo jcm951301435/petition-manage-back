@@ -53,6 +53,27 @@ public class PetitionContradictionResult extends PetitionContradictionEditParams
 
     private String petitionTypePdfStr;
 
+    @ExcelColumn(text = "涉法诉讼", colWidth = 12 * 256, sort=21)
+    private String lawsuitStr;
+
+    @ExcelColumn(text = "诉求概述", colWidth = 12 * 256, sort=22)
+    private String contradictionContentFirstStr;
+
+    @ExcelColumn(text = "未化解原因", colWidth = 12 * 256, sort=23)
+    private String contradictionResolveProcessFirstStr;
+
+    @ExcelColumn(text = "化解过程简述", colWidth = 12 * 256, sort=24)
+    private String contradictionResolveReasonFirstStr;
+
+
+    public String getLawsuitStr() {
+        return lawsuitStr;
+    }
+
+    public void setLawsuitStr(String lawsuitStr) {
+        this.lawsuitStr = lawsuitStr;
+    }
+
     public String getInsertByName() {
         return insertByName;
     }
@@ -296,4 +317,27 @@ public class PetitionContradictionResult extends PetitionContradictionEditParams
         return this;
     }
 
+    public String getContradictionContentFirstStr() {
+        return contradictionContentFirstStr;
+    }
+
+    public void setContradictionContentFirstStr(String contradictionContentFirstStr) {
+        this.contradictionContentFirstStr = contradictionContentFirstStr;
+    }
+
+    public String getContradictionResolveProcessFirstStr() {
+        return contradictionResolveProcessFirstStr;
+    }
+
+    public void setContradictionResolveProcessFirstStr(String contradictionResolveProcessFirstStr) {
+        this.contradictionResolveProcessFirstStr = contradictionResolveProcessFirstStr;
+    }
+
+    public String getContradictionResolveReasonFirstStr() {
+        return contradictionResolveReasonFirstStr;
+    }
+
+    public void setContradictionResolveReasonFirstStr(String contradictionResolveReasonFirstStr) {
+        this.contradictionResolveReasonFirstStr = contradictionResolveReasonFirstStr;
+    }
 }

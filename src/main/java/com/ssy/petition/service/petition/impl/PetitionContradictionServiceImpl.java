@@ -17,10 +17,7 @@ import com.ssy.petition.entity.petition.PetitionContradictionResolveReason;
 import com.ssy.petition.entity.sys.SysFile;
 import com.ssy.petition.service.petition.PetitionCompanyService;
 import com.ssy.petition.service.petition.PetitionContradictionService;
-import com.ssy.petition.util.DateUtils;
-import com.ssy.petition.util.EntityUtils;
-import com.ssy.petition.util.SecurityUtil;
-import com.ssy.petition.util.StringUtils;
+import com.ssy.petition.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -212,27 +209,81 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
         result.setTeamPetitionState(getBooleanValue(result.getTeamPetitionStateStr()));
         result.setFirstPetitionTime(getDateValue(result.getFirstPetitionTimeStr(), "yyyy-MM-dd"));
         result.setLastPetitionTime(getDateValue(result.getLastPetitionTimeStr(), "yyyy-MM-dd"));
+        result.setLawsuit(getBooleanValue(result.getLawsuitStr()));
         return result;
     }
 
-    @Override
-    public int insertResultList(List<PetitionContradictionResult> resultList) {
-        List<PetitionContradiction> list = new ArrayList<>();
-        for (PetitionContradictionResult result : resultList) {
-            PetitionContradiction contradiction = transFromPetitionContradictionResult(result);
-            list.add(contradiction);
+    private List<PetitionContradictionContent> getContentListFromContradiction(Long contradictionId, PetitionContradictionResult result) {
+        List<PetitionContradictionContent> contentList = new ArrayList<>();
+        String contradictionContentFirstStr = result.getContradictionContentFirstStr();
+        if (StringUtils.isNotEmpty(contradictionContentFirstStr)) {
+            PetitionContradictionContent contradictionContent = new PetitionContradictionContent();
+            contradictionContent.setContradictionId(contradictionId);
+            contradictionContent.setContradictionContent(contradictionContentFirstStr);
+            EntityUtils.initInsertEntity(contradictionContent);
+            contentList.add(contradictionContent);
         }
-        return insertList(list);
+        return contentList;
+    }
+
+    private List<PetitionContradictionResolveProcess> getProcessListFromContradiction(Long contradictionId, PetitionContradictionResult result) {
+        List<PetitionContradictionResolveProcess> processList = new ArrayList<>();
+        String contradictionResolveProcessFirstStr = result.getContradictionResolveProcessFirstStr();
+        if (StringUtils.isNotEmpty(contradictionResolveProcessFirstStr)) {
+            PetitionContradictionResolveProcess process = new PetitionContradictionResolveProcess();
+            process.setContradictionId(contradictionId);
+            process.setResolveContent(contradictionResolveProcessFirstStr);
+            EntityUtils.initInsertEntity(process);
+            processList.add(process);
+        }
+        return processList;
+    }
+
+    private List<PetitionContradictionResolveReason> getReasonListFromContradiction(Long contradictionId, PetitionContradictionResult result) {
+        List<PetitionContradictionResolveReason> reasonList = new ArrayList<>();
+        String contradictionResolveReasonFirstStr = result.getContradictionResolveReasonFirstStr();
+        if (StringUtils.isNotEmpty(contradictionResolveReasonFirstStr)) {
+            PetitionContradictionResolveReason reason = new PetitionContradictionResolveReason();
+            reason.setContradictionId(contradictionId);
+            reason.setReason(contradictionResolveReasonFirstStr);
+            EntityUtils.initInsertEntity(reason);
+            reasonList.add(reason);
+        }
+        return reasonList;
     }
 
     @Override
-    public int insertList(List<PetitionContradiction> list) {
-        List<PetitionContradiction> initList = new ArrayList<>();
-        for (PetitionContradiction troubleshoot : list) {
-            EntityUtils.initInsertEntity(troubleshoot);
-            initList.add(troubleshoot);
+    @Transactional
+    public int insertResultList(List<PetitionContradictionResult> resultList) {
+        List<PetitionContradiction> list = new ArrayList<>();
+        List<PetitionContradictionContent> contentList = new ArrayList<>();
+        List<PetitionContradictionResolveProcess> processList = new ArrayList<>();
+        List<PetitionContradictionResolveReason> reasonList = new ArrayList<>();
+        for (PetitionContradictionResult result : resultList) {
+            PetitionContradiction contradiction = transFromPetitionContradictionResult(result);
+            EntityUtils.initInsertEntity(contradiction);
+            list.add(contradiction);
+            contentList.addAll(getContentListFromContradiction(contradiction.getId(), result));
+            processList.addAll(getProcessListFromContradiction(contradiction.getId(), result));
+            reasonList.addAll(getReasonListFromContradiction(contradiction.getId(), result));
         }
-        return mapper.insertList(initList);
+        int flag = insertList(list);
+        if (CollectionUtils.isNotEmpty(contentList)) {
+            contradictionContentMapper.insertList(contentList);
+        }
+        if (CollectionUtils.isNotEmpty(processList)) {
+            resolveProcessMapper.insertList(processList);
+        }
+        if (CollectionUtils.isNotEmpty(reasonList)) {
+            resolveReasonMapper.insertList(reasonList);
+        }
+        return flag;
+    }
+
+    @Override
+    @Transactional
+    public int insertList(List<PetitionContradiction> list) {
+        return mapper.insertList(list);
     }
 
     private String getSexValue(String str) {

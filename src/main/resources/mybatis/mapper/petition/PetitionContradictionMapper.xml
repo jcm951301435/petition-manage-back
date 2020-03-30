@@ -903,7 +903,7 @@ insert_on, insert_by, update_on, update_by,
             #{item.resolveFormOtherContent,jdbcType=VARCHAR}, #{item.insertOn,jdbcType=TIMESTAMP},
             #{item.insertBy,jdbcType=BIGINT}, #{item.updateOn,jdbcType=TIMESTAMP}, #{item.updateBy,jdbcType=BIGINT},
             #{item.deleteFlag,jdbcType=BIT}, #{item.deleteOn,jdbcType=TIMESTAMP}, #{item.deleteBy,jdbcType=BIGINT},
-            #{item.remarks,jdbcType=VARCHAR}, #{lawsuit,jdbcType=BIT}, #{finished,jdbcType=BIT})
+            #{item.remarks,jdbcType=VARCHAR}, #{item.lawsuit,jdbcType=BIT}, #{item.finished,jdbcType=BIT})
         </foreach>
     </insert>
 

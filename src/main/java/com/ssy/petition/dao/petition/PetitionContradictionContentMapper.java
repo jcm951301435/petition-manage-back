@@ -17,4 +17,6 @@ public interface PetitionContradictionContentMapper extends BaseMapper<PetitionC
     int deleteByContradictionIdAndNotExists(@Param("contradictionId")Long contradictionId,
                                             @Param("PetitionContradictionContents")List<PetitionContradictionContent> petitionContradictionContents);
 
+    int insertList(@Param("list")List<PetitionContradictionContent> list);
+
 }
