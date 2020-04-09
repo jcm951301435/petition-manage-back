@@ -71,8 +71,8 @@ public class PetitionContradictionServiceImpl implements PetitionContradictionSe
         Long companyId = SecurityUtil.getCheckedCurrentCompanyId();
         if (companyId != null) {
             responsibleCompany.add(SecurityUtil.getCheckedCurrentCompanyId());
+            params.setResponsibleCompany(responsibleCompany);
         }
-        params.setResponsibleCompany(responsibleCompany);
         List<PetitionContradictionResult> list = mapper.getList(params);
         CommonPage<PetitionContradictionResult> page = CommonPage.restPage(list);
         List<PetitionContradictionResult> resultList = new ArrayList<>();

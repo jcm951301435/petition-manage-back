@@ -8,7 +8,6 @@ import com.ssy.petition.excel.BaseExcelColumn;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -16,15 +15,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -34,6 +32,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class ExcelUtils {
+
+    private static String fileBasePath;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelUtils.class);
 
@@ -74,26 +74,82 @@ public class ExcelUtils {
         ExcelUtils.resourceLoader = resourceLoader;
     }
 
+    public static String getFileBasePath() {
+        return fileBasePath;
+    }
+
+    @Value("${file.upload.path}")
+    public void setFileBasePath(String fileBasePath) {
+        ExcelUtils.fileBasePath = fileBasePath;
+    }
+
     public static void downLoadTemplate(String name, String type, String title, HttpServletResponse response) {
-        String path = TEMPLATE_FILE_BASE_PATH + name + "." + XLS_FILE_SUFFIX_2007;
-        Resource resource = resourceLoader.getResource(path);
-        InputStream inputStream;
+        String path = fileBasePath + name + "." + XLS_FILE_SUFFIX_2007;
+        File file = new File(path);
+        InputStream inputStream = null;
+        BufferedInputStream bufferedInputStream = null;
+        byte[] buffer = new byte[1024];
         try {
-            inputStream = resource.getInputStream();
+            if (file.exists()) {
+                inputStream = new FileInputStream(file);
+            } else {
+                String resourcePath = TEMPLATE_FILE_BASE_PATH + name + "." + XLS_FILE_SUFFIX_2007;
+                Resource resource = resourceLoader.getResource(resourcePath);
+                inputStream = resource.getInputStream();
+            }
+            HttpUtils.downLoadResponse(title + "." + XLS_FILE_SUFFIX_2007, response);
+            bufferedInputStream = new BufferedInputStream(inputStream);
+            OutputStream outputStream = response.getOutputStream();
+            int i = bufferedInputStream.read(buffer);
+            while (i != -1) {
+                outputStream.write(buffer, 0, i);
+                i = bufferedInputStream.read(buffer);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("模板文件不存在，请联系管理员上传！");
-        }
-        if (inputStream != null) {
+        } finally {
             try {
-                HttpUtils.downLoadResponse(title + "." + XLS_FILE_SUFFIX_2007, response);
-                OutputStream outputStream = response.getOutputStream();
-                IOUtils.copy(inputStream, outputStream);
+                if (bufferedInputStream != null) {
+                    bufferedInputStream.close();
+                }
+                if (inputStream != null) {
+                    inputStream.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("模板文件下载出错，请联系管理员！");
             }
         }
+
+        //try {
+        //    if (file.exists()) {
+        //        inputStream = new FileInputStream(file);
+        //    } else {
+        //        Resource resource = resourceLoader.getResource(path);
+        //        inputStream = resource.getInputStream();
+        //    }
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //    throw new RuntimeException("模板文件不存在，请联系管理员上传！");
+        //} finally {
+        //    try {
+        //        if (inputStream != null) {
+        //            inputStream.close();
+        //        }
+        //    } catch (IOException e) {
+        //        e.printStackTrace();
+        //    }
+        //}
+        //if (inputStream != null) {
+        //    try {
+        //        HttpUtils.downLoadResponse(title + "." + XLS_FILE_SUFFIX_2007, response);
+        //        OutputStream outputStream = response.getOutputStream();
+        //        IOUtils.copy(inputStream, outputStream);
+        //    } catch (IOException e) {
+        //        e.printStackTrace();
+        //        throw new RuntimeException("模板文件下载出错，请联系管理员！");
+        //    }
+        //}
     }
 
     public static <T> void downLoad(List<T> list, Class<T> cls, HttpServletResponse response) {
@@ -188,7 +244,7 @@ public class ExcelUtils {
                 if (fieldClass.equals(String.class)) {
                     switch (cell.getCellType()) {
                         case NUMERIC:
-                            Double doubleValue =cell.getNumericCellValue();
+                            Double doubleValue = cell.getNumericCellValue();
                             value = String.valueOf(doubleValue.intValue());
                             break;
                         case STRING:
@@ -200,7 +256,7 @@ public class ExcelUtils {
                     }
                 } else if (fieldClass.equals(Integer.class) || fieldClass.equals(Short.class)) {
                     if (cell.getCellType() == CellType.NUMERIC) {
-                        Double doubleValue =cell.getNumericCellValue();
+                        Double doubleValue = cell.getNumericCellValue();
                         value = doubleValue.intValue();
                     } else {
                         value = Integer.valueOf(cell.getStringCellValue());
