@@ -30,7 +30,6 @@ public class PetitionCompanyController {
 
     @ApiOperation("公司列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('company:list')")
     public CommonResult list(PetitionCompanyParams params,
                              @RequestParam(value = "pageNum", required = false) Integer pageNum,
                              @RequestParam(value = "pageSize", required = false) Integer pageSize) {

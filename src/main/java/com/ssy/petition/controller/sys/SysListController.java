@@ -37,7 +37,6 @@ public class SysListController {
 
     @ApiOperation("列选列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    @PreAuthorize("hasAuthority('list:list')")
     public CommonResult list(SysListListParams params,
                              @RequestParam(value = "pageNum", required = false) Integer pageNum,
                              @RequestParam(value = "pageSize", required = false) Integer pageSize) {
