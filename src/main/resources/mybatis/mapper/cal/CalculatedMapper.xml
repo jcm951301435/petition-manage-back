@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssy.petition.dao.cal.CalculatedMapper">
+    <resultMap id="BaseResultMap" type="com.ssy.petition.entity.cal.Calculated">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="batch_number" jdbcType="VARCHAR" property="batchNumber"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="inform_rate" jdbcType="DECIMAL" property="informRate"/>
+        <result column="finish_rate" jdbcType="DECIMAL" property="finishRate"/>
+        <result column="initial_accept_cycle" jdbcType="DECIMAL" property="initialAcceptCycle"/>
+        <result column="initial_reply_cycle" jdbcType="DECIMAL" property="initialReplyCycle"/>
+        <result column="initial_contact_rate" jdbcType="DECIMAL" property="initialContactRate"/>
+        <result column="repeat_petition_rate" jdbcType="DECIMAL" property="repeatPetitionRate"/>
+        <result column="public_reply_rate" jdbcType="DECIMAL" property="publicReplyRate"/>
+        <result column="satisfaction_rate" jdbcType="DECIMAL" property="satisfactionRate"/>
+        <result column="right_rate" jdbcType="DECIMAL" property="rightRate"/>
+        <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
+        <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
+        <result column="update_on" jdbcType="TIMESTAMP" property="updateOn"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="delete_flag" jdbcType="BIT" property="deleteFlag"/>
+        <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn"/>
+        <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+
+    <resultMap id="CalculatedResultMap" type="com.ssy.petition.dto.cal.result.CalculatedResult">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="batch_number" jdbcType="VARCHAR" property="batchNumber"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="inform_rate" jdbcType="DECIMAL" property="informRate"/>
+        <result column="finish_rate" jdbcType="DECIMAL" property="finishRate"/>
+        <result column="initial_accept_cycle" jdbcType="DECIMAL" property="initialAcceptCycle"/>
+        <result column="initial_reply_cycle" jdbcType="DECIMAL" property="initialReplyCycle"/>
+        <result column="initial_contact_rate" jdbcType="DECIMAL" property="initialContactRate"/>
+        <result column="repeat_petition_rate" jdbcType="DECIMAL" property="repeatPetitionRate"/>
+        <result column="public_reply_rate" jdbcType="DECIMAL" property="publicReplyRate"/>
+        <result column="satisfaction_rate" jdbcType="DECIMAL" property="satisfactionRate"/>
+        <result column="right_rate" jdbcType="DECIMAL" property="rightRate"/>
+        <result column="insert_on" jdbcType="TIMESTAMP" property="insertOn"/>
+        <result column="insert_by" jdbcType="BIGINT" property="insertBy"/>
+        <result column="insert_by_name" jdbcType="VARCHAR" property="insertByName"/>
+        <result column="update_on" jdbcType="TIMESTAMP" property="updateOn"/>
+        <result column="update_by" jdbcType="BIGINT" property="updateBy"/>
+        <result column="delete_flag" jdbcType="BIT" property="deleteFlag"/>
+        <result column="delete_on" jdbcType="TIMESTAMP" property="deleteOn"/>
+        <result column="delete_by" jdbcType="BIGINT" property="deleteBy"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+
+    <resultMap id="BatchNumberMap" type="java.lang.String">
+        <result column="batch_number" jdbcType="VARCHAR" property="batchNumber"/>
+    </resultMap>
+
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="orCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List">
+        `id`, `batch_number`, `sort`, `company_name`, `inform_rate`, `finish_rate`, `initial_accept_cycle`, `initial_reply_cycle`,
+        `initial_contact_rate`, `repeat_petition_rate`, `public_reply_rate`, `satisfaction_rate`, `right_rate`,
+        `insert_on`, `insert_by`, `update_on`, `update_by`, `delete_flag`, `delete_on`, `delete_by`, `remarks`
+    </sql>
+    <select id="selectByExample" parameterType="com.ssy.petition.entity.base.example.BaseExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from petition_calculated
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from petition_calculated
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from petition_calculated
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ssy.petition.entity.cal.Calculated">
+        insert into petition_calculated (
+            `id`, `batch_number`, `sort`, `company_name`, `inform_rate`, `finish_rate`, `initial_accept_cycle`, `initial_reply_cycle`,
+            `initial_contact_rate`, `repeat_petition_rate`, `public_reply_rate`, `satisfaction_rate`, `right_rate`,
+            `insert_on`, `insert_by`, `update_on`, `update_by`, `delete_flag`, `delete_on`, `delete_by`, `remarks`
+        )
+        values (#{id,jdbcType=BIGINT}, #{batchNumber,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}), #{companyName,jdbcType=VARCHAR},
+            #{informRate,jdbcType=DECIMAL},#{finishRate,jdbcType=DECIMAL},
+            #{initialAcceptCycle,jdbcType=DECIMAL},#{initialReplyCycle,jdbcType=DECIMAL},
+            #{initialContactRate,jdbcType=DECIMAL},#{repeatPetitionRate,jdbcType=DECIMAL},
+            #{publicReplyRate,jdbcType=DECIMAL},#{satisfactionRate,jdbcType=DECIMAL},
+            #{rightRate,jdbcType=DECIMAL},#{insertOn,jdbcType=TIMESTAMP},
+            #{insertBy,jdbcType=BIGINT}, #{updateOn,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT},
+            #{deleteFlag,jdbcType=BIT}, #{deleteOn,jdbcType=TIMESTAMP}, #{deleteBy,jdbcType=BIGINT},
+            #{remarks,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ssy.petition.entity.cal.Calculated">
+        insert into petition_calculated
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="batchNumber != null">
+                batch_number,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="informRate != null">
+                inform_rate,
+            </if>
+            <if test="finishRate != null">
+                finish_rate,
+            </if>
+            <if test="initialAcceptCycle != null">
+                initial_accept_cycle,
+            </if>
+            <if test="initialReplyCycle != null">
+                initial_reply_cycle,
+            </if>
+            <if test="initialContactRate != null">
+                initial_contact_rate,
+            </if>
+            <if test="repeatPetitionRate != null">
+                repeat_petition_rate,
+            </if>
+            <if test="publicReplyRate != null">
+                public_reply_rate,
+            </if>
+            <if test="satisfactionRate != null">
+                satisfaction_rate,
+            </if>
+            <if test="rightRate != null">
+                right_rate,
+            </if>
+            <if test="insertOn != null">
+                insert_on,
+            </if>
+            <if test="insertBy != null">
+                insert_by,
+            </if>
+            <if test="updateOn != null">
+                update_on,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag,
+            </if>
+            <if test="deleteOn != null">
+                delete_on,
+            </if>
+            <if test="deleteBy != null">
+                delete_by,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="batchNumber != null">
+                #{batchNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="informRate != null">
+                #{informRate,jdbcType=DECIMAL},
+            </if>
+            <if test="finishRate != null">
+                #{finishRate,jdbcType=DECIMAL},
+            </if>
+            <if test="initialAcceptCycle != null">
+                #{initialAcceptCycle,jdbcType=DECIMAL},
+            </if>
+            <if test="initialReplyCycle != null">
+                #{initialReplyCycle,jdbcType=DECIMAL},
+            </if>
+            <if test="initialContactRate != null">
+                #{initialContactRate,jdbcType=DECIMAL},
+            </if>
+            <if test="repeatPetitionRate != null">
+                #{repeatPetitionRate,jdbcType=DECIMAL},
+            </if>
+            <if test="publicReplyRate != null">
+                #{publicReplyRate,jdbcType=DECIMAL},
+            </if>
+            <if test="satisfactionRate != null">
+                #{satisfactionRate,jdbcType=DECIMAL},
+            </if>
+            <if test="rightRate != null">
+                #{rightRate,jdbcType=DECIMAL},
+            </if>
+            <if test="insertOn != null">
+                #{insertOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="insertBy != null">
+                #{insertBy,jdbcType=BIGINT},
+            </if>
+            <if test="updateOn != null">
+                #{updateOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=BIGINT},
+            </if>
+            <if test="deleteFlag != null">
+                #{deleteFlag,jdbcType=BIT},
+            </if>
+            <if test="deleteOn != null">
+                #{deleteOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteBy != null">
+                #{deleteBy,jdbcType=BIGINT},
+            </if>
+            <if test="remarks != null">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssy.petition.entity.cal.Calculated">
+        update petition_calculated
+        <set>
+            <if test="batchNumber != null">
+                batch_number = #{batchNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="informRate != null">
+                inform_rate = #{informRate,jdbcType=DECIMAL},
+            </if>
+            <if test="finishRate != null">
+                finish_rate = #{finishRate,jdbcType=DECIMAL},
+            </if>
+            <if test="initialAcceptCycle != null">
+                initial_accept_cycle = #{initialAcceptCycle,jdbcType=DECIMAL},
+            </if>
+            <if test="initialReplyCycle != null">
+                initial_reply_cycle = #{initialReplyCycle,jdbcType=DECIMAL},
+            </if>
+            <if test="initialContactRate != null">
+                initial_contact_rate = #{initialContactRate,jdbcType=DECIMAL},
+            </if>
+            <if test="repeatPetitionRate != null">
+                repeat_petition_rate = #{repeatPetitionRate,jdbcType=DECIMAL},
+            </if>
+            <if test="publicReplyRate != null">
+                public_reply_rate = #{publicReplyRate,jdbcType=DECIMAL},
+            </if>
+            <if test="satisfactionRate != null">
+                satisfaction_rate = #{satisfactionRate,jdbcType=DECIMAL},
+            </if>
+            <if test="rightRate != null">
+                right_rate = #{rightRate,jdbcType=DECIMAL},
+            </if>
+            <if test="insertOn != null">
+                insert_on = #{insertOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="insertBy != null">
+                insert_by = #{insertBy,jdbcType=BIGINT},
+            </if>
+            <if test="updateOn != null">
+                update_on = #{updateOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=BIGINT},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=BIT},
+            </if>
+            <if test="deleteOn != null">
+                delete_on = #{deleteOn,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteBy != null">
+                delete_by = #{deleteBy,jdbcType=BIGINT},
+            </if>
+            <if test="remarks != null">
+                remarks = #{remarks,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.cal.Calculated">
+        update petition_calculated
+        set sort    = #{sort,jdbcType=INTEGER},
+            company_name    = #{companyName,jdbcType=VARCHAR},
+            batch_number    = #{batchNumber,jdbcType=VARCHAR},
+            inform_rate      = #{informRate,jdbcType=DECIMAL},
+            finish_rate      = #{finishRate,jdbcType=DECIMAL},
+            initial_accept_cycle      = #{initialAcceptCycle,jdbcType=DECIMAL},
+            initial_reply_cycle      = #{initialReplyCycle,jdbcType=DECIMAL},
+            initial_contact_rate      = #{initialContactRate,jdbcType=DECIMAL},
+            repeat_petition_rate      = #{repeatPetitionRate,jdbcType=DECIMAL},
+            public_reply_rate      = #{publicReplyRate,jdbcType=DECIMAL},
+            satisfaction_rate      = #{satisfactionRate,jdbcType=DECIMAL},
+            right_rate      = #{rightRate,jdbcType=DECIMAL},
+
+            insert_on   = #{insertOn,jdbcType=TIMESTAMP},
+            insert_by   = #{insertBy,jdbcType=BIGINT},
+            update_on   = #{updateOn,jdbcType=TIMESTAMP},
+            update_by   = #{updateBy,jdbcType=BIGINT},
+            delete_flag = #{deleteFlag,jdbcType=BIT},
+            delete_on   = #{deleteOn,jdbcType=TIMESTAMP},
+            delete_by   = #{deleteBy,jdbcType=BIGINT},
+            remarks     = #{remarks,jdbcType=VARCHAR},
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="getList" resultMap="CalculatedResultMap">
+        SELECT
+        `id`, `batch_number`, `sort`, `company_name`, `inform_rate`, `finish_rate`, `initial_accept_cycle`, `initial_reply_cycle`,
+        `initial_contact_rate`, `repeat_petition_rate`, `public_reply_rate`, `satisfaction_rate`, `right_rate`,
+        `insert_on`, `insert_by`, `update_on`, `update_by`, `delete_flag`, `delete_on`, `delete_by`, `remarks`,
+        FT_getUsernameById(insert_by) as insert_by_name
+        FROM petition_calculated c
+        WHERE
+              c.delete_flag=0
+        <if test="queryParam.companyName!=null">
+            AND company_name LIKE concat("%", #{queryParam.companyName}, "%")
+        </if>
+        <if test="queryParam.batchNumber!=null">
+            AND batch_number = #{queryParam.batchNumber}
+        </if>
+        ORDER BY c.batch_number, c.sort
+    </select>
+
+    <select id="getBatchNumberList" resultMap="BatchNumberMap">
+        SELECT DISTINCT batch_number
+        FROM petition_calculated
+        WHERE 1=1
+        <if test="batchNumber!=null">
+            AND batch_number LIKE concat("%", #{batchNumber}, "%")
+        </if>
+        ORDER BY batch_number
+    </select>
+
+</mapper>

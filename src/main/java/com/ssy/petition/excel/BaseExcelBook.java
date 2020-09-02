@@ -8,6 +8,8 @@ public class BaseExcelBook {
 
     private int importRowBeginCount;
 
+    private int importColBeginCount;
+
     private List<BaseExcelColumn> columnList;
 
     public String getTitle() {
@@ -32,6 +34,21 @@ public class BaseExcelBook {
 
     public void setImportRowBeginCount(int importRowBeginCount) {
         this.importRowBeginCount = importRowBeginCount;
+    }
+
+    public int getImportColBeginCount() {
+        return importColBeginCount;
+    }
+
+    public void setImportColBeginCount(int importColBeginCount) {
+        this.importColBeginCount = importColBeginCount;
+    }
+
+    public BaseExcelBook(String title, int importRowBeginCount, int importColBeginCount, List<BaseExcelColumn> columnList) {
+        this.title = title;
+        this.importRowBeginCount = importRowBeginCount;
+        this.importColBeginCount = importColBeginCount;
+        this.columnList = columnList;
     }
 
     public BaseExcelBook(String title, int importRowBeginCount, List<BaseExcelColumn> columnList) {

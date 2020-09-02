@@ -1,5 +1,7 @@
 package com.ssy.petition.excel;
 
+import com.ssy.petition.annotation.ExcelFormatEnum;
+
 import java.lang.reflect.Field;
 
 public class BaseExcelColumn {
@@ -8,7 +10,7 @@ public class BaseExcelColumn {
 
     private String methodName;
 
-    private String text;
+    private String[] text;
 
     private int colWidth;
 
@@ -18,11 +20,13 @@ public class BaseExcelColumn {
 
     private Field field;
 
-    public String getText() {
+    private ExcelFormatEnum format;
+
+    public String[] getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(String[] text) {
         this.text = text;
     }
 
@@ -74,10 +78,18 @@ public class BaseExcelColumn {
         this.field = field;
     }
 
+    public ExcelFormatEnum getFormat() {
+        return format;
+    }
+
+    public void setFormat(ExcelFormatEnum format) {
+        this.format = format;
+    }
+
     public BaseExcelColumn() {
     }
 
-    public BaseExcelColumn(String fieldName, String methodName, String text, int colWidth, short color, int sort, Field field) {
+    public BaseExcelColumn(String fieldName, String methodName, String[] text, int colWidth, short color, int sort, Field field, ExcelFormatEnum format) {
         this.fieldName = fieldName;
         this.methodName = methodName;
         this.text = text;
@@ -85,5 +97,6 @@ public class BaseExcelColumn {
         this.color = color;
         this.sort = sort;
         this.field = field;
+        this.format = format;
     }
 }

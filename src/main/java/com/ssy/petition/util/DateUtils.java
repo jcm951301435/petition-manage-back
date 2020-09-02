@@ -111,4 +111,18 @@ public class DateUtils {
         return add(date, days, Calendar.DAY_OF_MONTH);
     }
 
+    public static String generateBatchNumber() {
+        String nowStr = formatDate(now(), "yyyy-MM-dd HH:mm:ss.sss");
+        nowStr = nowStr.replace(HYPHEN, "");
+        nowStr = nowStr.replace(SLASH, "");
+        nowStr = nowStr.replace(COLON, "");
+        nowStr = nowStr.replace(" ", "");
+        nowStr = nowStr.replace(".", "");
+        return nowStr;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(DateUtils.generateBatchNumber());
+    }
+
 }

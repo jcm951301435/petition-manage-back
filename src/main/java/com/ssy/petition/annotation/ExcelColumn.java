@@ -5,6 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * @author jcm95
+ */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExcelColumn {
@@ -13,7 +16,7 @@ public @interface ExcelColumn {
      * 字段名
      * @return
      */
-    String text() default "";
+    String[] text() default "";
 
     /**
      * 宽度
@@ -28,5 +31,7 @@ public @interface ExcelColumn {
     short color() default 1;
 
     int sort();
+
+    ExcelFormatEnum format() default ExcelFormatEnum.NULL;
 
 }

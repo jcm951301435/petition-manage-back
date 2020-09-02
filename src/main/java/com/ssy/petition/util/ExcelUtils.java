@@ -3,6 +3,7 @@ package com.ssy.petition.util;
 import com.ssy.petition.annotation.EntityExcelWorkBook;
 import com.ssy.petition.annotation.ExcelBook;
 import com.ssy.petition.annotation.ExcelColumn;
+import com.ssy.petition.annotation.ExcelFormatEnum;
 import com.ssy.petition.excel.BaseExcelBook;
 import com.ssy.petition.excel.BaseExcelColumn;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -27,6 +28,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -105,6 +107,7 @@ public class ExcelUtils {
                 outputStream.write(buffer, 0, i);
                 i = bufferedInputStream.read(buffer);
             }
+            outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("模板文件不存在，请联系管理员上传！");
@@ -166,11 +169,13 @@ public class ExcelUtils {
     }
 
     public static <T> XSSFWorkbook generateExcelBook(List<T> list, Class<T> cls) {
+        LOGGER.info("生成表格信息开始");
         XSSFWorkbook wb = new XSSFWorkbook();
         EntityExcelWorkBook excelWorkBook = getEntityExcelWorkBook(wb, cls);
         initTitle(excelWorkBook);
         initColumnTitle(excelWorkBook);
         initColumnValue(excelWorkBook, list);
+        LOGGER.info("生成表格信息结束");
         return wb;
     }
 
@@ -197,6 +202,8 @@ public class ExcelUtils {
                     workbook = new HSSFWorkbook(is);
                 } else if (fileName.endsWith(XLS_FILE_SUFFIX_2007)) {
                     workbook = new XSSFWorkbook(is);
+                } else {
+                    throw new RuntimeException("文件类型有误，请上传支持的excel文件");
                 }
             } catch (IOException e) {
                 LOGGER.error("文件解析错误 {}", e.getMessage());
@@ -217,6 +224,7 @@ public class ExcelUtils {
         }
         BaseExcelBook baseExcelBook = getExcelBook(cls);
         List<BaseExcelColumn> columnList = baseExcelBook.getColumnList();
+        int importColBeginCount = baseExcelBook.getImportColBeginCount();
         T object;
         for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
             if (i < baseExcelBook.getImportRowBeginCount() - 1) {
@@ -225,21 +233,22 @@ public class ExcelUtils {
             Row row = sheet.getRow(i);
             object = cls.newInstance();
             for (BaseExcelColumn column : columnList) {
-                int sort = column.getSort();
-                String text = column.getText();
+                int sort = column.getSort() + importColBeginCount;
+                String[] text = column.getText();
                 Field field = column.getField();
                 String fieldName = column.getFieldName();
                 if (INDEX_FIELD_NAME.equalsIgnoreCase(fieldName)) {
                     continue;
                 }
-                if (row.getLastCellNum() < sort) {
-                    throw new RuntimeException(" 列：" + text + " 应在第" + (sort + 1) + "列，请核对Excel文件与模板！");
-                }
+                System.out.println(row.getLastCellNum());
+//                if (row.getLastCellNum() < sort) {
+//                    throw new RuntimeException(" 列：" + text[0] + " 应在第" + (sort + 1) + "列，请核对Excel文件与模板！");
+//                }
                 Cell cell = row.getCell(sort);
                 if (cell == null) {
                     continue;
                 }
-                Class fieldClass = field.getType();
+                Class<?> fieldClass = field.getType();
                 Object value = null;
                 if (fieldClass.equals(String.class)) {
                     switch (cell.getCellType()) {
@@ -256,10 +265,25 @@ public class ExcelUtils {
                     }
                 } else if (fieldClass.equals(Integer.class) || fieldClass.equals(Short.class)) {
                     if (cell.getCellType() == CellType.NUMERIC) {
-                        Double doubleValue = cell.getNumericCellValue();
-                        value = doubleValue.intValue();
+                        double doubleValue = cell.getNumericCellValue();
+                        value = (int) doubleValue;
                     } else {
-                        value = Integer.valueOf(cell.getStringCellValue());
+                        String valueStr = cell.getStringCellValue();
+                        if ("".equals(valueStr)) {
+                            valueStr = "0";
+                        }
+                        value = Integer.valueOf(valueStr);
+                    }
+                } else if (fieldClass.equals(BigDecimal.class)) {
+                    if (cell.getCellType() == CellType.NUMERIC) {
+                        double doubleValue = cell.getNumericCellValue();
+                        value = BigDecimal.valueOf(doubleValue);
+                    } else {
+                        String valueStr = cell.getStringCellValue();
+                        if ("".equals(valueStr)) {
+                            valueStr = "0";
+                        }
+                        value = new BigDecimal(valueStr);
                     }
                 } else if (fieldClass.equals(Date.class)) {
                     value = cell.getDateCellValue();
@@ -280,6 +304,7 @@ public class ExcelUtils {
      * @param excelWorkBook
      */
     private static void initTitle(EntityExcelWorkBook excelWorkBook) {
+        LOGGER.info("设置表格头内容开始");
         Class<?> cls = excelWorkBook.getCls();
         BaseExcelBook baseExcelBook = getExcelBook(cls);
         List<BaseExcelColumn> columnList = baseExcelBook.getColumnList();
@@ -292,6 +317,7 @@ public class ExcelUtils {
         if (columnList.size() > 0) {
             sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, columnList.size() - 1));
         }
+        LOGGER.info("设置表格头内容结束");
     }
 
     /**
@@ -300,6 +326,7 @@ public class ExcelUtils {
      * @param excelWorkBook
      */
     private static void initColumnTitle(EntityExcelWorkBook excelWorkBook) {
+        LOGGER.info("设置表格字段头内容开始");
         Class<?> cls = excelWorkBook.getCls();
         BaseExcelBook baseExcelBook = getExcelBook(cls);
         List<BaseExcelColumn> columnList = baseExcelBook.getColumnList();
@@ -311,8 +338,9 @@ public class ExcelUtils {
             sheet.setColumnWidth(i, baseExcelColumn.getColWidth());
             Cell colTextCell = colTextRow.createCell(i);
             colTextCell.setCellStyle(getColumnTitleStyle(excelWorkBook));
-            colTextCell.setCellValue(baseExcelColumn.getText());
+            colTextCell.setCellValue(baseExcelColumn.getText()[0]);
         }
+        LOGGER.info("设置表格字段头内容结束");
     }
 
     /**
@@ -321,28 +349,54 @@ public class ExcelUtils {
      * @param excelWorkBook
      */
     private static void initColumnValue(EntityExcelWorkBook excelWorkBook, List list) {
+        LOGGER.info("设置表格字段值开始");
         Class<?> cls = excelWorkBook.getCls();
         BaseExcelBook baseExcelBook = getExcelBook(cls);
         List<BaseExcelColumn> columnList = baseExcelBook.getColumnList();
         XSSFSheet sheet = excelWorkBook.getSheet();
+        LOGGER.info("循环设置值开始");
         for (int i = 0; i < list.size(); i++) {
             Object obj = list.get(i);
             Row rowTemp = sheet.createRow(i + TITLE_COUNT);
+            if (i == 0) {
+                LOGGER.info("循环设置第一行开始");
+            }
             for (int j = 0; j < columnList.size(); j++) {
                 BaseExcelColumn baseExcelColumn = columnList.get(j);
                 String fieldName = baseExcelColumn.getFieldName();
                 Cell cellTemp = rowTemp.createCell(j);
-                cellTemp.setCellStyle(getColumnStyle(excelWorkBook));
+                CellStyle cellStyle = getColumnStyle(excelWorkBook);
+                cellTemp.setCellStyle(cellStyle);
                 String value;
                 if (fieldName.equalsIgnoreCase(INDEX_FIELD_NAME)) {
-                    value = j + 1 + "";
+                    value = i + 1 + "";
                 } else {
                     String methodName = baseExcelColumn.getMethodName();
                     value = getFormatValue(obj, methodName);
+                    ExcelFormatEnum format = baseExcelColumn.getFormat();
+                    Class<?> fieldType = baseExcelColumn.getField().getType();
+                    if (ExcelFormatEnum.PERCENTAGE.equals(format)) {
+                        try {
+                            if (BigDecimal.class.equals(fieldType)) {
+                                if (StringUtils.isEmpty(value)) {
+                                    value = "-";
+                                } else {
+                                    value = new BigDecimal(100).multiply(new BigDecimal(value)).toString() + "%";
+                                }
+                            }
+                        } catch (Exception e) {
+                            LOGGER.error("设置属性出错", e);
+                        }
+                    }
                 }
                 cellTemp.setCellValue(value);
             }
+            if (i == 0) {
+                LOGGER.info("循环设置第一行结束");
+            }
         }
+        LOGGER.info("循环设置值结束");
+        LOGGER.info("设置表格字段值结束");
     }
 
     private static XSSFCellStyle getDefaultStyle(EntityExcelWorkBook excelWorkBook) {
@@ -403,18 +457,23 @@ public class ExcelUtils {
     }
 
     private static BaseExcelBook getBaseExcelBook(Class<?> cls) {
+        LOGGER.info("初始化表格类信息开始");
         String title = DEFAULT_TITLE;
         int importRowBeginCount = 3;
+        int importColBeginCount = 0;
         Annotation[] annotations = cls.getAnnotations();
         for (Annotation annotation : annotations) {
             if (annotation instanceof ExcelBook) {
                 title = ((ExcelBook) annotation).title();
                 importRowBeginCount = ((ExcelBook) annotation).importRowBeginCount();
+                importColBeginCount = ((ExcelBook) annotation).importColBeginCount();
                 break;
             }
         }
+
         List<BaseExcelColumn> columnList = getExcelColumns(cls);
-        return new BaseExcelBook(title, importRowBeginCount, columnList);
+        LOGGER.info("初始化表格类信息结束");
+        return new BaseExcelBook(title, importRowBeginCount, importColBeginCount, columnList);
     }
 
     private static boolean getShowIndex(Class<?> cls) {
@@ -436,10 +495,11 @@ public class ExcelUtils {
      * @return
      */
     private static List<BaseExcelColumn> getExcelColumns(Class<?> cls) {
+        LOGGER.info("初始化表格字段信息开始");
         List<BaseExcelColumn> columnList = new ArrayList<>();
         if (getShowIndex(cls)) {
-            BaseExcelColumn column = new BaseExcelColumn(INDEX_FIELD_NAME, null, INDEX_FIELD_TITLE,
-                    5 * 256, (short) 1, 0, null);
+            BaseExcelColumn column = new BaseExcelColumn(INDEX_FIELD_NAME, null, new String[]{INDEX_FIELD_TITLE},
+                    5 * 256, (short) 1, 0, null, ExcelFormatEnum.NULL);
             columnList.add(column);
         }
         List<Class<?>> superClasses = getSupperClasses(cls);
@@ -452,17 +512,19 @@ public class ExcelUtils {
                     if (StringUtils.isNotEmpty(fieldName)) {
                         if (annotation instanceof ExcelColumn) {
                             ExcelColumn excelColumn = (ExcelColumn) annotation;
-                            String text = excelColumn.text();
+                            String[] text = excelColumn.text();
                             int colWidth = excelColumn.colWidth();
                             short color = excelColumn.color();
                             int sort = excelColumn.sort();
-                            BaseExcelColumn column = new BaseExcelColumn(fieldName, methodName, text, colWidth, color, sort, field);
+                            ExcelFormatEnum format = excelColumn.format();
+                            BaseExcelColumn column = new BaseExcelColumn(fieldName, methodName, text, colWidth, color, sort, field, format);
                             columnList.add(column);
                         }
                     }
                 }
             }
         }
+        LOGGER.info("初始化表格字段信息结束");
         return columnList.stream().sorted(Comparator.comparing(BaseExcelColumn::getSort)).collect(Collectors.toList());
     }
 
@@ -488,7 +550,7 @@ public class ExcelUtils {
     private static String getFormatValue(Object object, String methodName) {
         Object value = getValue(object, methodName);
         if (value == null) {
-            return "";
+            return null;
         }
         return getValue(object, methodName).toString();
     }

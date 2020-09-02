@@ -5,6 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * @author jcm95
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExcelBook {
@@ -26,5 +29,11 @@ public @interface ExcelBook {
      * @return
      */
     int importRowBeginCount() default 3;
+
+    /**
+     * 导入列起始
+     * @return
+     */
+    int importColBeginCount() default 0;
 
 }

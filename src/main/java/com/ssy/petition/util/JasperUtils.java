@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -368,6 +369,8 @@ public class JasperUtils {
         response.setCharacterEncoding("utf-8");
         //response.setContentType("text/html");
         response.setContentType("application/pdf");
+        String title = name + ".pdf";
+        response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(title, "UTF-8"));
 
         try {
             String path = ResourceUtils.getURL("classpath:").getPath();

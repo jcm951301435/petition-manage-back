@@ -14,6 +14,8 @@ public class PetitionCompany extends BaseEntity implements Serializable {
 
     private Integer sort;
 
+    private String shortName;
+
     private static final long serialVersionUID = 1L;
 
     public String getName() {
@@ -46,5 +48,24 @@ public class PetitionCompany extends BaseEntity implements Serializable {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    @Override
+    public String toString() {
+        return "PetitionCompany{" +
+                "name='" + name + '\'' +
+                ", contactName='" + contactName + '\'' +
+                ", contactTelephone='" + contactTelephone + '\'' +
+                ", sort=" + sort +
+                ", shortName='" + shortName + '\'' +
+                '}';
     }
 }

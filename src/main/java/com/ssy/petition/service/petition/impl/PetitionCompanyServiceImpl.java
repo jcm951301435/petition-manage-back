@@ -82,4 +82,10 @@ public class PetitionCompanyServiceImpl implements PetitionCompanyService {
         }
         return null;
     }
+
+    @Override
+    public List<PetitionCompanyResult> listAll() {
+        PetitionCompanyParams params = new PetitionCompanyParams();
+        return mapper.getList(params);
+    }
 }

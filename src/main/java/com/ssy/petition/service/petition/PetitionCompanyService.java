@@ -22,4 +22,6 @@ public interface PetitionCompanyService {
 
     Long getCompanyIdByName(String companyName);
 
+    List<PetitionCompanyResult> listAll();
+
 }
