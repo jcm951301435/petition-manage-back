@@ -4,11 +4,13 @@ import com.ssy.petition.annotation.EntityExcelWorkBook;
 import com.ssy.petition.annotation.ExcelBook;
 import com.ssy.petition.annotation.ExcelColumn;
 import com.ssy.petition.annotation.ExcelFormatEnum;
+import com.ssy.petition.dto.cal.result.CalculatedStringResult;
 import com.ssy.petition.excel.BaseExcelBook;
 import com.ssy.petition.excel.BaseExcelColumn;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -173,7 +175,11 @@ public class ExcelUtils {
         XSSFWorkbook wb = new XSSFWorkbook();
         EntityExcelWorkBook excelWorkBook = getEntityExcelWorkBook(wb, cls);
         initTitle(excelWorkBook);
-        initColumnTitle(excelWorkBook);
+        if (cls == CalculatedStringResult.class) {
+            initCalColumnTitle(excelWorkBook);
+        } else {
+            initColumnTitle(excelWorkBook);
+        }
         initColumnValue(excelWorkBook, list);
         LOGGER.info("生成表格信息结束");
         return wb;
@@ -240,7 +246,6 @@ public class ExcelUtils {
                 if (INDEX_FIELD_NAME.equalsIgnoreCase(fieldName)) {
                     continue;
                 }
-                System.out.println(row.getLastCellNum());
 //                if (row.getLastCellNum() < sort) {
 //                    throw new RuntimeException(" 列：" + text[0] + " 应在第" + (sort + 1) + "列，请核对Excel文件与模板！");
 //                }
@@ -280,10 +285,25 @@ public class ExcelUtils {
                         value = BigDecimal.valueOf(doubleValue);
                     } else {
                         String valueStr = cell.getStringCellValue();
-                        if ("".equals(valueStr)) {
+                        if (StringUtils.isEmpty(valueStr)) {
                             valueStr = "0";
                         }
-                        value = new BigDecimal(valueStr);
+                        if ("-".equals(valueStr)) {
+                            value = null;
+                        } else{
+                            try {
+                                if(valueStr.contains("%")) {
+                                    String valuePreStr = valueStr.replace("%", "");
+                                    BigDecimal valuePre = new BigDecimal(valuePreStr);
+                                    value = valuePre.divide(new BigDecimal(100), 6, BigDecimal.ROUND_HALF_UP);
+                                } else {
+                                    value = new BigDecimal(valueStr);
+                                }
+                            } catch (Exception e) {
+                                LOGGER.error("无法转换为 bigDecimal, 使用默认值0, 原值为{}", valueStr);
+                                value = BigDecimal.ZERO;
+                            }
+                        }
                     }
                 } else if (fieldClass.equals(Date.class)) {
                     value = cell.getDateCellValue();
@@ -313,9 +333,18 @@ public class ExcelUtils {
         titleRow.setHeight(TITLE_ROW_HEIGHT);
         Cell titleCell = titleRow.createCell(0);
         titleCell.setCellStyle(getTitleStyle(excelWorkBook));
-        titleCell.setCellValue(excelWorkBook.getTitle());
+        String title = excelWorkBook.getTitle();
+        if (cls == CalculatedStringResult.class) {
+            Calendar calendar = Calendar.getInstance();
+            Date date = new Date();
+            calendar.setTime(date);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            title = "市国资委系统" + year + "年1-X" + "月信访工作目标责任考核数据通报表";
+        }
+        titleCell.setCellValue(title);
         if (columnList.size() > 0) {
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, columnList.size() - 1));
+            mergedRegion(sheet,0, 0, 0, columnList.size() - 1);
         }
         LOGGER.info("设置表格头内容结束");
     }
@@ -343,6 +372,52 @@ public class ExcelUtils {
         LOGGER.info("设置表格字段头内容结束");
     }
 
+    private static void initCalColumnTitle(EntityExcelWorkBook excelWorkBook) {
+        String [][] strings = new String[][] {
+                {"序号", "单位", "信访事项规范办理", "", "初信初访办理效能", "", "", "", "网上信访公开回复", "群众满意度评价", ""},
+                {"", "", "按期受理告知率", "按期办结率", "初次信访事项办理效率", "", "初次信访办理联系率", "重复信访率",
+                        "公开回复率", "信访工作机构参评满意率", "有权处理单位参评满意率"},
+                {"", "", "", "", "平均受理周期", "平均答复周期", "", "", "", "", ""}};
+        XSSFSheet sheet = excelWorkBook.getSheet();
+        XSSFCellStyle style = getColumnTitleStyle(excelWorkBook);
+        for (int i = 0; i < strings.length; i ++) {
+            String[] temp = strings[i];
+            Row colTextRow = sheet.createRow(i + 1);
+            colTextRow.setHeight(COLUMN_TITLE_ROW_HEIGHT);
+            for (int j = 0; j < temp.length; j ++) {
+                String value = temp[j];
+                if (StringUtils.isNotEmpty(value)) {
+                    sheet.setColumnWidth(j, 17 * 256);
+                    Cell colTextCell = colTextRow.createCell(j);
+                    colTextCell.setCellStyle(style);
+                    colTextCell.setCellValue(value);
+                }
+            }
+        }
+        mergedRegion(sheet,1,3,0,0);
+        mergedRegion(sheet,1,3,1,1);
+        mergedRegion(sheet,1,1,2,3);
+        mergedRegion(sheet,2,3,2,2);
+        mergedRegion(sheet,2,3,3,3);
+        mergedRegion(sheet,1,1,4,7);
+        mergedRegion(sheet,2,2,4,5);
+        mergedRegion(sheet,2,3,6,6);
+        mergedRegion(sheet,2,3,7,7);
+        mergedRegion(sheet,2,3,8,8);
+        mergedRegion(sheet,1,1,9,10);
+        mergedRegion(sheet,2,3,9,9);
+        mergedRegion(sheet,2,3,10,10);
+    }
+
+    private static void mergedRegion(XSSFSheet sheet, int firstRow, int lastRow, int firstCol, int lastCol) {
+        CellRangeAddress cellAddresses = new CellRangeAddress(firstRow,lastRow,firstCol,lastCol);
+        sheet.addMergedRegion(cellAddresses);
+        RegionUtil.setBorderBottom(BorderStyle.THIN, cellAddresses, sheet);
+        RegionUtil.setBorderLeft(BorderStyle.THIN, cellAddresses, sheet);
+        RegionUtil.setBorderTop(BorderStyle.THIN, cellAddresses, sheet);
+        RegionUtil.setBorderRight(BorderStyle.THIN, cellAddresses, sheet);
+    }
+
     /**
      * 生成列值
      *
@@ -357,7 +432,11 @@ public class ExcelUtils {
         LOGGER.info("循环设置值开始");
         for (int i = 0; i < list.size(); i++) {
             Object obj = list.get(i);
-            Row rowTemp = sheet.createRow(i + TITLE_COUNT);
+            int count = i + TITLE_COUNT;
+            if (cls == CalculatedStringResult.class) {
+                count = count + 2;
+            }
+            Row rowTemp = sheet.createRow(count);
             if (i == 0) {
                 LOGGER.info("循环设置第一行开始");
             }

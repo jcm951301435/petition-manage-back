@@ -7,7 +7,7 @@ import com.ssy.petition.annotation.ExcelColumn;
  * @author: jcm
  * @date: 2020/09/03
  */
-@ExcelBook(title = "信访工作目标责任考核数据通报表", importRowBeginCount = 2)
+@ExcelBook(title = "信访工作目标责任考核数据通报表", importRowBeginCount = 4)
 public class CalculatedStringResult {
 
     private String batchNumber;
@@ -20,61 +20,63 @@ public class CalculatedStringResult {
     /**
      * 单位名称
      */
-    @ExcelColumn(text = {"单位"}, colWidth = 12 * 256, sort=0)
     private String companyName;
+
+    @ExcelColumn(text = {"单位"}, colWidth = 12 * 256, sort=2)
+    private String shortName;
 
     /**
      * 按期受理告知率
      */
-    @ExcelColumn(text = "按期受理告知率", colWidth = 12 * 256, sort=1)
+    @ExcelColumn(text = "按期受理告知率", colWidth = 12 * 256, sort=3)
     private String informRate;
 
     /**
      * 按期办结率
      */
-    @ExcelColumn(text = "按期办结率", colWidth = 12 * 256, sort=2)
+    @ExcelColumn(text = "按期办结率", colWidth = 12 * 256, sort=4)
     private String finishRate;
 
     /**
      * 初次信访平均受理周期
      */
-    @ExcelColumn(text = "平均受理周期", colWidth = 12 * 256, sort=3)
+    @ExcelColumn(text = "平均受理周期", colWidth = 12 * 256, sort=5)
     private String initialAcceptCycle;
 
     /**
      * 初次信访平均答复周期
      */
-    @ExcelColumn(text = "平均答复周期", colWidth = 12 * 256, sort=4)
+    @ExcelColumn(text = "平均答复周期", colWidth = 12 * 256, sort=6)
     private String initialReplyCycle;
 
     /**
      * 初次信访办理联系率
      */
-    @ExcelColumn(text = "初次信访办理联系率", colWidth = 12 * 256, sort=5)
+    @ExcelColumn(text = "初次信访办理联系率", colWidth = 12 * 256, sort=7)
     private String initialContactRate;
 
     /**
      * 重复信访率
      */
-    @ExcelColumn(text = "重复信访率", colWidth = 12 * 256, sort=6)
+    @ExcelColumn(text = "重复信访率", colWidth = 12 * 256, sort=8)
     private String repeatPetitionRate;
 
     /**
      * 公开回复率
      */
-    @ExcelColumn(text = "公开回复率", colWidth = 12 * 256, sort=7)
+    @ExcelColumn(text = "公开回复率", colWidth = 12 * 256, sort=9)
     private String publicReplyRate;
 
     /**
      * 信访工作机构参评满意率
      */
-    @ExcelColumn(text = "信访工作机构参评满意率", colWidth = 12 * 256, sort=8)
+    @ExcelColumn(text = "信访工作机构参评满意率", colWidth = 12 * 256, sort=10)
     private String satisfactionRate;
 
     /**
      * 有权处理单位参评满意率
      */
-    @ExcelColumn(text = "有权处理单位参评满意率", colWidth = 12 * 256, sort=9)
+    @ExcelColumn(text = "有权处理单位参评满意率", colWidth = 12 * 256, sort=11)
     private String rightRate;
 
     private String insertByName;
@@ -101,6 +103,14 @@ public class CalculatedStringResult {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public String getInformRate() {

@@ -28,8 +28,11 @@ public class Calculated extends BaseEntity implements Serializable {
     /**
      * 单位名称
      */
-    @ExcelColumn(text = {"单位"}, colWidth = 12 * 256, sort=0)
+
     private String companyName;
+
+    @ExcelColumn(text = {"单位"}, colWidth = 12 * 256, sort=0)
+    private String shortName;
 
     /**
      * 按期受理告知率
@@ -107,6 +110,14 @@ public class Calculated extends BaseEntity implements Serializable {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public BigDecimal getInformRate() {
@@ -187,6 +198,7 @@ public class Calculated extends BaseEntity implements Serializable {
                 "batchNumber='" + batchNumber + '\'' +
                 ", sort=" + sort +
                 ", companyName='" + companyName + '\'' +
+                ", shortName='" + shortName + '\'' +
                 ", informRate=" + informRate +
                 ", finishRate=" + finishRate +
                 ", initialAcceptCycle=" + initialAcceptCycle +

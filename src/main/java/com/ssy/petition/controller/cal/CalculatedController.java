@@ -23,6 +23,7 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 信访计算
@@ -49,8 +50,13 @@ public class CalculatedController {
                              @RequestParam(value = "pageNum", required = false) Integer pageNum,
                              @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         List<CalculatedResult> list = service.list(params, pageNum, pageSize);
+        CommonPage pageCal = CommonPage.restPage(list);
         List<CalculatedStringResult> resultList = service.format(list);
         CommonPage page = CommonPage.restPage(resultList);
+        page.setPageNum(pageCal.getPageNum());
+        page.setPageSize(pageCal.getPageSize());
+        page.setTotal(pageCal.getTotal());
+        page.setTotalPage(pageCal.getTotalPage());
         return CommonResult.success(page);
     }
 
@@ -81,8 +87,14 @@ public class CalculatedController {
         }
         Class<? extends ParamsEntity> cls = calculatedTypeEnum.getCls();
         try {
-            List<? extends ParamsEntity> list = ExcelUtils.generateListFromFile(file, cls);
-            CalculateProvider.addCalculating(list, file, calculatedTypeEnum);
+            if ("adminFirstContacts".equals(type) || "partyFirstContacts".equals(type)) {
+                List<FirstContactTime> timeList = ExcelUtils.generateListFromFile(file, FirstContactTime.class);
+                List<? extends ParamsEntity> list = service.formatInt(timeList);
+                CalculateProvider.addCalculating(list, file, calculatedTypeEnum);
+            } else {
+                List<? extends ParamsEntity> list = ExcelUtils.generateListFromFile(file, cls);
+                CalculateProvider.addCalculating(list, file, calculatedTypeEnum);
+            }
         } catch (Exception e) {
             LOGGER.error("导入失败", e);
             return CommonResult.failed("导入失败，请联系管理员。原因：" + e.getMessage());
@@ -114,6 +126,13 @@ public class CalculatedController {
             return CommonResult.failed(e.getMessage());
         }
         return CommonResult.success("计算结束");
+    }
+
+    @ApiOperation("清空")
+    @RequestMapping(value = "/clearCalculate", method = RequestMethod.POST)
+    public CommonResult clearCalculate() {
+        CalculateProvider.clearCalculating();
+        return CommonResult.success("清空成功");
     }
 
     @RequestMapping(value = "/download/{type}", method = RequestMethod.POST)
@@ -181,7 +200,15 @@ public class CalculatedController {
         if (CalculatedStatusEnum.CALCULATING.equals(calculating.getStatus())) {
             throw new RuntimeException("正在计算中，请先等待计算完成");
         }
-        List<CalculatedStringResult> resultList = service.formatCalculated(calculating.getCalculatedList());
+        List<Calculated> list = calculating.getCalculatedList();
+        List<Calculated> afterSortList = list.stream().filter(result ->
+                !(result.getInformRate() == null && result.getFinishRate() == null
+                        && result.getInitialAcceptCycle() == null && result.getInitialReplyCycle() == null
+                        && result.getInitialContactRate() == null && result.getRepeatPetitionRate() == null
+                        && result.getPublicReplyRate() == null && result.getSatisfactionRate() == null
+                        && result.getRightRate() == null
+                )).collect(Collectors.toList());
+        List<CalculatedStringResult> resultList = service.formatCalculated(afterSortList);
         ExcelUtils.downLoad(resultList, CalculatedStringResult.class, response);
         return null;
     }

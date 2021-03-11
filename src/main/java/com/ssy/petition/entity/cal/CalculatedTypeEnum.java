@@ -32,6 +32,11 @@ public enum CalculatedTypeEnum {
     ADMIN_SATISFACTION("adminSatisfactions", Satisfaction.class),
 
     PARTY_SATISFACTION("partySatisfactions", Satisfaction.class),
+
+    ADMIN_RIGHT("adminRight", Satisfaction.class),
+
+    PARTY_RIGHT("partyRight", Satisfaction.class),
+
     ;
 
     public static CalculatedTypeEnum getByName(String name) {

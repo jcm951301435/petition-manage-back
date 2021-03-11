@@ -72,6 +72,16 @@ public class Calculating {
     private CalculateEntity<Satisfaction> partySatisfactions;
 
     /**
+     * 职能部门参评满意率 党委
+     */
+    private CalculateEntity<Satisfaction> adminRight;
+
+    /**
+     * 职能部门参评满意率 党委
+     */
+    private CalculateEntity<Satisfaction> partyRight;
+
+    /**
      * 计算结果
      */
     private List<Calculated> calculatedList;
@@ -202,6 +212,22 @@ public class Calculating {
         this.partySatisfactions = partySatisfactions;
     }
 
+    public CalculateEntity<Satisfaction> getAdminRight() {
+        return adminRight;
+    }
+
+    public void setAdminRight(CalculateEntity<Satisfaction> adminRight) {
+        this.adminRight = adminRight;
+    }
+
+    public CalculateEntity<Satisfaction> getPartyRight() {
+        return partyRight;
+    }
+
+    public void setPartyRight(CalculateEntity<Satisfaction> partyRight) {
+        this.partyRight = partyRight;
+    }
+
     public List<Calculated> getCalculatedList() {
         return calculatedList;
     }
@@ -273,6 +299,8 @@ public class Calculating {
                 ", partyPublicReplies=" + partyPublicReplies +
                 ", adminSatisfactions=" + adminSatisfactions +
                 ", partySatisfactions=" + partySatisfactions +
+                ", adminRight=" + adminRight +
+                ", partyRight=" + partyRight +
                 ", calculatedList=" + calculatedList +
                 ", companyNameSet=" + companyNameSet +
                 ", status=" + status +

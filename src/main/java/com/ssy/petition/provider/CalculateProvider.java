@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -66,6 +67,16 @@ public class CalculateProvider {
     }
 
     /**
+     * 清空
+     */
+    public static void clearCalculating() {
+        Long userId = SecurityUtil.getCurrentUserId();
+        if (CALCULATE_MAP.containsKey(userId)) {
+            CALCULATE_MAP.put(userId, new Calculating());
+        }
+    }
+
+    /**
      * 构造实体
      *
      * @param list
@@ -75,10 +86,15 @@ public class CalculateProvider {
      */
     public static <T extends ParamsEntity> CalculateEntity<T> generateCalculateEntity(List<T> list, MultipartFile file) {
         CalculateEntity<T> calculateEntity = new CalculateEntity<>();
-        Map<String, T> map = list.stream().collect(Collectors.toMap(T::getCompanyName, t -> t,
+        List<T> filterList = list.stream()
+                .filter(t -> StringUtils.isNotEmpty(t.getCompanyName()) && !"总数".equals(t.getCompanyName()))
+                .collect(Collectors.toList());
+        Map<String, T> map = filterList.stream()
+                .collect(Collectors.toMap(T::getCompanyName, t -> t,
                 (key1, key2) -> {throw new RuntimeException(String.format("公司名称重复：[%s]", key1.getCompanyName()));}));
-        calculateEntity.setList(list);
-        List<String> companyNameList = list.stream().map(ParamsEntity::getCompanyName).collect(Collectors.toList());
+        calculateEntity.setList(filterList);
+        List<String> companyNameList = filterList.stream()
+                .map(ParamsEntity::getCompanyName).collect(Collectors.toList());
         calculateEntity.setMap(map);
         calculateEntity.setFile(file);
         calculateEntity.setCompanyNameList(companyNameList);
@@ -160,6 +176,16 @@ public class CalculateProvider {
                 calculating.setPartySatisfactions(partySatisfaction);
                 updateCompanyList(calculating, partySatisfaction);
                 break;
+            case ADMIN_RIGHT:
+                CalculateEntity<Satisfaction> adminRight = generateCalculateEntity((List<Satisfaction>) list, file);
+                calculating.setAdminRight(adminRight);
+                updateCompanyList(calculating, adminRight);
+                break;
+            case PARTY_RIGHT:
+                CalculateEntity<Satisfaction> partyRight = generateCalculateEntity((List<Satisfaction>) list, file);
+                calculating.setPartyRight(partyRight);
+                updateCompanyList(calculating, partyRight);
+                break;
             default:
                 break;
         }
@@ -184,6 +210,9 @@ public class CalculateProvider {
             CalculateEntity<RepeatPetition> partyRepeatPetitionEntity = calculating.getPartyRepeatPetitions();
             CalculateEntity<Satisfaction> adminSatisfactionEntity = calculating.getAdminSatisfactions();
             CalculateEntity<Satisfaction> partySatisfactionEntity = calculating.getPartySatisfactions();
+            CalculateEntity<Satisfaction> adminRightEntity = calculating.getAdminRight();
+            CalculateEntity<Satisfaction> partyRightEntity = calculating.getPartyRight();
+
             if (adminCycleAcceptEntity != null) {
                 companyNameSet.addAll(adminCycleAcceptEntity.getCompanyNameList());
             }
@@ -220,19 +249,49 @@ public class CalculateProvider {
             if (partySatisfactionEntity != null) {
                 companyNameSet.addAll(partySatisfactionEntity.getCompanyNameList());
             }
+            if (adminRightEntity != null) {
+                companyNameSet.addAll(adminRightEntity.getCompanyNameList());
+            }
+            if (partyRightEntity != null) {
+                companyNameSet.addAll(partyRightEntity.getCompanyNameList());
+            }
+
             calculating.setCompanyNameSet(companyNameSet);
 
             List<PetitionCompanyResult> companyResultList = companyService.listAll();
+            Map<String, PetitionCompanyResult> companyShortResultMap = new HashMap<>();
             Map<String, PetitionCompanyResult> companyResultMap = new HashMap<>();
             if (CollectionUtils.isNotEmpty(companyResultList)) {
-                companyResultMap = companyResultList.stream().collect(Collectors.toMap(PetitionCompanyResult::getShortName, company -> company,
+                companyShortResultMap = companyResultList.stream().collect(
+                        Collectors.toMap(PetitionCompanyResult::getShortName, company -> company,
                         (key1, key2) -> key2));
+                companyResultMap = companyResultList.stream().collect(
+                        Collectors.toMap(PetitionCompanyResult::getName, company -> company,
+                                (key1, key2) -> key2));
             }
             List<Calculated> calculatedList = new ArrayList<>();
             for (String companyName : companyNameSet) {
                 Calculated calculated = new Calculated();
-                calculated.setCompanyName(companyName);
-                PetitionCompanyResult companyResult = companyResultMap.get(companyName);
+                PetitionCompanyResult companyResult = null;
+                if (companyResultMap.containsKey(companyName)) {
+                    companyResult = companyResultMap.get(companyName);
+                }
+                if (companyShortResultMap.containsKey(companyName)) {
+                    companyResult = companyShortResultMap.get(companyName);
+                }
+                if (companyResult == null) {
+                    continue;
+//                    calculated.setCompanyName(companyName);
+//                    calculated.setShortName(companyName);
+                } else {
+                    String shortName = companyResult.getShortName();
+                    String companyNameFound = companyResult.getName();
+                    if (StringUtils.isEmpty(shortName)) {
+                        shortName = companyNameFound;
+                    }
+                    calculated.setCompanyName(companyNameFound);
+                    calculated.setShortName(shortName);
+                }
                 Integer sort = null;
                 if (companyResult != null) {
                     sort = companyResult.getSort();
@@ -395,6 +454,19 @@ public class CalculateProvider {
                     count = partySatisfaction.getList().size();
                 }
                 break;
+            case ADMIN_RIGHT:
+                CalculateEntity<Satisfaction> adminRight = calculating.getAdminRight();
+                if (adminRight != null && adminRight.getFile() != null) {
+                    file = adminRight.getFile();
+                    count = adminRight.getList().size();
+                }
+                break;
+            case PARTY_RIGHT:
+                CalculateEntity<Satisfaction> partyRight = calculating.getPartyRight();
+                if (partyRight != null && partyRight.getFile() != null) {
+                    file = partyRight.getFile();
+                    count = partyRight.getList().size();
+                }
             default:
                 break;
         }
@@ -489,6 +561,9 @@ public class CalculateProvider {
             CalculateEntity<RepeatPetition> partyRepeatPetitionEntity = calculating.getPartyRepeatPetitions();
             CalculateEntity<Satisfaction> adminSatisfactionEntity = calculating.getAdminSatisfactions();
             CalculateEntity<Satisfaction> partySatisfactionEntity = calculating.getPartySatisfactions();
+            CalculateEntity<Satisfaction> adminRightEntity = calculating.getAdminRight();
+            CalculateEntity<Satisfaction> partyRightEntity = calculating.getPartyRight();
+
             Map<String, CycleAccept> adminCycleAcceptMap = adminCycleAcceptEntity.getMap();
             Map<String, CycleAccept> partyCycleAcceptMap = partyCycleAcceptEntity.getMap();
             Map<String, FirstAccept> adminFirstAcceptMap = adminFirstAcceptEntity.getMap();
@@ -501,6 +576,8 @@ public class CalculateProvider {
             Map<String, RepeatPetition> partyRepeatPetitionMap = partyRepeatPetitionEntity.getMap();
             Map<String, Satisfaction> adminSatisfactionMap = adminSatisfactionEntity.getMap();
             Map<String, Satisfaction> partySatisfactionMap = partySatisfactionEntity.getMap();
+            Map<String, Satisfaction> adminRightMap = adminRightEntity.getMap();
+            Map<String, Satisfaction> partyRightMap = partyRightEntity.getMap();
             for (Calculated calculated : calculatedList) {
                 calculated.setInformRate(null);
                 calculated.setFinishRate(null);
@@ -568,8 +645,10 @@ public class CalculateProvider {
                     partyCount = isnull(partyFirstContact.getCount());
                 }
                 BigDecimal firstContactCount = new BigDecimal(adminCount + partyCount);
-                BigDecimal initialAcceptCycle = divide(add(adminAcceptTime, partyAcceptTime), firstContactCount);
-                BigDecimal initialReplyCycle = divide(add(adminReplyTime, partyReplyTime), firstContactCount);
+                BigDecimal initialAcceptCycle = divide(add(multiply(adminAcceptTime, new BigDecimal(adminCount)),
+                        multiply(partyAcceptTime, new BigDecimal(partyCount))), firstContactCount);
+                BigDecimal initialReplyCycle = divide(add(multiply(adminReplyTime, new BigDecimal(adminCount)),
+                        multiply(partyReplyTime, new BigDecimal(partyCount))), firstContactCount);
                 calculated.setInitialAcceptCycle(initialAcceptCycle);
                 calculated.setInitialReplyCycle(initialReplyCycle);
 
@@ -628,6 +707,7 @@ public class CalculateProvider {
                 calculated.setPublicReplyRate(publicReplyRate);
 
                 // 信访工作机构参评满意率 有权处理单位参评满意率
+                // 2020-10-08 有权处理单位参评满意率 由单独文件导入
                 Satisfaction adminSatisfaction = adminSatisfactionMap.get(companyName);
                 Satisfaction partySatisfaction = partySatisfactionMap.get(companyName);
                 int adminAllCount = 0;
@@ -654,13 +734,51 @@ public class CalculateProvider {
                     partyAssessNoSatisCount = isnull(partySatisfaction.getAssessNoSatisCount());
                     partyOverdueNoAssessCount = isnull(partySatisfaction.getOverdueNoAssessCount());
                 }
-                BigDecimal satisfactionRate = divide(adminAssessSatisAllCount + adminAssessSatisSomeCount
+                // 参评满意率 = 参评率 * 满意率
+                BigDecimal satisfactionParams1 = divide(adminAssessSatisAllCount + adminAssessSatisSomeCount
                         + adminOverdueNoAssessCount + partyAssessSatisAllCount + partyAssessSatisSomeCount
                         + partyOverdueNoAssessCount, adminAllCount + partyAllCount);
-                BigDecimal rightRate = divide(adminAssessSatisAllCount + adminAssessSatisSomeCount
+                BigDecimal satisfactionParams2 = divide(adminAssessSatisAllCount + adminAssessSatisSomeCount
                         + adminAssessNoSatisCount + partyAssessSatisAllCount + partyAssessSatisSomeCount
                         + partyAssessNoSatisCount, adminAllCount + partyAllCount);
+
+                BigDecimal satisfactionRate = multiply(satisfactionParams1, satisfactionParams2);
                 calculated.setSatisfactionRate(satisfactionRate);
+
+                // 有权处理单位参评满意率
+                Satisfaction adminSatisfactionRight = adminRightMap.get(companyName);
+                Satisfaction partySatisfactionRight = partyRightMap.get(companyName);
+                int adminAllCountRight = 0;
+                int partyAllCountRight = 0;
+                int adminAssessSatisAllCountRight = 0;
+                int partyAssessSatisAllCountRight = 0;
+                int adminAssessSatisSomeCountRight = 0;
+                int partyAssessSatisSomeCountRight = 0;
+                int adminAssessNoSatisCountRight = 0;
+                int partyAssessNoSatisCountRight = 0;
+                int adminOverdueNoAssessCountRight = 0;
+                int partyOverdueNoAssessCountRight = 0;
+                if (adminSatisfactionRight != null) {
+                    adminAllCountRight = isnull(adminSatisfactionRight.getAllCount());
+                    adminAssessSatisAllCountRight = isnull(adminSatisfactionRight.getAssessSatisAllCount());
+                    adminAssessSatisSomeCountRight = isnull(adminSatisfactionRight.getAssessSatisSomeCount());
+                    adminAssessNoSatisCountRight = isnull(adminSatisfactionRight.getAssessNoSatisCount());
+                    adminOverdueNoAssessCountRight = isnull(adminSatisfactionRight.getOverdueNoAssessCount());
+                }
+                if (partySatisfactionRight != null) {
+                    partyAllCountRight = isnull(partySatisfactionRight.getAllCount());
+                    partyAssessSatisAllCountRight = isnull(partySatisfactionRight.getAssessSatisAllCount());
+                    partyAssessSatisSomeCountRight = isnull(partySatisfactionRight.getAssessSatisSomeCount());
+                    partyAssessNoSatisCountRight = isnull(partySatisfactionRight.getAssessNoSatisCount());
+                    partyOverdueNoAssessCountRight = isnull(partySatisfactionRight.getOverdueNoAssessCount());
+                }
+                BigDecimal rightRateParams1 = divide(adminAssessSatisAllCountRight + adminAssessSatisSomeCountRight
+                        + adminOverdueNoAssessCountRight + partyAssessSatisAllCountRight + partyAssessSatisSomeCountRight
+                        + partyOverdueNoAssessCountRight, adminAllCountRight + partyAllCountRight);
+                BigDecimal rightRateParams2 = divide(adminAssessSatisAllCountRight + adminAssessSatisSomeCountRight
+                        + adminAssessNoSatisCountRight + partyAssessSatisAllCountRight + partyAssessSatisSomeCountRight
+                        + partyAssessNoSatisCountRight, adminAllCountRight + partyAllCountRight);
+                BigDecimal rightRate = multiply(rightRateParams1, rightRateParams2);
                 calculated.setRightRate(rightRate);
 
 //                try {
@@ -708,6 +826,14 @@ public class CalculateProvider {
             }
         }
         return result;
+    }
+
+    public static BigDecimal multiply(BigDecimal multiply, BigDecimal multiplicand) {
+        if (multiply == null || multiplicand == null) {
+            return null;
+        }
+        BigDecimal result =  multiply.multiply(multiplicand);
+        return result.setScale(4, RoundingMode.HALF_DOWN);
     }
 
 

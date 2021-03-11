@@ -6,6 +6,7 @@
         <result column="batch_number" jdbcType="VARCHAR" property="batchNumber"/>
         <result column="sort" jdbcType="INTEGER" property="sort"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
         <result column="inform_rate" jdbcType="DECIMAL" property="informRate"/>
         <result column="finish_rate" jdbcType="DECIMAL" property="finishRate"/>
         <result column="initial_accept_cycle" jdbcType="DECIMAL" property="initialAcceptCycle"/>
@@ -30,6 +31,7 @@
         <result column="batch_number" jdbcType="VARCHAR" property="batchNumber"/>
         <result column="sort" jdbcType="INTEGER" property="sort"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
         <result column="inform_rate" jdbcType="DECIMAL" property="informRate"/>
         <result column="finish_rate" jdbcType="DECIMAL" property="finishRate"/>
         <result column="initial_accept_cycle" jdbcType="DECIMAL" property="initialAcceptCycle"/>
@@ -85,7 +87,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        `id`, `batch_number`, `sort`, `company_name`, `inform_rate`, `finish_rate`, `initial_accept_cycle`, `initial_reply_cycle`,
+        `id`, `batch_number`, `sort`, `company_name`, `short_name`, ``inform_rate`, `finish_rate`, `initial_accept_cycle`, `initial_reply_cycle`,
         `initial_contact_rate`, `repeat_petition_rate`, `public_reply_rate`, `satisfaction_rate`, `right_rate`,
         `insert_on`, `insert_by`, `update_on`, `update_by`, `delete_flag`, `delete_on`, `delete_by`, `remarks`
     </sql>
@@ -117,11 +119,12 @@
 
     <insert id="insert" parameterType="com.ssy.petition.entity.cal.Calculated">
         insert into petition_calculated (
-            `id`, `batch_number`, `sort`, `company_name`, `inform_rate`, `finish_rate`, `initial_accept_cycle`, `initial_reply_cycle`,
+            `id`, `batch_number`, `sort`, `company_name`, `short_name`, `inform_rate`, `finish_rate`, `initial_accept_cycle`, `initial_reply_cycle`,
             `initial_contact_rate`, `repeat_petition_rate`, `public_reply_rate`, `satisfaction_rate`, `right_rate`,
             `insert_on`, `insert_by`, `update_on`, `update_by`, `delete_flag`, `delete_on`, `delete_by`, `remarks`
         )
-        values (#{id,jdbcType=BIGINT}, #{batchNumber,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}), #{companyName,jdbcType=VARCHAR},
+        values (#{id,jdbcType=BIGINT}, #{batchNumber,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}),
+               #{companyName,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR},
             #{informRate,jdbcType=DECIMAL},#{finishRate,jdbcType=DECIMAL},
             #{initialAcceptCycle,jdbcType=DECIMAL},#{initialReplyCycle,jdbcType=DECIMAL},
             #{initialContactRate,jdbcType=DECIMAL},#{repeatPetitionRate,jdbcType=DECIMAL},
@@ -146,6 +149,9 @@
             </if>
             <if test="companyName != null">
                 company_name,
+            </if>
+            <if test="shortName != null">
+                short_name,
             </if>
             <if test="informRate != null">
                 inform_rate,
@@ -212,6 +218,9 @@
             <if test="companyName != null">
                 #{companyName,jdbcType=VARCHAR},
             </if>
+            <if test="shortName != null">
+                #{shortName,jdbcType=VARCHAR},
+            </if>
             <if test="informRate != null">
                 #{informRate,jdbcType=DECIMAL},
             </if>
@@ -277,6 +286,9 @@
             <if test="companyName != null">
                 company_name = #{companyName,jdbcType=VARCHAR},
             </if>
+            <if test="shortName != null">
+                short_name = #{shortName,jdbcType=VARCHAR},
+            </if>
             <if test="informRate != null">
                 inform_rate = #{informRate,jdbcType=DECIMAL},
             </if>
@@ -335,7 +347,8 @@
     <update id="updateByPrimaryKey" parameterType="com.ssy.petition.entity.cal.Calculated">
         update petition_calculated
         set sort    = #{sort,jdbcType=INTEGER},
-            company_name    = #{companyName,jdbcType=VARCHAR},
+        company_name    = #{companyName,jdbcType=VARCHAR},
+        short_name    = #{shortName,jdbcType=VARCHAR},
             batch_number    = #{batchNumber,jdbcType=VARCHAR},
             inform_rate      = #{informRate,jdbcType=DECIMAL},
             finish_rate      = #{finishRate,jdbcType=DECIMAL},
@@ -360,7 +373,7 @@
 
     <select id="getList" resultMap="CalculatedResultMap">
         SELECT
-        `id`, `batch_number`, `sort`, `company_name`, `inform_rate`, `finish_rate`, `initial_accept_cycle`, `initial_reply_cycle`,
+        `id`, `batch_number`, `sort`, `company_name`, `short_name`, `inform_rate`, `finish_rate`, `initial_accept_cycle`, `initial_reply_cycle`,
         `initial_contact_rate`, `repeat_petition_rate`, `public_reply_rate`, `satisfaction_rate`, `right_rate`,
         `insert_on`, `insert_by`, `update_on`, `update_by`, `delete_flag`, `delete_on`, `delete_by`, `remarks`,
         FT_getUsernameById(insert_by) as insert_by_name
@@ -368,7 +381,10 @@
         WHERE
               c.delete_flag=0
         <if test="queryParam.companyName!=null">
-            AND company_name LIKE concat("%", #{queryParam.companyName}, "%")
+            AND (
+            company_name LIKE concat("%", #{queryParam.companyName}, "%")
+            OR short_name LIKE concat("%", #{queryParam.companyName}, "%")
+            )
         </if>
         <if test="queryParam.batchNumber!=null">
             AND batch_number = #{queryParam.batchNumber}
